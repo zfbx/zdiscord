@@ -36,7 +36,7 @@ All the config options for this module are to be set inside your server .cfg fil
 
     4. Give it a picture if you like then toggle the `Presense Intent` and `Server Members Intent` to **on** and **Save Changes**
 
-    5. Add the bot to your server by taking the application ID (The number in the url *or* from the **General Information** Tab) and replace "APPID" with it in the following URL: __https://discord.com/oauth2/authorize?client_id=**APPID**&scope=bot&permissions=8__ Follow the instructions from the url to finish.
+    5. Add the bot to your server by taking the application ID (The number in the url *or* from the **General Information** Tab) and replace "APPID" with it in the following URL: `https://discord.com/oauth2/authorize?client_id=APPID&scope=bot&permissions=8` Follow the instructions from the url to finish.
 
 - How do I get my discord server ID, channel ID or Role IDs?
 
