@@ -31,7 +31,7 @@ discord.on("messageCreate", async (msg) => {
     });
     const nickname = msg.member.nick || msg.member.username;
     const args = msg.content.slice(config.prefix.length).trim().split(/ +/);
-	const command = args.shift().toLowerCase();
+    const command = args.shift().toLowerCase();
     let content = args.join(" ") || "";
 
     switch(command) { // EVERYONE COMMANDS
