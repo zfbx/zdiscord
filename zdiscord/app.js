@@ -1,193 +1,156 @@
 const Eris = require('eris');
-const config = GetConvar("discord", ""); //Currently not implemented, going to change to a config
+const locale = require('./locales/' + config.lang);
+init();
 
 if (!config.token) {
-    console.error("This module requires a discord bot token to run. read the readme.md");
-    StopResource('discord');
+    console.error(locale.consoleMissingToken);
+    StopResource(GetCurrentResourceName());
 }
 
 const discord = new Eris.Client(config.token, {
-    intents: [ "guilds", "guildMessages", "guildMembers", "guildBans", "guildPresences", "guildMessageReactions", "directMessages" ],
+    intents: [ "guilds", "guildMessages", "guildMembers", "guildBans", "guildPresences" ],
     disabledEvents: { CHANNEL_CREATE: true, CHANNEL_CREATE: true },
     getAllUsers: true
 });
 
-const help = {embed: { color: 0x663A82, fields: [{ name: "Commands", value: "", inline: false }]}}
-const staffhelp = {embed: { color: 0x663A82, fields: [{ name: "Commands", value: "", inline: false },{ name: "Staff", value: "", inline: false }]}};
-const whitelistRoles = config.liveServer ? config.liveWhitelistRoles : config.devWhitelistRoles;
+const help = {embed: { color: config.embedColor, fields: [{ name: locale.commands, value: "", inline: false }]}}
+const staffhelp = {embed: { color: config.embedColor, fields: [{ name: locale.commands, value: "", inline: false },{ name: locale.staff.replaceGlobals(), value: "", inline: false }]}};
 
-discord.on('ready', () => { console.log("Logged in on Discord as " + discord.user.username + "!"); });
+discord.on('ready', () => {
+    console.log(locale.consoleLoggedIn.replace(/{{username}}/g, discord.user.username).replaceGlobals());
+    if (config.statusMessages) statusUpdater();
+});
 discord.on("error", (err) => { console.error(err); });
 
 discord.on("messageCreate", async (msg) => {
-    if (!config.liveServer) return; // Don't accept input on dev server
-    if (msg.guildID !== config.guildID || msg.author.bot) return;
-    const isStaff = msg.member.roles.includes(config.staffRoleID);
+    if (msg.guildID !== config.guildid || msg.author.bot) return;
+    if (!msg.content.startsWith(config.prefix)) return;
+    let isStaff = false;
+    config.staffRoles.forEach(function(item, index, array) {
+        if (msg.member.roles.includes(item)) isStaff = true;
+    });
     const nickname = msg.member.nick || msg.member.username;
-    if (!msg.content.startsWith(config.prefix)) { 
-        if (msg.channel.id !== config.staffChannelID) return; // Ignore content not from staff channel
-        if (!msg.content) return; // Can't send images.
-        getPlayers().forEach(async function(player, index, array) {
-            if (QBCore.Functions.HasPermission(player, "admin")) { // TODO Replace QBCore shit
-                if (QBCore.Functions.IsOptin(player)) TriggerClientEvent('chatMessage', player, `STAFF: ${nickname}`, "error", msg.content);
-            }
-        });
-        return console.log(`[STAFF] ${nickname}: ${msg.content}`);
-    }
     const args = msg.content.slice(config.prefix.length).trim().split(/ +/);
 	const command = args.shift().toLowerCase();
     let content = args.join(" ") || "";
 
     switch(command) { // EVERYONE COMMANDS
-        
-        case "ping":
-            discord.createMessage(msg.channel.id, "Pong!");
+        case locale.cmdPing:
+            discord.createMessage(msg.channel.id, locale.pong);
             return;
-
-        case "online":
+        case locale.cmdOnline:
             const playerNumber = GetNumPlayerIndices();
-            if (playerNumber === 0) discord.createMessage(msg.channel.id, `Nobody is online.`);
-            else if (playerNumber === 1) discord.createMessage(msg.channel.id, `There is just 1 person in the city right now.`);
-            else discord.createMessage(msg.channel.id, `There are ${playerNumber} players in the city.`);
+            if (playerNumber === 0) discord.createMessage(msg.channel.id, locale.nobodyOnline);
+            else if (playerNumber === 1) discord.createMessage(msg.channel.id, locale.oneOnline);
+            else discord.createMessage(msg.channel.id, locale.numberOnline.replaceGlobals());
             return;
-
-        case "help":
+        case locale.cmdHelp:
             if (isStaff) discord.createMessage(msg.channel.id, staffhelp);
             else discord.createMessage(msg.channel.id, help);
             return;
-
         default:
             break;
     }
-
     if (!isStaff) return; // Only staff beyond this point.
-
     switch(command) { // ADMIN COMMANDS
-        case "announcement":
-        case "announce":
-            if (!content) return discord.createMessage(msg.channel.id, "Can't send blank announcements");
-            TriggerClientEvent('chatMessage', -1, "ANNOUNCEMENT", "error", content)
-            return console.log(`[${nickname}] Announcement: ${content}`);
-
-        case "reply":
-            let rid = args.shift();
-            if (!rid) return discord.createMessage(msg.channel.id, "Which ID is this message supposed to go to?");
-            rid = Number(rid);
-            if (isNaN(rid)) return discord.createMessage(msg.channel.id, "This ID seems invalid");
-
-            content = args.join(" ") || "";
-            if (!content) return discord.createMessage(msg.channel.id, "Can't reply with a blank message");
-            TriggerClientEvent('chatMessage', rid, `ADMIN ${nickname}`, "warning", content);
-            getPlayers().forEach(async function(player, index, array) {
-                if (QBCore.Functions.HasPermission(player, "admin")) {
-                    if (QBCore.Functions.IsOptin(player)) TriggerClientEvent('chatMessage', player, `${nickname} -> ${rid}`, "warning", content);
-                }
-            });
-            return console.log(`[${nickname}] Message to ${rid}: ${content}`);
-
-        case "kick":
+        case locale.cmdAnnounce:
+        case locale.cmdAnnounceAlias:
+            if (!content) return discord.createMessage(msg.channel.id, locale.provideMessageError);
+            TriggerClientEvent('chatMessage', -1, locale.announcement, "error", content)
+            return console.log(locale.consoleLogAnnouncement.replace(/{{sender}}/g, nickname).replace(/{{msg}}/g, content));
+        case locale.cmdKick:
+        case locale.cmdKickAlias:
             let kid = args.shift();
-            if (!kid) return discord.createMessage(msg.channel.id, "Which ID to kick?");
+            if (!kid) return discord.createMessage(msg.channel.id, locale.noIdProvided);
             else {
                 kid = Number(kid);
-                if (isNaN(kid)) return discord.createMessage(msg.channel.id, "This ID seems invalid");
+                if (isNaN(kid)) return discord.createMessage(msg.channel.id, locale.invalidIdProvided);
             }
             content = args.join(" ") || "";
-            if (!content) content = "You've been kicked by staff.";
-            console.log(`[${nickname}] Kicked ${kid}. Reason: ${content}`);
+            if (!content) content = locale.kickedWithoutReason.replaceGlobals();
+            console.log(locale.consoleLogKick.replace(/{{sender}}/g, nickname).replace(/{{msg}}/g, content).replace(/{{id}}/g, kid));
             return DropPlayer(kid, content);
-
-        case "kickall":
+        case locale.cmdKickall:
             let numberOnline = GetNumPlayerIndices();
-            if (numberOnline === 0) return discord.createMessage(msg.channel.id, "There is nobody online to kick.");
+            if (numberOnline === 0) return discord.createMessage(msg.channel.id, locale.nobodyOnline);
             content = args.join(" ") || "";
-            if (!content || content.length < 7) return discord.createMessage(msg.channel.id, "Please provide a decent reason for why you're kicking everyone.");
-            console.log(`[${nickname}] Kicked EVERYONE. Reason: ${content}`);
+            if (!content || content.length < 7) return discord.createMessage(msg.channel.id, locale.provideMessageError);
+            console.log(locale.consoleLogKickAll.replace(/{{sender}}/g, nickname).replace(/{{msg}}/g, content));
             getPlayers().forEach(async function(player, index, array) {
                 DropPlayer(player, content);
             });
-            return discord.createMessage(msg.channel.id, `All ${numberOnline} player(s) have kicked.`);
-
-        case "players":
-            if (GetNumPlayerIndices() === 0) return discord.createMessage(msg.channel.id, "There is nobody online to get.");
-            const playersembed = {embed: { color: 0x663A82, fields: [{ name: "Players", value: "", inline: false }]}}
+            return discord.createMessage(msg.channel.id, locale.allPlayersKicked.replace(/{{previousOnlineCount}}/g, numberOnline));
+        case locale.cmdPlayers:
+        case locale.cmdPlayersAlias:
+            if (GetNumPlayerIndices() === 0) return discord.createMessage(msg.channel.id, locale.nobodyOnline);
+            const playersembed = {embed: { color: config.embedColor, fields: [{ name: locale.PlayersHeader.replaceGlobals(), value: "", inline: false }]}}
             getPlayers().forEach(async function(player, index, array) {
                 playersembed.embed.fields[0].value = playersembed.embed.fields[0].value + `\`[${player}]\` ${GetPlayerName(player)}\n`;
             });
             return discord.createMessage(msg.channel.id, playersembed);
-
-        case "info":
+        case locale.cmdInfo:
+        case locale.cmdInfoAlias:
             let iid = args.shift();
-            if (!iid) return discord.createMessage(msg.channel.id, "Which ID to lookup?");
+            if (!iid) return discord.createMessage(msg.channel.id, locale.noIdProvided);
             else {
                 iid = Number(iid);
-                if (isNaN(iid)) return discord.createMessage(msg.channel.id, "This ID seems invalid");
+                if (isNaN(iid)) return discord.createMessage(msg.channel.id, locale.invalidIdProvided);
             }
-            const playerembed = {embed: { color: 0x663A82, fields: []}}
+            const playerembed = {embed: { color: config.embedColor, fields: []}}
             for (let i = 0; i < GetNumPlayerIdentifiers(iid); i++) {
                 const identifier = GetPlayerIdentifier(iid, i);
                 const id = identifier.split(":");
-                if (id[0] === "discord") playerembed.embed.fields.push({ name: capitalize(id[0]), value: `<@${id[1]}> (${id[1]})`, inline: true });
-                else playerembed.embed.fields.push({ name: capitalize(id[0]), value: id[1], inline: true });
+                if (id[0] === "discord") playerembed.embed.fields.push({ name: id[0], value: `<@${id[1]}> (${id[1]})`, inline: true });
+                else playerembed.embed.fields.push({ name: id[0], value: id[1], inline: true });
             }
             return discord.createMessage(msg.channel.id, playerembed);
-
         default:
             break;
     }
 });
 
 // Everyone
-addHelpEntry('ping', "Check bot status", false);
-addHelpEntry('help', "Get this message", false);
-addHelpEntry('online', "Get number of people online", false);
+addHelpEntry(locale.cmdPing, locale.helpPing, false);
+addHelpEntry(locale.cmdHelp, locale.helpHelp, false);
+addHelpEntry(locale.cmdOnline, locale.helpOnline, false);
 // Staff Only
-addHelpEntry('announcement [msg]', "Send in city announcement", true);
-addHelpEntry('reply [id] [msg]', "Send message to user in city", true);
-addHelpEntry('kick [id] (reason)', "Kicks user in city", true);
-addHelpEntry('kickall [reason]', "Kicks everyone in city", true);
-addHelpEntry('players', "Get list of players in the city", true);
-addHelpEntry('info [id]', "Get information on a player", true);
+addHelpEntry(`${locale.cmdAnnounce} (${locale.cmdAnnounceAlias}) [${locale.helpTypeMessage}]`, locale.helpAnnounce, true);
+addHelpEntry(`${locale.cmdKick} (${locale.cmdKickAlias}) [${locale.helpTypeID}] (${locale.helpTypeReason})`, locale.helpKick, true);
+addHelpEntry(`${locale.cmdKickall} [${locale.helpTypeReason}]`, locale.helpKickall, true);
+addHelpEntry(`${locale.cmdPlayers} (${locale.cmdPlayersAlias})`, locale.helpPlayers, true);
+addHelpEntry(`${locale.cmdInfo} (${locale.cmdInfoAlias}) [${locale.helpTypeID}]`, locale.helpInfo, true);
 
 discord.connect();
-
-// FIVEM STUFF
 
 on("playerConnecting", async (name, setKickReason, deferrals) => {
     const player = source;
     deferrals.defer();
     await sleep(0); // Required before running consecutive deferrals
     if (!config.enableWhitelist) return deferrals.done();
-    deferrals.update(config.messages.checkingWhitelist.replace(/{{name}}/g, name));
+    deferrals.update(locale.checkingWhitelist.replace(/{{name}}/g, name).replaceGlobals());
     
     let discordID = null;
     for (let i = 0; i < GetNumPlayerIdentifiers(player); i++) {
         const id = GetPlayerIdentifier(player, i);
         if (id.includes('discord:')) discordID = id.slice(8);
     }
-
     await sleep(0);
-    if (discordID === null) return deferrals.done(config.messages.discordNotOpen);
-
+    if (discordID === null) return deferrals.done(locale.discordNotOpen.replaceGlobals());
     const guild = await discord.guilds.get(config.guildid);
     if (!guild) {
-        console.error(`Something went wrong fetching the Discord server for whitelist checking using guild id: ${config.guildid}`);
-        return deferrals.done(config.messages.fatalError);
+        console.error(locale.consoleDiscordGuildErr.replace(/{{guildid}}/g, config.guildid));
+        return deferrals.done(locale.fatalError.replaceGlobals());
     }
-
     const member = await guild.members.get(discordID);
-    if (!member) return deferrals.done(config.messages.notInDiscordServer);
-    
+    if (!member) return deferrals.done(locale.notInDiscordServer.replaceGlobals());
     let whitelisted = false;
-    whitelistRoles.forEach(function(item, index, array) {
+    config.whitelistRoles.forEach(function(item, index, array) {
         if (member.roles.includes(item)) whitelisted = true;
     });
-        
     if (whitelisted) deferrals.done();
-    else deferrals.done(config.messages.notWhitelisted);
+    else deferrals.done(locale.notWhitelisted.replaceGlobals());
 });
 
-// UTILS
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -200,8 +163,26 @@ function addHelpEntry(cmd, desc, isStaff = false) {
     }
 }
 
-function capitalize(s) {
-    if (typeof s !== 'string') return '';
-    if (s === "id") return s.toUpperCase();
-    else return s.charAt(0).toUpperCase() + s.slice(1);
+let liveloop = false;
+async function statusUpdater() {
+    if (liveloop) return;
+    liveloop == true;
+    while (true) {
+        try {
+            let msg = config.statusMessages[Math.floor(Math.random() * config.statusMessages.length)].replaceGlobals()
+            discord.editStatus("online", {name: msg, type: 3});
+        } catch(e) { console.error(e) }
+        await sleep(30000);
+    }
+}
+
+function init() { // Damn hoisting and wanting things clean
+    Object.defineProperty(String.prototype, "replaceGlobals", {
+        value: function() {
+        return this
+            .replace(/{{servername}}/g, config.serverName)
+            .replace(/{{invite}}/g, config.discordInvite)
+            .replace(/{{playercount}}/g, GetNumPlayerIndices())
+        }
+    });
 }
