@@ -4,6 +4,7 @@ A Discord whitelist (allowlist) and moderation tool
 I've not seen many decent whitelist systems out there that connect with discord and the good ones seem to use oauth but I wanted more.. specifically I wanted to be able to have a full blown bot built in and be able to have bi-directional communication between the server and discord, so here it is!
 
 ## Features
+
 - Completely standalone, no dependencies or need for running external applications
 - Commands to see online users, info, etc
 - Moderation commands to kick someone or everyone
@@ -22,6 +23,12 @@ All the config options for this module are to be set inside your server .cfg fil
 1. Copy the inner `zdiscord` directory into your fiveM resources directory
 2. Add `ensure zdiscord` (or whatever you renamed it to) to your server's .cfg
 3. Adjust the `config.js` variables to how you'd like them.
+
+
+## Languages
+
+- English (en) - By zfbx
+- Deutsch/German (de) - By Anonymous
 
 
 ## FAQ
