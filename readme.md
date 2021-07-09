@@ -38,8 +38,11 @@ All the config options for this module are to be set inside your server .cfg fil
 
     5. Add the bot to your server by taking the application ID (The number in the url *or* from the **General Information** Tab) and replace "APPID" with it in the following URL: `https://discord.com/oauth2/authorize?client_id=APPID&scope=bot&permissions=8` Follow the instructions from the url to finish.
 
+
 - How do I get a "token"?
+
     A "token" or Discord bot token is available on your **Bot** page of your application from [developers/applications](https://discord.com/developers/applications). Just under the bot's name press **Copy** and paste it into the config. *NOTE: Never share your bot's token, it's basically a password for your bot and with it people get full access to everything your bot has access to.*
+
 
 - How do I get my discord server ID, channel ID or Role IDs?
 
