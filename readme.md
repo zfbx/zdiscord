@@ -10,6 +10,7 @@ I've not seen many decent whitelist systems out there that connect with discord 
 - Moderation commands to kick someone or everyone
 - Send server wide announcements from a command in discord
 - Easy to translate and customize with locales!
+- Built in `!help` command (prefix may be different if you changed it in your config)
 
 ## Support
 
@@ -54,6 +55,15 @@ All the config options for this module are to be set inside your server .cfg fil
 - How do I get my discord server ID, channel ID or Role IDs?
 
     I could write out a long tutorial on this but discord beat me to it: [Discord IDs](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)
+
+
+- Console is giving an errror of "Disallowed intent specified"
+
+    Go back to step 4 in the first FAQ to solve that error as the bot needs `Presense Intent` and `Server Members Intent`
+    
+- Console is giving `Could not find dependency yarn for resource zdiscord.`
+
+    This resource requires FiveM's yarn module from [cfx-server-data](https://github.com/citizenfx/cfx-server-data) (resources/[system]/[builders]/yarn) so either have those resource in your resource folder or just put the yarn one in your resources and zdiscord will enable it for itself so you don't need to include it in your cfg
 
 
 ## License
