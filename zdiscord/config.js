@@ -32,14 +32,14 @@ const config = {
 
     // List of staff / admin role IDs that you want to be able to use mod commands [See above for help]
     staffRoles: [
-        "000000000000000000", // Admin Role ID
-        "000000000000000000", // Mod Role ID
+        //"000000000000000000", // Admin Role ID
+        //"000000000000000000", // Mod Role ID
     ],
 
     // List of role IDs that will be able to join the server
     whitelistRoles: [
-        "000000000000000000", // Admin Role ID
-        "000000000000000000", // Allowlisted Role ID
+        //"000000000000000000", // Admin Role ID
+        //"000000000000000000", // Allowlisted Role ID
     ],
 
     // The bot status message will randomly select one of these statuses every 30 seconds

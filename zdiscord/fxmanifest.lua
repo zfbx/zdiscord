@@ -3,10 +3,11 @@ games { 'gta5' }
 
 author 'zfbx'
 description 'Simple Discord Bot Allowlist'
-version '2.0.0'
+version '3.0.0'
 
 files {
-    'locales/*'
+    'locales/*',
+    'commands/*',
 }
 
 server_scripts {

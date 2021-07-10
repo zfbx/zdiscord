@@ -11,6 +11,7 @@ I've not seen many decent whitelist systems out there that connect with discord 
 - Send server wide announcements from a command in discord
 - Easy to translate and customize with locales!
 - Built in `!help` command for discord (prefix may be different if you changed it in your config)
+- Easy to expand and customize with modular commands!
 
 ## Support
 

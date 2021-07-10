@@ -29,13 +29,15 @@ const locale = {
     cmdInfoAlias: "i",
 
     // Command replies
+    commandFailed: "Beim Ausführen dieses Befehls ist ein Fehler aufgetreten.",
+    commandNotFound: "Dies ist kein gültiger Befehl.",
     invalidIdProvided: "Diese ID scheint ungültig zu sein.",
     noIdProvided: "Du musst die ID eines Spielers angeben.",
     nobodyOnline: "Niemand ist online.",
     oneOnline: "Es ist 1 Person online.",
     numberOnline: "Es sind {{playercount}} Personen online.", // Globals
     allPlayersKicked: "Alle {{previousOnlineCount}} Spieler wurden gekickt.", // {{previousOnlineCount}}
-    PlayersHeader: "Spieler ({{count}})", // Globals
+    playersHeader: "Spieler ({{playercount}})", // Globals
     provideMessageError: "Bitte geben Sie eine Nachricht ein",
     pong: "Pong!",
 
@@ -53,9 +55,11 @@ const locale = {
     helpTypeMessage: "msg",
     helpTypeID: "id",
     helpTypeReason: "Grund",
+    helpTypeCommand: "command",
 
     // Console Errors
-    consoleMissingToken: "Dieses Modul benötigt einen Discord Bot Token um zu funktionieren. Checke die config.lua",
+    consoleMissingToken: "Dieses Modul benötigt einen Discord Bot Token um zu funktionieren. Checke die config.js",
+    consoleMissingGuildid: "Du musst eine guildid einrichten, die ich in der config.js verwenden kann",
     consoleLoggedIn: "In Discord als {{username}} eingeloggt!", // Globals, {{username}}
     consoleLogAnnouncement: "[{{sender}}] Announcement: {{msg}}", // {{sender}}, {{msg}}
     consoleLogKick: "[{{sender}}] Kicked {{id}}. Grund: {{msg}}", // {{sender}}, {{id}}, {{msg}}
