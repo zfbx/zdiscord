@@ -12,7 +12,7 @@ if (config.guildid == "000000000000000000") {
     StopResource(GetCurrentResourceName());
 }
 const discord = new Eris.Client(config.token, {
-    intents: [ "guilds", "guildMessages", "guildMembers", "guildBans", "guildPresences" ],
+    intents: ["guilds", "guildMessages", "guildMembers", "guildBans", "guildPresences"],
     disabledEvents: { CHANNEL_CREATE: true, CHANNEL_CREATE: true },
     getAllUsers: true
 });
@@ -22,8 +22,8 @@ discord.commandAliases = {};
 
 const commandFiles = fs.readdirSync(`${GetResourcePath(GetCurrentResourceName())}/commands`).filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	discord.commands.set(command.name, command);
+    const command = require(`./commands/${file}`);
+    discord.commands.set(command.name, command);
     if (command.alias) discord.commandAliases[command.alias] = command.name;
 }
 
@@ -39,7 +39,7 @@ discord.on("messageCreate", async (msg) => {
     if (!msg.content.startsWith(config.prefix)) return;
     msg.nickname = msg.member.nick || msg.member.username;
     msg.isStaff = false;
-    config.staffRoles.forEach(function(item, index, array) {
+    config.staffRoles.forEach(function (item, index, array) {
         if (msg.member.roles.includes(item)) msg.isStaff = true;
     });
     const args = msg.content.slice(config.prefix.length).trim().split(/ +/);
@@ -47,12 +47,12 @@ discord.on("messageCreate", async (msg) => {
     if (!discord.commands.has(command) && !discord.commandAliases[command]) return;
     const cmd = discord.commands.has(command) ? discord.commands.get(command) : discord.commands.get(discord.commandAliases[command]);
     if (!msg.isStaff && cmd.staffOnly) return;
-	try {
-		cmd.run(discord, msg, args);
-	} catch (error) {
-		console.error(error);
-		discord.createMessage(msg.channel.id, locale.commandFailed);
-	}
+    try {
+        cmd.run(discord, msg, args);
+    } catch (error) {
+        console.error(error);
+        discord.createMessage(msg.channel.id, locale.commandFailed);
+    }
 });
 
 discord.connect();
@@ -63,7 +63,7 @@ on("playerConnecting", async (name, setKickReason, deferrals) => {
     await sleep(0); // Required before running consecutive deferrals
     if (!config.enableWhitelist) return deferrals.done();
     deferrals.update(locale.checkingWhitelist.replace(/{{name}}/g, name).replaceGlobals());
-    
+
     let discordID = null;
     for (let i = 0; i < GetNumPlayerIdentifiers(player); i++) {
         const id = GetPlayerIdentifier(player, i);
@@ -79,7 +79,7 @@ on("playerConnecting", async (name, setKickReason, deferrals) => {
     const member = await guild.members.get(discordID);
     if (!member) return deferrals.done(locale.notInDiscordServer.replaceGlobals());
     let whitelisted = false;
-    config.whitelistRoles.forEach(function(item, index, array) {
+    config.whitelistRoles.forEach(function (item, index, array) {
         if (member.roles.includes(item)) whitelisted = true;
     });
     if (whitelisted) deferrals.done();
@@ -97,19 +97,19 @@ async function statusUpdater() {
     while (true) {
         try {
             let msg = config.statusMessages[Math.floor(Math.random() * config.statusMessages.length)].replaceGlobals()
-            discord.editStatus("online", {name: msg, type: 3});
-        } catch(e) { console.error(e) }
+            discord.editStatus("online", { name: msg, type: 3 });
+        } catch (e) { console.error(e) }
         await sleep(30000);
     }
 }
 
 function init() { // Damn hoisting and wanting things clean
     Object.defineProperty(String.prototype, "replaceGlobals", {
-        value: function() {
-        return this
-            .replace(/{{servername}}/g, config.serverName)
-            .replace(/{{invite}}/g, config.discordInvite)
-            .replace(/{{playercount}}/g, GetNumPlayerIndices())
+        value: function () {
+            return this
+                .replace(/{{servername}}/g, config.serverName)
+                .replace(/{{invite}}/g, config.discordInvite)
+                .replace(/{{playercount}}/g, GetNumPlayerIndices())
         }
     });
 }

@@ -1,16 +1,16 @@
 module.exports = {
-	name: locale.cmdAnnounce,
-	alias: locale.cmdAnnounceAlias,
-	description: locale.helpAnnounce,
-	args: `[${locale.helpTypeMessage}]`,
-	staffOnly: true,
-	run(discord, msg, args) {
+    name: locale.cmdAnnounce,
+    alias: locale.cmdAnnounceAlias,
+    description: locale.helpAnnounce,
+    args: `[${locale.helpTypeMessage}]`,
+    staffOnly: true,
+    run(discord, msg, args) {
 
-		const content = args.join(" ") || "";
-		if (!content) return discord.createMessage(msg.channel.id, locale.provideMessageError);
+        const content = args.join(" ") || "";
+        if (!content) return discord.createMessage(msg.channel.id, locale.provideMessageError);
 
-		TriggerClientEvent('chatMessage', -1, locale.announcement, "error", content)
+        TriggerClientEvent('chatMessage', -1, locale.announcement, "error", content)
 
-		console.log(locale.consoleLogAnnouncement.replace(/{{sender}}/g, msg.nickname).replace(/{{msg}}/g, content));
-	},
+        console.log(locale.consoleLogAnnouncement.replace(/{{sender}}/g, msg.nickname).replace(/{{msg}}/g, content));
+    },
 };

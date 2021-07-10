@@ -1,27 +1,27 @@
 module.exports = {
-	name: locale.cmdKick,
-	alias: locale.cmdKickAlias,
-	description: locale.helpKick,
-	args: `[${locale.helpTypeID}] (${locale.helpTypeReason})`,
-	staffOnly: true,
-	run(discord, msg, args) {
+    name: locale.cmdKick,
+    alias: locale.cmdKickAlias,
+    description: locale.helpKick,
+    args: `[${locale.helpTypeID}] (${locale.helpTypeReason})`,
+    staffOnly: true,
+    run(discord, msg, args) {
 
-		let id = args.shift();
-		if (!id) return discord.createMessage(msg.channel.id, locale.noIdProvided);
-		
-		id = Number(id);
-		if (isNaN(id)) return discord.createMessage(msg.channel.id, locale.invalidIdProvided);
-		
-		let content = args.join(" ") || "";
-		if (!content) content = locale.kickedWithoutReason.replaceGlobals();
+        let id = args.shift();
+        if (!id) return discord.createMessage(msg.channel.id, locale.noIdProvided);
 
-		if (!GetPlayerName(id)) return discord.createMessage(msg.channel.id, locale.invalidIdProvided);
+        id = Number(id);
+        if (isNaN(id)) return discord.createMessage(msg.channel.id, locale.invalidIdProvided);
 
-		console.log(locale.consoleLogKick
-			.replace(/{{sender}}/g, msg.nickname)
-			.replace(/{{msg}}/g, content)
-			.replace(/{{id}}/g, id));
+        let content = args.join(" ") || "";
+        if (!content) content = locale.kickedWithoutReason.replaceGlobals();
 
-		return DropPlayer(id, content);
-	},
+        if (!GetPlayerName(id)) return discord.createMessage(msg.channel.id, locale.invalidIdProvided);
+
+        console.log(locale.consoleLogKick
+            .replace(/{{sender}}/g, msg.nickname)
+            .replace(/{{msg}}/g, content)
+            .replace(/{{id}}/g, id));
+
+        return DropPlayer(id, content);
+    },
 };
