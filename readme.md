@@ -65,6 +65,9 @@ All the config options for this module are to be set inside your server .cfg fil
 
     This resource requires FiveM's yarn module from [cfx-server-data](https://github.com/citizenfx/cfx-server-data) (resources/[system]/[builders]/yarn) so either have those resource in your resource folder or just put the yarn one in your resources and zdiscord will enable it for itself so you don't need to include it in your cfg
 
+- Bot is onlive but not responding too commands
+
+    Did you set the guildid to your server's id in the config.js? it will only reply to commands from it's trusted server
 
 ## License
 
