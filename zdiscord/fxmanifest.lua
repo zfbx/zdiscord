@@ -11,6 +11,7 @@ files {
 }
 
 server_scripts {
+    --'@qb-core/import.lua' --Uncomment for QB support
     'config.js',
     'app.js',
 }
@@ -18,6 +19,5 @@ server_scripts {
 dependencies {
     'yarn'
 }
-
 
 server_only 'yes'
