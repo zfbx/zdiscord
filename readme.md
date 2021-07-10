@@ -28,8 +28,8 @@ All the config options for this module are to be set inside your server .cfg fil
 
 ## Languages
 
-- English (en) - By zfbx
-- Deutsch/German (de) - By Anonymous
+- en - English - By zfbx
+- de - Deutsch / German - By Anonymous
 
 
 ## FAQ
