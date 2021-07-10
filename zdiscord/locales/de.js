@@ -12,6 +12,7 @@ const locale = {
     notWhitelisted: "Du hast nicht die {{servername}} Discord-Rolle, die benötigt wird um dem Server beizutreten, bist du auf der Whitelist?", // Globals
     kickedWithoutReason: "Du wurdest vom Team gekickt.", // Globals
     announcement: "ANNOUNCEMENT",
+    directMessage: "STAFF",
 
     // Commands (lowercase only!) - These are the commands you'd type to call these functions
     // NONE OF THESE SHOULD MATCH OR THINGS WILL BREAK
@@ -27,6 +28,8 @@ const locale = {
     cmdPlayersAlias: "p",
     cmdInfo: "info",
     cmdInfoAlias: "i",
+    cmdDm: "directmessage",
+    cmdDmAlias: "dm",
 
     // Command replies
     commandFailed: "Beim Ausführen dieses Befehls ist ein Fehler aufgetreten.",
@@ -50,6 +53,8 @@ const locale = {
     helpKickall: "Kicke alle in city",
     helpPlayers: "Bekomme eine Liste der Spieler in city",
     helpInfo: "Bekomme Informationen über einen Spieler",
+    helpDm: "Send a direct message to a player",
+
     commands: "Commands",
     staff: "{{servername}} Team Mitglieder", // Globals
     helpTypeMessage: "msg",
@@ -63,6 +68,7 @@ const locale = {
     consoleLoggedIn: "In Discord als {{username}} eingeloggt!", // Globals, {{username}}
     consoleLogAnnouncement: "[{{sender}}] Announcement: {{msg}}", // {{sender}}, {{msg}}
     consoleLogKick: "[{{sender}}] Kicked {{id}}. Grund: {{msg}}", // {{sender}}, {{id}}, {{msg}}
+    consoleLogDm: "[{{sender}}] DM'd {{id}}. Message: {{msg}}", // {{sender}}, {{id}}, {{msg}}
     consoleLogKickAll: "[{{sender}}] Kicked ALLE. Grund: {{msg}}", // {{sender}}, {{msg}}
     consoleDiscordGuildErr: "Beim Abrufen des Discord-Servers für die Whitelist-Prüfung mit der Guild-ID: {{guildid}} ist etwas schiefgelaufen", // {{guildid}}
 }

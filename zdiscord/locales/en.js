@@ -12,6 +12,7 @@ const locale = {
     notWhitelisted: "You do not have the {{servername}} discord role required to join this server, are you whitelisted?", // Globals
     kickedWithoutReason: "You've been kicked by staff.", // Globals
     announcement: "ANNOUNCEMENT",
+    directMessage: "STAFF",
 
     // Commands (lowercase only!) - These are the commands you'd type to call these functions
     // NONE OF THESE SHOULD MATCH OR THINGS WILL BREAK
@@ -27,6 +28,8 @@ const locale = {
     cmdPlayersAlias: "p",
     cmdInfo: "info",
     cmdInfoAlias: "i",
+    cmdDm: "directmessage",
+    cmdDmAlias: "dm",
 
     // Command replies
     commandFailed: "Something went wrong trying to run this command.",
@@ -50,6 +53,8 @@ const locale = {
     helpKickall: "Kicks everyone in city",
     helpPlayers: "Get list of players in the city",
     helpInfo: "Get information on a player",
+    helpDm: "Send a direct message to a player",
+    
     commands: "Commands",
     staff: "{{servername}} Staff", // Globals
     helpTypeMessage: "msg",
@@ -63,6 +68,7 @@ const locale = {
     consoleLoggedIn: "Logged in on Discord as {{username}}!", // Globals, {{username}}
     consoleLogAnnouncement: "[{{sender}}] Announcement: {{msg}}", // {{sender}}, {{msg}}
     consoleLogKick: "[{{sender}}] Kicked {{id}}. Reason: {{msg}}", // {{sender}}, {{id}}, {{msg}}
+    consoleLogDm: "[{{sender}}] DM'd {{id}}. Message: {{msg}}", // {{sender}}, {{id}}, {{msg}}
     consoleLogKickAll: "[{{sender}}] Kicked EVERYONE. Reason: {{msg}}", // {{sender}}, {{msg}}
     consoleDiscordGuildErr: "Something went wrong fetching the Discord server for whitelist checking using guild id: {{guildid}}", // {{guildid}}
 }
