@@ -10,7 +10,7 @@ I've not seen many decent whitelist systems out there that connect with discord 
 - Moderation commands to kick someone or everyone
 - Send server wide announcements from a command in discord
 - Easy to translate and customize with locales!
-- Built in `!help` command (prefix may be different if you changed it in your config)
+- Built in `!help` command for discord (prefix may be different if you changed it in your config)
 
 ## Support
 
