@@ -12,5 +12,7 @@ module.exports = {
         TriggerClientEvent('chatMessage', -1, locale.announcement, "error", content)
 
         console.log(locale.consoleLogAnnouncement.replace(/{{sender}}/g, msg.nickname).replace(/{{msg}}/g, content));
+
+        msg.addReaction('✔');
     },
 };

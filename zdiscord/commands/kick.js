@@ -17,11 +17,13 @@ module.exports = {
 
         if (!GetPlayerName(id)) return discord.createMessage(msg.channel.id, locale.invalidIdProvided);
 
+        DropPlayer(id, content);
+
         console.log(locale.consoleLogKick
             .replace(/{{sender}}/g, msg.nickname)
             .replace(/{{msg}}/g, content)
             .replace(/{{id}}/g, id));
 
-        return DropPlayer(id, content);
+        msg.addReaction('✔');
     },
 };

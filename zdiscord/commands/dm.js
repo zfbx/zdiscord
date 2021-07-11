@@ -23,5 +23,7 @@ module.exports = {
             .replace(/{{sender}}/g, msg.nickname)
             .replace(/{{msg}}/g, content)
             .replace(/{{id}}/g, id));
+
+        msg.addReaction('✔');
     },
 };
