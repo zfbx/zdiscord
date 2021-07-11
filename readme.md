@@ -70,6 +70,10 @@ All the config options for this module are to be set inside your server .cfg fil
 
     Did you set the guildid to your server's id in the config.js? it will only reply to commands from it's trusted server
 
+- My QBCore/ESX commands aren't loading
+
+    For support for QB or ESX you have to either have the resource load after the core OR uncomment the dependency line from fxmanifest.lua
+
 ## License
 
 I'm releasing this under the **MIT License** asking only that you preserve my credit (zfbx) in whatever you do with it :)
