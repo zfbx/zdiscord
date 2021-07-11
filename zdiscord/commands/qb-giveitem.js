@@ -35,10 +35,10 @@ module.exports = {
         let player = QBCore.Functions.GetPlayer(id);
 
         if (player.Functions.AddItem(itemData["name"], amount, false, info)) {
-            console.log(`[${msg.nickname}] Gave ${id} ${count} ${item}`);
+            console.log(`[${msg.nickname}] Gave ${id} ${amount} ${item}`);
             msg.addReaction('✔');
         } else {
-            console.log(`[${msg.nickname}] Tried to Give ${id} ${count} ${item}`);
+            console.log(`[${msg.nickname}] Tried to Give ${id} ${amount} ${item}`);
             msg.addReaction('❌');
         }
     },
