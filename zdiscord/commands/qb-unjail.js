@@ -1,8 +1,7 @@
 module.exports = {
-    name: 'revive',
-    alias: 'r',
-    description: 'Revive player in city',
-    args: `[${locale.helpTypeID}]`,
+    name: 'unjail',
+    description: 'Sends player to jail for certain amount of time',
+    args: `[${locale.helpTypeID}] [time(seconds)]`,
     staffOnly: true,
     run(discord, msg, args) {
 
@@ -14,13 +13,10 @@ module.exports = {
 
         if (!GetPlayerName(id)) return discord.createMessage(msg.channel.id, locale.invalidIdProvided);
 
-        let player = QBCore.Functions.GetPlayer(id);
+        TriggerClientEvent("prison:client:UnjailPerson", id);
 
-        TriggerClientEvent('hospital:client:Revive', player.PlayerData.source);
-
-        console.log(`[${msg.nickname}] Revived ${id}`);
+        console.log(`[${msg.nickname}] Unjailed ${id}`);
 
         msg.addReaction('✔');
-
     },
 };

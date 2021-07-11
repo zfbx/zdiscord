@@ -1,7 +1,6 @@
 module.exports = {
-    name: 'revive',
-    alias: 'r',
-    description: 'Revive player in city',
+    name: 'kill',
+    description: 'Kill player in city',
     args: `[${locale.helpTypeID}]`,
     staffOnly: true,
     run(discord, msg, args) {
@@ -16,11 +15,10 @@ module.exports = {
 
         let player = QBCore.Functions.GetPlayer(id);
 
-        TriggerClientEvent('hospital:client:Revive', player.PlayerData.source);
+        TriggerClientEvent('hospital:client:KillPlayer', player.PlayerData.source)
 
-        console.log(`[${msg.nickname}] Revived ${id}`);
+        console.log(`[${msg.nickname}] Killed ${id}`);
 
         msg.addReaction('✔');
-
     },
 };
