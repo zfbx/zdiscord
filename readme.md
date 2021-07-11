@@ -78,19 +78,23 @@ All the config options for this module are to be set inside your server .cfg fil
 ## Change log
 
 **1.0.0 - First unsupported build**
-    A lot.
+
+    - A lot.
     
 **2.0.0 - Github Release**
+
     - polished standalone
     - Added translation support
     
 **3.0.0 - Modular commands!**
+
     - Commands are now loaded dynamically from the `/commands` folder
     - Help command now has sub commands `!help commandName`
     - New DM command
     - various Error checks and fixes
 
 **3.1.0 - QBCore (potential ESX) support added**
+
     - Commands starting with `qb-` will load automatically if QBCore is detected.
     - Placeholders for `esx-` commands have been added.
 
