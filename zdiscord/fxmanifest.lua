@@ -4,7 +4,7 @@ games { 'gta5' }
 author 'zfbx'
 description 'Simple Discord Bot Allowlist'
 repository 'https://github.com/zfbx/zdiscord'
-version '3.0.0'
+version '3.1.0'
 
 files {
     'locales/*',
