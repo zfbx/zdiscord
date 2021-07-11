@@ -11,6 +11,15 @@ if (config.guildid == "000000000000000000") {
     console.error(locale.consoleMissingGuildid);
     StopResource(GetCurrentResourceName());
 }
+
+let QBCore;
+TriggerEvent('QBCore:GetObject', (obj) => { QBCore = obj });
+if (QBCore) console.log(locale.consoleCoreFound.replace(/{{core}}/g, 'QBCore'));
+
+let ESX;
+// TODO: ESX Core get
+if (ESX) console.log(locale.consoleCoreFound.replace(/{{core}}/g, 'ESX'));
+
 const discord = new Eris.Client(config.token, {
     intents: ["guilds", "guildMessages", "guildMembers", "guildBans", "guildPresences"],
     disabledEvents: { CHANNEL_CREATE: true, CHANNEL_CREATE: true },
@@ -23,6 +32,8 @@ discord.commandAliases = {};
 const commandFiles = fs.readdirSync(`${GetResourcePath(GetCurrentResourceName())}/commands`).filter(file => file.endsWith('.js'));
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
+    if (file.startsWith("qb-") && !QBCore) continue;
+    if (file.startsWith("esx-") && !ESX) continue;
     discord.commands.set(command.name, command);
     if (command.alias) discord.commandAliases[command.alias] = command.name;
 }

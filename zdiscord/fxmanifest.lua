@@ -3,6 +3,7 @@ games { 'gta5' }
 
 author 'zfbx'
 description 'Simple Discord Bot Allowlist'
+repository 'https://github.com/zfbx/zdiscord'
 version '3.0.0'
 
 files {
@@ -11,13 +12,14 @@ files {
 }
 
 server_scripts {
-    --'@qb-core/import.lua' --Uncomment for QB support
     'config.js',
     'app.js',
 }
 
 dependencies {
-    'yarn'
+    'yarn',
+    --'qb-core', -- Uncomment for QBCore support if zdiscord loaded before qb-core
+    --'esx', -- Uncomment for ESX support
 }
 
 server_only 'yes'

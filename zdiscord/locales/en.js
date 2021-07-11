@@ -63,6 +63,7 @@ const locale = {
     helpTypeCommand: "command",
 
     // Console Errors
+    consoleCoreFound: "{{core}} found! Supported {{core}} commands will be loaded.",
     consoleMissingToken: "This module requires a discord bot token to run. Check the config.js",
     consoleMissingGuildid: "You need to setup a guildid for me to use in the config.js",
     consoleLoggedIn: "Logged in on Discord as {{username}}!", // Globals, {{username}}
