@@ -12,7 +12,7 @@ I've not seen many decent whitelist systems out there that connect with discord 
 - Easy to translate and customize with locales!
 - Built in `!help` command for discord (prefix may be different if you changed it in your config)
 - Easy to expand and customize with modular commands!
-- Supports QBCore!
+- Supports QBCore! Included: `!revive, !jail, !unjail, !giveitem, !kill, !setjob`
 
 ## Support
 
