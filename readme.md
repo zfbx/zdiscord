@@ -36,44 +36,7 @@ All the config options for this module are to be set inside your server .cfg fil
 
 ## FAQ
 
-- How do I get a Discord bot / get it in my Discord server?
-
-    1. While logged in to the Discord website go to [developers/applications](https://discord.com/developers/applications)
-
-    2. Click **New Application** and give your bot a name.
-
-    3. On the following page click **Bot** then **Add Bot** > *(Yes, do it)*
-
-    4. Give it a picture if you like then toggle the `Presense Intent` and `Server Members Intent` to **on** and **Save Changes**
-
-    5. Add the bot to your server by taking the application ID (The number in the url *or* from the **General Information** Tab) and replace "APPID" with it in the following URL: `https://discord.com/oauth2/authorize?client_id=APPID&scope=bot&permissions=8` Follow the instructions from the url to finish.
-
-
-- How do I get a "token"?
-
-    A "token" or Discord bot token is available on your **Bot** page of your application from [developers/applications](https://discord.com/developers/applications). Just under the bot's name press **Copy** and paste it into the config. *NOTE: Never share your bot's token, it's basically a password for your bot and with it people get full access to everything your bot has access to.*
-
-
-- How do I get my discord server ID, channel ID or Role IDs?
-
-    I could write out a long tutorial on this but discord beat me to it: [Discord IDs](https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-)
-
-
-- Console is giving an errror of "Disallowed intent specified"
-
-    Go back to step 4 in the first FAQ to solve that error as the bot needs `Presense Intent` and `Server Members Intent`
-    
-- Console is giving `Could not find dependency yarn for resource zdiscord.`
-
-    This resource requires FiveM's yarn module from [cfx-server-data](https://github.com/citizenfx/cfx-server-data) (resources/[system]/[builders]/yarn) so either have those resource in your resource folder or just put the yarn one in your resources and zdiscord will enable it for itself so you don't need to include it in your cfg
-
-- Bot is onlive but not responding too commands
-
-    Did you set the guildid to your server's id in the config.js? it will only reply to commands from it's trusted server
-
-- My QBCore/ESX commands aren't loading
-
-    For support for QB or ESX you have to either have the resource load after the core OR uncomment the dependency line from fxmanifest.lua
+Moved to [FAQ Wiki Page](https://github.com/zfbx/zdiscord/wiki/Frequently-Asked-Questions)
 
 ## Change log
 
