@@ -33,6 +33,7 @@ All the config options for this module are to be set inside your server .cfg fil
 2. Add `ensure zdiscord` (or whatever you renamed it to) to your server's .cfg
 3. Adjust the `config.js` variables to how you'd like them.
 
+[More detailed Setup Guide](https://github.com/zfbx/zdiscord/wiki/Setup)
 
 ## Languages
 
@@ -42,7 +43,7 @@ All the config options for this module are to be set inside your server .cfg fil
 
 ## FAQ
 
-Moved to [FAQ Wiki Page](https://github.com/zfbx/zdiscord/wiki/Frequently-Asked-Questions)
+Moved to [FAQ Wiki Page](https://github.com/zfbx/zdiscord/wiki/FAQ)
 
 ## Change log
 
