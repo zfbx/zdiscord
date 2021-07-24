@@ -17,7 +17,7 @@ I've not seen many decent whitelist systems out there that connect with discord 
 - Easy to translate and customize with locales!
 - Built in `!help` command for discord (prefix may be different if you changed it in your config)
 - Easy to expand and customize with modular commands!
-- Supports QBCore! Included: `!revive, !jail, !unjail, !giveitem, !kill, !setjob`
+- Supports QBCore! Included: `!revive, !jail, !giveitem, !kill, !setjob` and more!
 
 ## Support
 
@@ -45,26 +45,38 @@ Moved to [FAQ Wiki Page](https://github.com/zfbx/zdiscord/wiki/Frequently-Asked-
 
 ## Change log
 
-**1.0.0 - First unsupported build**
+**3.2.0 - Convars everywhere!**
 
-- A lot.
-    
-**2.0.0 - Github Release**
+- Convar hooks added for nearly every config option [Read More](https://github.com/zfbx/zdiscord/wiki/Convars)
+- Slimmed up locales by removing console log messages
+- Added {{prefix}} to the global variables
 
-- polished standalone
-- Added translation support
+
+**3.1.0 - QBCore (potential ESX) support added**
+
+- Commands starting with `qb-` will load automatically if QBCore is detected.
+- Placeholders for `esx-` commands have been added.
     
+
 **3.0.0 - Modular commands!**
 
 - Commands are now loaded dynamically from the `/commands` folder
 - Help command now has sub commands `!help commandName`
 - New DM command
 - various Error checks and fixes
+    
 
-**3.1.0 - QBCore (potential ESX) support added**
+**2.0.0 - Github Release**
 
-- Commands starting with `qb-` will load automatically if QBCore is detected.
-- Placeholders for `esx-` commands have been added.
+- polished standalone
+- Added translation support
+
+
+**1.0.0 - First unsupported build**
+
+- A lot.
+
+
 
 ## License
 
