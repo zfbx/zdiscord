@@ -1,7 +1,7 @@
 /* en - English Translation by zfbx ♥
  Translation strings used by the bot
  Strings wrapped in {{ }} will be auto-replaced with updated values
- Globals: {{servername}}, {{invite}} (both from config) and {{playercount}} (current connected players)
+ Globals: {{servername}}, {{invite}}, {{prefix}} (all from config) and {{playercount}} (current connected players)
 */
 const locale = {
     // FiveM replies
@@ -54,24 +54,13 @@ const locale = {
     helpPlayers: "Get list of players in the city",
     helpInfo: "Get information on a player",
     helpDm: "Send a direct message to a player",
-    
+
     commands: "Commands",
     staff: "{{servername}} Staff", // Globals
     helpTypeMessage: "msg",
     helpTypeID: "id",
     helpTypeReason: "reason",
     helpTypeCommand: "command",
-
-    // Console Errors
-    consoleCoreFound: "{{core}} found! Supported {{core}} commands will be loaded.",
-    consoleMissingToken: "This module requires a discord bot token to run. Check the config.js",
-    consoleMissingGuildid: "You need to setup a guildid for me to use in the config.js",
-    consoleLoggedIn: "Logged in on Discord as {{username}}!", // Globals, {{username}}
-    consoleLogAnnouncement: "[{{sender}}] Announcement: {{msg}}", // {{sender}}, {{msg}}
-    consoleLogKick: "[{{sender}}] Kicked {{id}}. Reason: {{msg}}", // {{sender}}, {{id}}, {{msg}}
-    consoleLogDm: "[{{sender}}] DM'd {{id}}. Message: {{msg}}", // {{sender}}, {{id}}, {{msg}}
-    consoleLogKickAll: "[{{sender}}] Kicked EVERYONE. Reason: {{msg}}", // {{sender}}, {{msg}}
-    consoleDiscordGuildErr: "Something went wrong fetching the Discord server for whitelist checking using guild id: {{guildid}}", // {{guildid}}
 }
 
 module.exports = locale;

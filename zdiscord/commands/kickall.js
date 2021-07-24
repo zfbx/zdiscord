@@ -18,8 +18,6 @@ module.exports = {
         discord.createMessage(msg.channel.id, locale.allPlayersKicked
             .replace(/{{previousOnlineCount}}/g, numberOnline));
 
-        console.log(locale.consoleLogKickAll
-            .replace(/{{sender}}/g, msg.nickname)
-            .replace(/{{msg}}/g, content));
+        console.log(`[${msg.nickname}] Kicked EVERYONE. Reason: ${content}`);
     },
 };

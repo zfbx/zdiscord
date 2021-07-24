@@ -19,10 +19,7 @@ module.exports = {
 
         DropPlayer(id, content);
 
-        console.log(locale.consoleLogKick
-            .replace(/{{sender}}/g, msg.nickname)
-            .replace(/{{msg}}/g, content)
-            .replace(/{{id}}/g, id));
+        console.log(`[${msg.nickname}] Kicked ${id}. Reason: ${content}`);
 
         msg.addReaction('✔');
     },

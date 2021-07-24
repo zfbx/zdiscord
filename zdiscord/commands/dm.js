@@ -19,10 +19,7 @@ module.exports = {
 
         TriggerClientEvent('chatMessage', id, locale.directMessage, "error", content)
 
-        console.log(locale.consoleLogDm
-            .replace(/{{sender}}/g, msg.nickname)
-            .replace(/{{msg}}/g, content)
-            .replace(/{{id}}/g, id));
+        console.log(`[${msg.nickname}] DM'd ${id}. Message: ${content}`);
 
         msg.addReaction('✔');
     },

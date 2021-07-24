@@ -1,7 +1,7 @@
 /* de - German Translation by Anonymous
  Translation strings used by the bot
  Strings wrapped in {{ }} will be auto-replaced with updated values
- Globals: {{servername}}, {{invite}} (both from config) and {{playercount}} (current connected players)
+Globals: {{servername}}, {{invite}}, {{prefix}} (all from config) and {{playercount}} (current connected players)
 */
 const locale = {
     // FiveM replies
@@ -62,16 +62,6 @@ const locale = {
     helpTypeReason: "Grund",
     helpTypeCommand: "command",
 
-    // Console Errors
-    consoleCoreFound: "{{core}} found! Supported {{core}} commands will be loaded.",
-    consoleMissingToken: "Dieses Modul benötigt einen Discord Bot Token um zu funktionieren. Checke die config.js",
-    consoleMissingGuildid: "Du musst eine guildid einrichten, die ich in der config.js verwenden kann",
-    consoleLoggedIn: "In Discord als {{username}} eingeloggt!", // Globals, {{username}}
-    consoleLogAnnouncement: "[{{sender}}] Announcement: {{msg}}", // {{sender}}, {{msg}}
-    consoleLogKick: "[{{sender}}] Kicked {{id}}. Grund: {{msg}}", // {{sender}}, {{id}}, {{msg}}
-    consoleLogDm: "[{{sender}}] DM'd {{id}}. Message: {{msg}}", // {{sender}}, {{id}}, {{msg}}
-    consoleLogKickAll: "[{{sender}}] Kicked ALLE. Grund: {{msg}}", // {{sender}}, {{msg}}
-    consoleDiscordGuildErr: "Beim Abrufen des Discord-Servers für die Whitelist-Prüfung mit der Guild-ID: {{guildid}} ist etwas schiefgelaufen", // {{guildid}}
 }
 
 module.exports = locale;

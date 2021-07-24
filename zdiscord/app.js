@@ -3,22 +3,27 @@ const fs = require('fs');
 const locale = require('./locales/' + config.lang);
 init();
 
-if (!config.token) {
-    console.error(locale.consoleMissingToken);
+if (config.token == "CHANGE") {
+    console.error("This module requires a discord bot token to run. Check the config.js");
     StopResource(GetCurrentResourceName());
 }
 if (config.guildid == "000000000000000000") {
-    console.error(locale.consoleMissingGuildid);
+    console.error("You need to setup a guildid for me to use in the config.js");
     StopResource(GetCurrentResourceName());
 }
+config.staffRoles = parseConfigList(config.staffRoles);
+config.whitelistRoles = parseConfigList(config.whitelistRoles);
+config.enableWhitelist = parseConfigBool(config.enableWhitelist);
+config.enableCommands = parseConfigBool(config.enableCommands);
+config.enableStatus = parseConfigBool(config.enableStatus);
 
 let QBCore;
 TriggerEvent('QBCore:GetObject', (obj) => { QBCore = obj });
-if (QBCore) console.log(locale.consoleCoreFound.replace(/{{core}}/g, 'QBCore'));
+if (QBCore) console.log("QBCore found! Supported QB commands will be loaded.");
 
 let ESX;
 // TODO: ESX Core get
-if (ESX) console.log(locale.consoleCoreFound.replace(/{{core}}/g, 'ESX'));
+if (ESX) console.log("ESX found! Supported ESX commands will be loaded.");
 
 const discord = new Eris.Client(config.token, {
     intents: ["guilds", "guildMessages", "guildMembers", "guildBans", "guildPresences"],
@@ -39,14 +44,15 @@ for (const file of commandFiles) {
 }
 
 discord.on('ready', () => {
-    console.log(locale.consoleLoggedIn.replace(/{{username}}/g, discord.user.username).replaceGlobals());
-    if (config.statusMessages) statusUpdater();
+    console.log(`Logged in on Discord as ${discord.user.username}!`);
+    if (config.enableStatus && config.statusMessages) statusUpdater();
 });
 
 discord.on("error", (err) => { console.error(err); });
 
 discord.on("messageCreate", async (msg) => {
     if (msg.guildID !== config.guildid || msg.author.bot) return;
+    if (!config.enableCommands) return;
     if (!msg.content.startsWith(config.prefix)) return;
     msg.nickname = msg.member.nick || msg.member.username;
     msg.isStaff = false;
@@ -69,10 +75,10 @@ discord.on("messageCreate", async (msg) => {
 discord.connect();
 
 on("playerConnecting", async (name, setKickReason, deferrals) => {
+    if (!config.enableWhitelist) return;
     const player = source;
     deferrals.defer();
     await sleep(0); // Required before running consecutive deferrals
-    if (!config.enableWhitelist) return deferrals.done();
     deferrals.update(locale.checkingWhitelist.replace(/{{name}}/g, name).replaceGlobals());
 
     let discordID = null;
@@ -84,7 +90,7 @@ on("playerConnecting", async (name, setKickReason, deferrals) => {
     if (discordID === null) return deferrals.done(locale.discordNotOpen.replaceGlobals());
     const guild = await discord.guilds.get(config.guildid);
     if (!guild) {
-        console.error(locale.consoleDiscordGuildErr.replace(/{{guildid}}/g, config.guildid));
+        console.error(`Something went wrong fetching the Discord server for whitelist checking using guild id: ${config.guildid}`);
         return deferrals.done(locale.fatalError.replaceGlobals());
     }
     const member = await guild.members.get(discordID);
@@ -121,6 +127,24 @@ function init() { // Damn hoisting and wanting things clean
                 .replace(/{{servername}}/g, config.serverName)
                 .replace(/{{invite}}/g, config.discordInvite)
                 .replace(/{{playercount}}/g, GetNumPlayerIndices())
+                .replace(/{{prefix}}/g, config.prefix)
         }
     });
+}
+
+function parseConfigList(list) {
+    if (!list) return {};
+    let parse = list.replace(/[^0-9,]/g, '').replace(/(,$)/g, '');
+    return parse.split(",");
+}
+
+function parseConfigBool(bool) {
+    if (typeof bool == "boolean") return bool;
+    if (typeof bool == "string") {
+        const trues = ["true", "t", "tru", "on", "yes", "y", "1"];
+        let val = bool.toLocaleLowerCase().trim();
+        return trues.includes(val) ? true : false;
+    }
+    if (typeof bool == "number") return bool > 0;
+    return false;
 }
