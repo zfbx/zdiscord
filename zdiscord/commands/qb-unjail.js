@@ -1,7 +1,7 @@
 module.exports = {
     name: 'unjail',
     description: 'Sends player to jail for certain amount of time',
-    args: `[${locale.helpTypeID}] [time(seconds)]`,
+    args: `[${locale.helpTypeID}]`,
     staffOnly: true,
     run(discord, msg, args) {
 
