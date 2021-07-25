@@ -21,6 +21,6 @@ module.exports = {
 
         console.log(`[${msg.nickname}] Kicked ${id}. Reason: ${content}`);
 
-        msg.addReaction('✔');
+        msg.addReaction('✅');
     },
 };

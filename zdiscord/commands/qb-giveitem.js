@@ -36,7 +36,7 @@ module.exports = {
 
         if (player.Functions.AddItem(itemData["name"], amount, false, info)) {
             console.log(`[${msg.nickname}] Gave ${id} ${amount} ${item}`);
-            msg.addReaction('✔');
+            msg.addReaction('✅');
         } else {
             console.log(`[${msg.nickname}] Tried to Give ${id} ${amount} ${item}`);
             msg.addReaction('❌');

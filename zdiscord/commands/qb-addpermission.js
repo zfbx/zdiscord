@@ -26,6 +26,6 @@ module.exports = {
 
         console.log(`[${msg.nickname}] Gave ${id} the ${perm} permission`);
 
-        msg.addReaction('✔');
+        msg.addReaction('✅');
     },
 };

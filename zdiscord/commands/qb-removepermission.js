@@ -20,6 +20,6 @@ module.exports = {
 
         console.log(`[${msg.nickname}] Removed ${id} permissions`);
 
-        msg.addReaction('✔');
+        msg.addReaction('✅');
     },
 };

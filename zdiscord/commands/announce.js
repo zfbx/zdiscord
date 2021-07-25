@@ -13,6 +13,6 @@ module.exports = {
 
         console.log(`[${msg.nickname}] Announcement: ${content}`);
 
-        msg.addReaction('✔');
+        msg.addReaction('✅');
     },
 };

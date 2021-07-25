@@ -21,6 +21,6 @@ module.exports = {
 
         console.log(`[${msg.nickname}] DM'd ${id}. Message: ${content}`);
 
-        msg.addReaction('✔');
+        msg.addReaction('✅');
     },
 };

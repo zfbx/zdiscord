@@ -17,6 +17,6 @@ module.exports = {
 
         console.log(`[${msg.nickname}] Unjailed ${id}`);
 
-        msg.addReaction('✔');
+        msg.addReaction('✅');
     },
 };

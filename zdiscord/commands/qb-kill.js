@@ -19,6 +19,6 @@ module.exports = {
 
         console.log(`[${msg.nickname}] Killed ${id}`);
 
-        msg.addReaction('✔');
+        msg.addReaction('✅');
     },
 };

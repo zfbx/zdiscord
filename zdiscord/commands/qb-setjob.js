@@ -28,7 +28,7 @@ module.exports = {
 
         console.log(`[${msg.nickname}] Set ${id}'s Job to ${job} with grade ${grade}`);
 
-        msg.addReaction('✔');
+        msg.addReaction('✅');
 
     },
 };

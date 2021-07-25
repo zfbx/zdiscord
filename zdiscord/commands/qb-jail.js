@@ -38,6 +38,6 @@ module.exports = {
 
         console.log(`[${msg.nickname}] Jailed ${id} for ${time} months.`);
         
-        msg.addReaction('✔');
+        msg.addReaction('✅');
     },
 };

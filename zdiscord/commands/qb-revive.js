@@ -20,7 +20,7 @@ module.exports = {
 
         console.log(`[${msg.nickname}] Revived ${id}`);
 
-        msg.addReaction('✔');
+        msg.addReaction('✅');
 
     },
 };
