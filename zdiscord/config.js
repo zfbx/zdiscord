@@ -21,13 +21,13 @@ const config = {
     discordInvite: GetConvar("zdiscordinvite", "https://discord.gg/fivem"),
 
     // Whether to actually check whitelist status, turning this to false will let everyone in
-    enableWhitelist: GetConvar("zdiscordenablewhitelist", true),
+    enableWhitelist: GetConvar("zdiscordenablewhitelist", "true"),
 
     // Whether to run commands or ignore all
-    enableCommands: GetConvar("zdiscordenablecommands", true),
+    enableCommands: GetConvar("zdiscordenablecommands", "true"),
 
     // Whether to update bot status
-    enableStatus: GetConvar("zdiscordenablestatus", true),
+    enableStatus: GetConvar("zdiscordenablestatus", "true"),
 
     // Color of the embed replies on discord for help and such (defaults purple #663A82)
     // This needs to be entered in hex form (#ff00ff -> 0xff00ff) without quotes around it
@@ -37,10 +37,10 @@ const config = {
     guildid: GetConvar("zdiscordguildid", "000000000000000000"), // My Cool Server ID
 
     // List of staff / admin role IDs (comma seperated) that you want to be able to use mod commands [See above for help]
-    staffRoles: GetConvar("zdiscordstaffroles", `000000000000000000, 000000000000000000`),
+    staffRoles: GetConvar("zdiscordstaffroles", "000000000000000000, 000000000000000000"),
 
     // List of role IDs (comma seperated) that will be able to join the server
-    whitelistRoles: GetConvar("zdiscordwhitelistroles", `000000000000000000, 000000000000000000`),
+    whitelistRoles: GetConvar("zdiscordwhitelistroles", "000000000000000000, 000000000000000000"),
 
     // The bot status message will randomly select one of these statuses every 30 seconds
     // {{playercount}} will automatically be replaced with the current number of users online
