@@ -10,6 +10,6 @@
   "author": "zfbx",
   "license": "MIT",
   "dependencies": {
-    "eris": "^0.15.1"
+    "eris": "github:zfbx/eris-fivem"
   }
 }
