@@ -1,17 +1,17 @@
 module.exports = {
     name: 'setjob',
     description: 'Set players job in city',
-    args: `[${locale.helpTypeID}] [job] [grade]`,
-    staffOnly: true,
+    args: `[id] [job] [grade]`,
+    role: "admin",
     run(discord, msg, args) {
 
         let id = args.shift();
-        if (!id) return discord.createMessage(msg.channel.id, locale.noIdProvided);
+        if (!id) return discord.createMessage(msg.channel.id, "You must provide an ID of a player.");
 
         id = Number(id);
-        if (isNaN(id)) return discord.createMessage(msg.channel.id, locale.invalidIdProvided);
+        if (isNaN(id)) return discord.createMessage(msg.channel.id, "This ID seems invalid.");
 
-        if (!GetPlayerName(id)) return discord.createMessage(msg.channel.id, locale.invalidIdProvided);
+        if (!GetPlayerName(id)) return discord.createMessage(msg.channel.id, "This ID seems invalid.");
 
         let job = args.shift();
         if (!job) return discord.createMessage(msg.channel.id, "No job specified");

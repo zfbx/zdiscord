@@ -1,21 +1,21 @@
 module.exports = {
-    name: locale.cmdKick,
-    alias: locale.cmdKickAlias,
-    description: locale.helpKick,
-    args: `[${locale.helpTypeID}] (${locale.helpTypeReason})`,
-    staffOnly: true,
+    name: "kick",
+    alias: "k",
+    description: "Kicks user in city",
+    args: `[id] (reason)`,
+    role: "mod",
     run(discord, msg, args) {
 
         let id = args.shift();
-        if (!id) return discord.createMessage(msg.channel.id, locale.noIdProvided);
+        if (!id) return discord.createMessage(msg.channel.id, "You must provide an ID of a player.");
 
         id = Number(id);
-        if (isNaN(id)) return discord.createMessage(msg.channel.id, locale.invalidIdProvided);
+        if (isNaN(id)) return discord.createMessage(msg.channel.id, "This ID seems invalid.");
 
         let content = args.join(" ") || "";
         if (!content) content = locale.kickedWithoutReason.replaceGlobals();
 
-        if (!GetPlayerName(id)) return discord.createMessage(msg.channel.id, locale.invalidIdProvided);
+        if (!GetPlayerName(id)) return discord.createMessage(msg.channel.id, "This ID seems invalid.");
 
         DropPlayer(id, content);
 

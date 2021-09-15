@@ -1,18 +1,18 @@
 module.exports = {
-    name: locale.cmdHelp,
-    description: locale.helpHelp,
-    args: `(${locale.helpTypeCommand})`,
-    staffOnly: false,
+    name: "help",
+    description: "Get this message",
+    args: "(command)",
+    role: "none",
     run(discord, msg, args) {
 
         let cmd = args.shift();
         if (cmd) {
             cmd = cmd.toLowerCase();
-            if (!discord.commands.has(cmd) && !discord.commandAliases[cmd]) return discord.createMessage(msg.channel.id, locale.commandNotFound);
+            if (!discord.commands.has(cmd) && !discord.commandAliases[cmd]) return discord.createMessage(msg.channel.id, "This is not a valid command.");
 
             const cmdval = discord.commands.has(cmd) ? discord.commands.get(cmd) : discord.commands.get(discord.commandAliases[cmd]);
 
-            if (!msg.isStaff && cmdval.staffOnly) return;
+            if (cmd.role && !hasPermission(cmd.role, msg.staffRole)) return;
 
             const cmdalias = cmdval.alias ? ` [Alias ${config.prefix}${cmdval.alias}]` : "";
             const cmdargs = cmdval.args ? `\n**Args:** ${cmdval.args}` : "";
@@ -32,10 +32,10 @@ module.exports = {
             return discord.createMessage(msg.channel.id, cmdhelp);
         }
 
-        const help = { embed: { color: config.embedColor, fields: [{ name: locale.commands, value: "", inline: false }] } }
+        const help = { embed: { color: config.embedColor, fields: [{ name: "Commands", value: "", inline: false }] } }
 
         discord.commands.forEach((value, key) => {
-            if (value.staffOnly && !msg.isStaff) return;
+            if (value.role && !hasPermission(value.role, msg.staffRole)) return;
 
             const alias = value.alias ? ` (${value.alias})` : "";
             const cmdargs = value.args ? ` ${value.args}` : "";

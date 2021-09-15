@@ -1,13 +1,13 @@
 module.exports = {
-    name: locale.cmdAnnounce,
-    alias: locale.cmdAnnounceAlias,
-    description: locale.helpAnnounce,
-    args: `[${locale.helpTypeMessage}]`,
-    staffOnly: true,
+    name: "announce",
+    alias: "a",
+    description: "Send in city announcement",
+    args: "[msg]",
+    role: "admin",
     run(discord, msg, args) {
 
         const content = args.join(" ") || "";
-        if (!content) return discord.createMessage(msg.channel.id, locale.provideMessageError);
+        if (!content) return discord.createMessage(msg.channel.id, "Please provide a message");
 
         TriggerClientEvent('chatMessage', -1, locale.announcement, "error", content)
 
