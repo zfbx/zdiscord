@@ -47,6 +47,14 @@ Moved to [FAQ Wiki Page](https://github.com/zfbx/zdiscord/wiki/FAQ)
 
 ## Change log
 
+**4.0.0 - permissions! bye yarn!.. and esx.**
+
+- Dependencies are now embeded libs making the project slimer on install and not requiring yarn.
+- ESX support was dropped, it wasn't getting used and I don't have an esx server for testing.
+- translations were slimmed down to fivem messages only.
+- `add/removepermissions` merged into `perms` command
+-  Convars changed to be more readable using standard FiveM format with `_` spacing
+
 **3.2.0 - Convars everywhere!**
 
 - Convar hooks added for nearly every config option [Read More](https://github.com/zfbx/zdiscord/wiki/Convars)
