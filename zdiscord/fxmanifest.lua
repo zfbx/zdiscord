@@ -1,12 +1,15 @@
+-- The github has help and FAQ, please read them for help first, submit issue if they don't answer questions. -Tony / zfbx
 fx_version 'cerulean'
 games { 'gta5' }
 
 author 'zfbx'
 description 'Simple Discord Bot Allowlist'
 repository 'https://github.com/zfbx/zdiscord'
-version '3.2.0'
+version '4.0.0'
+license 'MIT'
 
 files {
+    'libs/**',
     'locales/*',
     'commands/*',
 }
@@ -16,10 +19,6 @@ server_scripts {
     'app.js',
 }
 
-dependencies {
-    'yarn',
-    --'qb-core', -- Uncomment for QBCore support if zdiscord loaded before qb-core
-    --'esx', -- Uncomment for ESX support
-}
+--dependency 'qb-core' -- Uncomment for QBCore support if zdiscord is loaded before qb-core
 
 server_only 'yes'

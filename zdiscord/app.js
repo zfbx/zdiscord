@@ -1,4 +1,4 @@
-const Eris = require('eris');
+const Eris = require('./libs/eris');
 const fs = require('fs');
 const locale = require('./locales/' + config.lang);
 init();
@@ -21,10 +21,6 @@ let QBCore;
 TriggerEvent('QBCore:GetObject', (obj) => { QBCore = obj });
 if (QBCore) console.log("QBCore found! Supported QB commands will be loaded.");
 
-let ESX;
-// TODO: ESX Core get
-if (ESX) console.log("ESX found! Supported ESX commands will be loaded.");
-
 const discord = new Eris.Client(config.token, {
     intents: ["guilds", "guildMessages", "guildMembers", "guildBans", "guildPresences"],
     disabledEvents: { CHANNEL_CREATE: true, CHANNEL_CREATE: true },
@@ -38,7 +34,6 @@ const commandFiles = fs.readdirSync(`${GetResourcePath(GetCurrentResourceName())
 for (const file of commandFiles) {
     const command = require(`./commands/${file}`);
     if (file.startsWith("qb-") && !QBCore) continue;
-    if (file.startsWith("esx-") && !ESX) continue;
     discord.commands.set(command.name, command);
     if (command.alias) discord.commandAliases[command.alias] = command.name;
 }
@@ -55,20 +50,21 @@ discord.on("messageCreate", async (msg) => {
     if (!config.enableCommands) return;
     if (!msg.content.startsWith(config.prefix)) return;
     msg.nickname = msg.member.nick || msg.member.username;
-    msg.isStaff = false;
-    config.staffRoles.forEach(function (item, index, array) {
-        if (msg.member.roles.includes(item)) msg.isStaff = true;
-    });
+    msg.staffRole = "none";
+    if (msg.member.roles.includes(config.modRole)) msg.staffRole = "mod";
+    if (msg.member.roles.includes(config.adminRole)) msg.staffRole = "admin";
+    if (msg.member.roles.includes(config.godRole)) msg.staffRole = "god";
+ 
     const args = msg.content.slice(config.prefix.length).trim().split(/ +/);
     const command = args.shift().toLowerCase();
     if (!discord.commands.has(command) && !discord.commandAliases[command]) return;
     const cmd = discord.commands.has(command) ? discord.commands.get(command) : discord.commands.get(discord.commandAliases[command]);
-    if (!msg.isStaff && cmd.staffOnly) return;
+    if (cmd.role && !hasPermission(cmd.role, msg.staffRole)) return;
     try {
         cmd.run(discord, msg, args);
     } catch (error) {
         console.error(error);
-        discord.createMessage(msg.channel.id, locale.commandFailed);
+        discord.createMessage(msg.channel.id, "Something went wrong trying to run this command.");
     }
 });
 
@@ -78,7 +74,7 @@ on("playerConnecting", async (name, setKickReason, deferrals) => {
     if (!config.enableWhitelist) return;
     const player = source;
     deferrals.defer();
-    await sleep(0); // Required before running consecutive deferrals
+    await sleep(0);
     deferrals.update(locale.checkingWhitelist.replace(/{{name}}/g, name).replaceGlobals());
 
     let discordID = null;
@@ -146,5 +142,16 @@ function parseConfigBool(bool) {
         return trues.includes(val) ? true : false;
     }
     if (typeof bool == "number") return bool > 0;
+    return false;
+}
+
+function hasPermission(required, has) {
+    const ranks = {
+        "none": 0,
+        "mod": 1,
+        "admin": 2,
+        "god": 3,
+    }
+    if (ranks[has] >= ranks[required]) return true;
     return false;
 }
