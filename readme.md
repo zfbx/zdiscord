@@ -39,6 +39,7 @@ All the config options for this module are to be set inside your server .cfg fil
 
 - en - English - By zfbx
 - de - Deutsch / German - By Anonymous
+- pl - Polish - By insaneArian
 
 
 ## FAQ
