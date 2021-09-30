@@ -18,7 +18,7 @@ config.enableCommands = parseConfigBool(config.enableCommands);
 config.enableStatus = parseConfigBool(config.enableStatus);
 
 let QBCore;
-TriggerEvent('QBCore:GetObject', (obj) => { QBCore = obj });
+QBCore = global.exports['qb-core'].GetCoreObject()
 if (QBCore) console.log("QBCore found! Supported QB commands will be loaded.");
 
 const discord = new Eris.Client(config.token, {
