@@ -33,6 +33,8 @@ All the config options for this module are to be set inside your server .cfg fil
 2. Add `ensure zdiscord` (or whatever you renamed it to) to your server's .cfg
 3. Adjust the `config.js` variables to how you'd like them.
 
+* **MAKE SURE TO ENABLE `Presence Intent` AND `Server Members Intent` ON THE DISCORD BOT SETTINGS OR THE BOT WONT START!** (Getting really tired of seeing tickets and questions about this when it's in the setup guide and FAQ)
+
 [More detailed Setup Guide](https://github.com/zfbx/zdiscord/wiki/Setup)
 
 ## Languages
