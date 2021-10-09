@@ -99,6 +99,27 @@ on("playerConnecting", async (name, setKickReason, deferrals) => {
     else deferrals.done(locale.notWhitelisted.replaceGlobals());
 });
 
+
+exports('isRolePresent', (discordID, role) => {
+    if (discordID.includes('discord:')) discordID = id.slice(8);
+    const guild = await discord.guilds.get(config.guildid);
+    if (!guild) {
+        console.error(`Something went wrong fetching the Discord server for whitelist checking using guild id: ${config.guildid}`);
+        return { found: false, roles: []};
+    }
+    const member = await guild.members.get(discordID);
+    if (!member) return { found: false, roles: []};
+    if (typeof role === "object") {
+        let found = false;
+        role.forEach(function (item, index, array) {
+            if (member.roles.includes(item)) found = true;
+        });
+        return { found: (found ? true : false), roles: member.roles };
+    } else {
+        return { found: (member.roles.includes(role) ? true : false), roles: member.roles };
+    }
+});
+
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
