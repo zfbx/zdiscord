@@ -5,6 +5,8 @@
 [![Sub on Patreon](https://img.shields.io/badge/Support-Patreon-%23FF424D?style=for-the-badge&logo=patreon)](https://www.patreon.com/zfbx)
 [![Buy Me a Pizza](https://img.shields.io/badge/Pizza-BuyMeACoffee-%23FFDD00?style=for-the-badge&logo=buymeacoffee)](https://www.buymeacoffee.com/zfbx)
 
+## THIS IS A WIP BRANCH TESTING DISCORD.JS AS AN ERIS REPLACEMENT - DON'T USE UNLESS YOU KNOW WHAT YOU'RE DOING
+
 A Discord whitelist (allowlist) and moderation tool
 
 I've not seen many decent whitelist systems out there that connect with discord and the good ones seem to use oauth but I wanted more.. specifically I wanted to be able to have a full blown bot built in and be able to have bi-directional communication between the server and discord, so here it is!
