@@ -1,0 +1,29 @@
+{
+  "name": "zdiscord",
+  "version": "5.0.0",
+  "description": "Simple Discord Bot Allowlist",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zfbx/zdiscord.git"
+  },
+  "author": "Tony#1275",
+  "contributors": [
+    "zfbx (https://github.com/zfbx/)"
+  ],
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/zfbx/zdiscord/issues"
+  },
+  "homepage": "https://github.com/zfbx/zdiscord",
+  "dependencies": {
+    "abort-controller": "^3.0.0",
+    "discord.js": "^13.2.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0"
+  }
+}

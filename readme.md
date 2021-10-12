@@ -1,6 +1,6 @@
 # zdiscord
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge&logo=opensourceinitiative)](https://opensource.org/licenses/MIT)
+[![GPLv3 License](https://img.shields.io/badge/License-GPL-blue?style=for-the-badge)](https://www.gnu.org/licenses)
 [![Donate on PayPal](https://img.shields.io/badge/Donate-PayPal-%2300457C?style=for-the-badge&logo=paypal)](https://paypal.me/zfbx)
 [![Sub on Patreon](https://img.shields.io/badge/Support-Patreon-%23FF424D?style=for-the-badge&logo=patreon)](https://www.patreon.com/zfbx)
 [![Buy Me a Pizza](https://img.shields.io/badge/Pizza-BuyMeACoffee-%23FFDD00?style=for-the-badge&logo=buymeacoffee)](https://www.buymeacoffee.com/zfbx)
@@ -13,12 +13,11 @@ I've not seen many decent whitelist systems out there that connect with discord 
 
 ## Features
 
-- Completely standalone, no dependencies or need for running external applications
+- Completely standalone, runs directly in FiveM
 - Commands to see online users, info, etc
 - Moderation commands to kick someone or everyone
 - Send server wide announcements from a command in discord
 - Easy to translate and customize with locales!
-- Built in `!help` command for discord (prefix may be different if you changed it in your config)
 - Easy to expand and customize with modular commands!
 - Supports QBCore! Included: `!revive, !jail, !giveitem, !kill, !setjob` and more!
 
@@ -53,6 +52,14 @@ All the config options for this module are to be set inside your server .cfg fil
 Moved to [FAQ Wiki Page](https://github.com/zfbx/zdiscord/wiki/FAQ)
 
 ## Change log
+
+**5.0.0 - Hello discord.js! & Much much more.**
+
+*It should be noted, this is essentially a complete rewrite of the resource and should probably be treated as such.*
+
+- NEW LICENSE - GPL version 3.0
+- Replaced eris with discord.js
+- replaced commands with slash commands
 
 **4.0.0 - permissions! bye yarn!.. and esx.**
 
@@ -98,4 +105,17 @@ Moved to [FAQ Wiki Page](https://github.com/zfbx/zdiscord/wiki/FAQ)
 
 ## License
 
-I'm releasing this under the **MIT License** asking only that you preserve my credit (zfbx) in whatever you do with it :)
+**as of version 5.0.0 zdiscord is licensed under GPL version 3**
+
+    This program (zdiscord) is free software: you can redistribute it
+    and/or modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation, either version 3 of
+    the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
