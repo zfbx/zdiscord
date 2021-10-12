@@ -11,6 +11,7 @@
         "dependencies",
         "server_only",
         "license",
-        "dependency"
+        "dependency",
+        "server_script"
     ]
 }
