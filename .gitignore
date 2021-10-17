@@ -61,20 +61,3 @@ typings/
 
 # dotenv environment variables file
 .env
-
-# next.js build output
-.next
-
-# config.json files
-config.json
-
-#temp folder
-data/temp/*
-config.js
-
-/data/enmap.*
-
-/plugins/*
-!/plugins/example.js.example
-
-/data/custom/*
