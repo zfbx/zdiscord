@@ -1,49 +1,78 @@
+/**
+ * This file is part of zdiscord.
+ * Copyright (C) 2021 Tony/zfbx
+ * source: <https://github.com/zfbx/zdiscord>
+ *
+ * zdiscord is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * zdiscord is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with zdiscord. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 module.exports = {
-    name: 'permissions',
-    alias: 'perms',
-    description: 'Give/take a player QB permissions',
-    args: `[(set/add/a)/(remove/r)] [id] (if set/add: [admin/god])`,
+    name: "permissions",
+    description: "Manage player's in-city permissions",
+    default_permission: false,
     role: "god",
-    run(discord, msg, args) {
-        const actions = {
-            "set": true,
-            "add": true,
-            "a": true,
-            "remove": false,
-            "r": false,
-            "rem": false,
+
+    options: [
+        {
+            type: "SUB_COMMAND",
+            name: "add",
+            description: "add a permission to a player",
+            options: [
+                {
+                    name: "id",
+                    description: "Player's current id",
+                    required: true,
+                    type: "INTEGER",
+                },
+                {
+                    name: "permission",
+                    description: "permission to give",
+                    required: true,
+                    type: "STRING",
+                    choices: [
+                        { name: "admin", value: "admin" },
+                        { name: "god", value: "god" },
+                    ],
+                },
+            ],
+        },
+        {
+            type: "SUB_COMMAND",
+            name: "remove",
+            description: "remove all permissions from a player",
+            options: [
+                {
+                    name: "id",
+                    description: "Player's current id",
+                    required: true,
+                    type: "INTEGER",
+                },
+            ],
+        },
+    ],
+
+    run: async (client, interaction, args) => {
+        const [ subcommand, id, permission ] = args;
+        if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
+        if (subcommand === "add") {
+            client.QBCore.Functions.AddPermission(id, permission);
+            client.utils.log.info(`[${interaction.member.displayName}] Gave ${id} the ${permission} permission`);
+            return interaction.reply({ content: `${GetPlayerName(id)} (${id}) was given ${permission} permission.`, ephemeral: false });
+        } else if (subcommand === "remove") {
+            client.QBCore.Functions.RemovePermission(id);
+            client.utils.log.info(`[${interaction.member.displayName}] Removed ${id} permissions`);
+            return interaction.reply({ content: `${GetPlayerName(id)} (${id}) had their permissions removed.`, ephemeral: false });
         }
-
-        // Get whether to add or remove
-        let addperms = args.shift();
-        if (!addperms) return discord.createMessage(msg.channel.id, "Not valid. Add or remove permissions?");
-        addperms = addperms.toLowerCase();
-        if (actions[addperms] == undefined) return discord.createMessage(msg.channel.id, "Not a valid action [(set/add/a)/(remove/r)]");
-        addperms = actions[addperms];
-
-        // Get and process ID
-        let id = args.shift();
-        if (!id) return discord.createMessage(msg.channel.id, "You must provide an ID of a player.");
-        id = Number(id);
-        if (isNaN(id)) return discord.createMessage(msg.channel.id, "This ID seems invalid.");
-        if (!GetPlayerName(id)) return discord.createMessage(msg.channel.id, "This ID seems invalid.");
-        let player = QBCore.Functions.GetPlayer(id);
-        if (!player) return discord.createMessage(msg.channel.id, "Player not found");
-
-        if (addperms) {
-            // Get and process permission level
-            let perm = args.shift();
-            if (!perm) return discord.createMessage(msg.channel.id, "No permission level provided (admin / god)");
-            perm = perm.toLowerCase();
-            if (perm !== "admin" && perm !== "god") return discord.createMessage(msg.channel.id, "Not a valid permission level (only admin or god)");
-
-            QBCore.Functions.AddPermission(player.PlayerData.source, perm);
-            console.log(`[${msg.nickname}] Gave ${id} the ${perm} permission`);
-        } else {
-            QBCore.Functions.RemovePermission(player.PlayerData.source);
-            console.log(`[${msg.nickname}] Removed ${id} permissions`);
-        }
-
-        msg.addReaction('✅');
     },
 };
