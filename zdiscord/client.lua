@@ -20,3 +20,5 @@
 RegisterNetEvent('zdiscord:kill', function()
     SetEntityHealth(PlayerPedId(), 0)
 end)
+
+-- Add staff reply command? (reply to the same channel that a message was sent to the player from or default to a reports channel?)
