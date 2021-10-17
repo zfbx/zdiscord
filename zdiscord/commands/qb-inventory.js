@@ -119,7 +119,6 @@ module.exports = {
             const embed = new client.Embed().setTitle(`${GetPlayerName(id)}'s (${id}) Inventory`);
             const items = player.PlayerData.items;
             let desc = "";
-            console.log(items);
             if (typeof items === "object") {
                 Object.entries(items).forEach(([key, i]) => {
                     desc += `[${i.slot}] ${i.amount}x - **${i.label}** (${i.name})\n`;
