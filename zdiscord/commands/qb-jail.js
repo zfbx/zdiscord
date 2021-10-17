@@ -1,43 +1,92 @@
+/**
+ * This file is part of zdiscord.
+ * Copyright (C) 2021 Tony/zfbx
+ * source: <https://github.com/zfbx/zdiscord>
+ *
+ * zdiscord is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * zdiscord is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with zdiscord. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 module.exports = {
-    name: 'jail',
-    description: 'Sends player to jail for certain amount of time',
-    args: `[id] [time(seconds)]`,
+    name: "jail",
+    description: "Manage a player's jail sentence",
+    default_permission: false,
     role: "mod",
-    run(discord, msg, args) {
 
-        let id = args.shift();
-        if (!id) return discord.createMessage(msg.channel.id, "You must provide an ID of a player.");
-        id = Number(id);
-        if (isNaN(id)) return discord.createMessage(msg.channel.id, "This ID seems invalid.");
-        if (!GetPlayerName(id)) return discord.createMessage(msg.channel.id, "This ID seems invalid.");
+    options: [
+        {
+            type: "SUB_COMMAND",
+            name: "sentence",
+            description: "place player in jail",
+            options: [
+                {
+                    name: "id",
+                    description: "Player's current id",
+                    required: true,
+                    type: "INTEGER",
+                },
+                {
+                    name: "time",
+                    description: "How long in seconds to jail player for",
+                    required: true,
+                    type: "INTEGER",
+                },
+            ],
+        },
+        {
+            type: "SUB_COMMAND",
+            name: "free",
+            description: "free player from jail",
+            options: [
+                {
+                    name: "id",
+                    description: "Player's current id",
+                    required: true,
+                    type: "INTEGER",
+                },
+            ],
+        },
+    ],
 
-        let time = args.shift();
-        if (!time) return discord.createMessage(msg.channel.id, "No time specified");
-        time = Number(time);
-        if (isNaN(time) || time < 1) return discord.createMessage(msg.channel.id, "This time is invalid");
-
-        player = QBCore.Functions.GetPlayer(id);
-
-        const d = new Date();
-        let currentDate = { // Stupid hack to replicate lua's os.date("*t") for the prison jail script is stupid..
-            ["month"]: d.getDate(),
-            ["sec"]: d.getSeconds(),
-            ["year"]: d.getFullYear(),
-            ["day"]: (d.getDate() > 30) ? 30 : d.getDate(),
-            ["min"]: d.getMinutes(),
-            ["wday"]: d.getDay() + 1,
-            ["isdst"]: false, // fuck it
-            ["yday"]: (Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(d.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000,
-            ["hour"]: d.getHours(),
+    run: async (client, interaction, args) => {
+        const [ subcommand, id, time ] = args;
+        if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
+        if (subcommand === "sentence") {
+            if (time < 5) return interaction.reply({ content: "Jail time need to be more than 5 seconds", ephemeral: true });
+            player = client.QBCore.Functions.GetPlayer(id);
+            const d = new Date();
+            // Stupid hack to replicate lua's os.date("*t") for the prison jail script is stupid..
+            const currentDate = {
+                ["month"]: d.getDate(),
+                ["sec"]: d.getSeconds(),
+                ["year"]: d.getFullYear(),
+                ["day"]: (d.getDate() > 30) ? 30 : d.getDate(),
+                ["min"]: d.getMinutes(),
+                ["wday"]: d.getDay() + 1,
+                ["isdst"]: false,
+                ["yday"]: (Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(d.getFullYear(), 0, 0)) / 24 / 60 / 60 / 1000,
+                ["hour"]: d.getHours(),
+            };
+            player.Functions.SetMetaData("injail", time);
+            player.Functions.SetMetaData("criminalrecord", { ["hasRecord"]: true, ["date"]: currentDate });
+            TriggerClientEvent("police:client:SendToJail", id, parseInt(time));
+            TriggerClientEvent("QBCore:Notify", id, `You were sent to prison for ${time} months`);
+            client.utils.log.info(`[${interaction.member.displayName}] jailed ${GetPlayerName(id)} (${id}) for ${time} seconds`);
+            return interaction.reply({ content: `${GetPlayerName(id)} (${id}) was jailed for ${time} months.`, ephemeral: false });
+        } else if (subcommand === "free") {
+            TriggerClientEvent("prison:client:UnjailPerson", id);
+            client.utils.log.info(`[${interaction.member.displayName}] freed ${GetPlayerName(id)} (${id}) from jail`);
+            return interaction.reply({ content: `${GetPlayerName(id)} (${id}) was set free`, ephemeral: false });
         }
-
-        player.Functions.SetMetaData("injail", time);
-        player.Functions.SetMetaData("criminalrecord", { ["hasRecord"]: true, ["date"]: currentDate });
-        TriggerClientEvent("police:client:SendToJail", player.PlayerData.source, time)
-        TriggerClientEvent('QBCore:Notify', player.PlayerData.source, `You sent the person to prison for ${time} months`)
-
-        console.log(`[${msg.nickname}] Jailed ${id} for ${time} months.`);
-        
-        msg.addReaction('✅');
     },
 };
