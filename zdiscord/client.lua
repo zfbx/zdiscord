@@ -17,19 +17,6 @@
  - along with zdiscord. If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-fx_version "cerulean"
-games { "gta5" }
-
-author "zfbx"
-description "Discord bot allowlist and more"
-repository "https://github.com/zfbx/zdiscord"
-version "5.0.0"
-license "GPLv3"
-lua54 'yes'
-
-server_script "server.js"
-client_script "client.lua"
-
-dependencies {
-    '/server:4780', -- Node16+
-}
+RegisterNetEvent('zdiscord:kill', function()
+    SetEntityHealth(PlayerPedId(), 0)
+end)
