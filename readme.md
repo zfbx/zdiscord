@@ -44,6 +44,7 @@ All the config options for this module are to be set inside your server .cfg fil
 - pl - Polish - By insaneArian
 - vn - Vietnamese - By xenfovn
 - ar - Arabic - By RadhwaneDZ
+- tr - Turkish - By alp1x
 
 
 ## FAQ
