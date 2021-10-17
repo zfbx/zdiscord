@@ -19,6 +19,7 @@
 
 module.exports = {
     name: "interactionCreate",
+    // interaction = https://discord.js.org/#/docs/main/stable/class/Interaction
     run: async (client, interaction) => {
         if (interaction.isCommand()) {
             const command = client.commands.get(interaction.commandName);
