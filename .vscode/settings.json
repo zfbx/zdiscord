@@ -12,6 +12,11 @@
         "server_only",
         "license",
         "dependency",
-        "server_script"
+        "server_script",
+        "client_script",
+        "PlayerPedId",
+        "SetEntityHealth",
+        "RegisterNetEvent",
+        "lua54"
     ]
 }
