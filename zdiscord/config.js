@@ -1,61 +1,70 @@
 /*
-    zdiscord - by zfbx ♥ - https://github.com/zfbx/zdiscord - License: MIT Open Source
+    zdiscord - by Tony/zfbx - https://github.com/zfbx/zdiscord - License: GPLv3
     Setup and Help guide on the github page ^^^^^^^^^^^^^^^
+    https://discord.com/api/oauth2/authorize?client_id=BOTUSERID&permissions=8&scope=bot%20applications.commands
 */
 
-const config = {
-    // Discord bot token to connect to the bot
-    // Get token from https://discord.com/developers/applications (create app > bot > create bot > copy token) [don't forget to invite the bot to your server]
-    token: GetConvar("discord_token", "CHANGE"),
+// Discord bot token to connect to the bot
+const DiscordBotToken = "CHANGE";
 
-    // The prefix needed for a message to be recognized as a command ( ie: !help )
-    prefix: GetConvar("discord_prefix", "!"),
+// Locale translations (has to exist in locales folder) (Default "en" English)
+const LanguageLocaleCode = "en";
 
-    // Locale to use for translations from locales folder (Default "en" English)
-    lang: GetConvar("discord_lang", "en"),
+// This name is used throughout the locale to autofill blanks to refer to your server
+const YourFiveMServerName = "My FiveM Server";
 
-    // This name is used throughout the locale to autofill blanks to refer to your server
-    serverName: GetConvar("discord_server_name", "My FiveM Server"),
+// Permanent Invite link for your discord server - Used by locale to autofill where people need to go to join.
+const DiscordInviteLink = "https://discord.gg/fivem";
 
-    // Permanent Invite link for your discord server - Used by locale to autofill where people need to go to join.
-    discordInvite: GetConvar("discord_invite", "https://discord.gg/fivem"),
+// Whether to actually check whitelist status, turning this to false will let everyone in
+const EnableWhitelistChecking = "true";
 
-    // Whether to actually check whitelist status, turning this to false will let everyone in
-    enableWhitelist: GetConvar("discord_enable_whitelist", "true"),
+// Whether to run commands or ignore all
+const EnableDiscordSlashCommands = "true";
 
-    // Whether to run commands or ignore all
-    enableCommands: GetConvar("discord_enable_commands", "true"),
+// Your discord guild (server) ID [See above for help]
+const DiscordGuildId = "000000000000000000";
 
-    // Whether to update bot status
-    enableStatus: GetConvar("discord_enable_status", "true"),
+// Discord role id for mod commands
+const DiscordModRoleId = "000000000000000000";
 
-    // Color of the embed replies on discord for help and such (defaults purple #663A82)
-    // This needs to be entered in hex form (#ff00ff -> 0xff00ff) without quotes around it
-    embedColor: 0x663A82,
+// Discord role id for admin commands (inherits mod permissions)
+const DiscordAdminRoleId = "000000000000000000";
 
-    // Your discord server ID [See above for help]
-    guildid: GetConvar("discord_guild_id", "000000000000000000"), // My Cool Server ID
+// Discord role id for god commands (inherits mod and admin permissions)
+const DiscordGodRoleId = "000000000000000000";
 
-    // Discord role id for mods role (kick, ban)
-    modRole: GetConvar("discord_mod_role", "000000000000000000"),
+// List of role IDs (comma seperated) that will be able to join the server
+const DiscordWhitelistRoleIds = "000000000000000000, 000000000000000000";
 
-    // Discord role id for mods role (mod actions + kickall, announcements)
-    adminRole: GetConvar("discord_admin_role", "000000000000000000"),
+// Whether to update bot status
+const EnableBotStatusMessages = "true";
 
-    // Discord role id for mods role (mod and admin actions + setpermissions)
-    godRole: GetConvar("discord_god_role", "000000000000000000"),
+// The bot status message will randomly select one of these statuses every 30 seconds
+// {{playercount}} will automatically be replaced with the current number of users online
+// {{servername}} will be replaced the serverName above
+// {{invite}} will be replaced with the invite above
+const BotStatusMessages = [
+    "{{servername}}",
+    "{{playercount}} online",
+];
 
+/** !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * !! DO NOT EDIT BELOW THIS LINE UNLESS YOU KNOW WHAT YOU'RE DOING !!
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
 
-    // List of role IDs (comma seperated) that will be able to join the server
-    whitelistRoles: GetConvar("discord_whitelist_roles", "000000000000000000, 000000000000000000"),
-
-    // The bot status message will randomly select one of these statuses every 30 seconds
-    // {{playercount}} will automatically be replaced with the current number of users online
-    // {{servername}} will be replaced the serverName above
-    // {{invite}} will be replaced with the invite above
-    // {{prefix}} will be replaced with the prefix currenting being used from above
-    statusMessages: [
-        "{{prefix}}help",
-        "{{playercount}} online",
-    ],
-}
+module.exports = {
+    token: GetConvar("discord_token", DiscordBotToken),
+    lang: GetConvar("discord_lang", LanguageLocaleCode),
+    serverName: GetConvar("discord_server_name", YourFiveMServerName),
+    discordInvite: GetConvar("discord_invite", DiscordInviteLink),
+    enableWhitelist: GetConvar("discord_enable_whitelist", EnableWhitelistChecking),
+    enableCommands: GetConvar("discord_enable_commands", EnableDiscordSlashCommands),
+    enableStatus: GetConvar("discord_enable_status", EnableBotStatusMessages),
+    guildid: GetConvar("discord_guild_id", DiscordGuildId),
+    modRole: GetConvar("discord_mod_role", DiscordModRoleId),
+    adminRole: GetConvar("discord_admin_role", DiscordAdminRoleId),
+    godRole: GetConvar("discord_god_role", DiscordGodRoleId),
+    whitelistRoles: GetConvar("discord_whitelist_roles", DiscordWhitelistRoleIds),
+    statusMessages: BotStatusMessages,
+};
