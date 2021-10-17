@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/zfbx/zdiscord",
   "dependencies": {
-    "discord.js": "^13.2.0"
+    "discord.js": "zfbx/discord.js"
   }
 }
