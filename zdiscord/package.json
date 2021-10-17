@@ -2,9 +2,9 @@
   "name": "zdiscord",
   "version": "5.0.0",
   "description": "Simple Discord Bot Allowlist",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node server.mjs"
   },
   "repository": {
     "type": "git",
@@ -20,10 +20,6 @@
   },
   "homepage": "https://github.com/zfbx/zdiscord",
   "dependencies": {
-    "abort-controller": "^3.0.0",
     "discord.js": "^13.2.0"
-  },
-  "devDependencies": {
-    "eslint": "^7.32.0"
   }
 }
