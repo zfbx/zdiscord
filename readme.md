@@ -1,42 +1,38 @@
-# zdiscord
+# zdiscord (v5)
 
-[![GPLv3 License](https://img.shields.io/badge/License-GPL-blue?style=for-the-badge)](https://www.gnu.org/licenses)
-[![Donate on PayPal](https://img.shields.io/badge/Donate-PayPal-%2300457C?style=for-the-badge&logo=paypal)](https://paypal.me/zfbx)
-[![Sub on Patreon](https://img.shields.io/badge/Support-Patreon-%23FF424D?style=for-the-badge&logo=patreon)](https://www.patreon.com/zfbx)
-[![Buy Me a Pizza](https://img.shields.io/badge/Pizza-BuyMeACoffee-%23FFDD00?style=for-the-badge&logo=buymeacoffee)](https://www.buymeacoffee.com/zfbx)
+A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and utilties using [discord.js](https://discord.js.org/). The goal is for this this resource to be easy to setup and expand upon while giving your staff team an easy method of support and moderation of players in game without actually launching FiveM. This resource also heavily support [QBCore](https://github.com/qbcore-framework) in most of it's functionality but it's not required
 
-## THIS IS A WIP BRANCH TESTING DISCORD.JS AS AN ERIS REPLACEMENT - DON'T USE UNLESS YOU KNOW WHAT YOU'RE DOING
-
-A Discord whitelist (allowlist) and moderation tool
-
-I've not seen many decent whitelist systems out there that connect with discord and the good ones seem to use oauth but I wanted more.. specifically I wanted to be able to have a full blown bot built in and be able to have bi-directional communication between the server and discord, so here it is!
+[Setup](#setup) | [Donate](#donate) | [License](#license) | [FAQ](https://github.com/zfbx/zdiscord/wiki/FAQ)
 
 ## Features
 
-- Completely standalone, runs directly in FiveM
-- Commands to see online users, info, etc
-- Moderation commands to kick someone or everyone
+- Standalone FiveM resource (no external hosting required)
+- Uses [Slash commands](https://support.discord.com/hc/en-us/articles/1500000368501-Slash-Commands-FAQ) with help/suggestions
+- Moderation tools (kick, ban, inspect, etc)
+- [QBCore](https://github.com/qbcore-framework) commands included!
 - Send server wide announcements from a command in discord
-- Easy to translate and customize with locales!
 - Easy to expand and customize with modular commands!
-- Supports QBCore! Included: `!revive, !jail, !giveitem, !kill, !setjob` and more!
+- Can be configured with convars
 
-## Support
+## Setup
 
-Before we get into the setup I just want to say, I've built and polished this resource from the ground up for free and open sourced it for you. If you enjoy it and would like to send a thanks I have a [ko-fi](https://ko-fi.com/zfbx8), [Paypal](https://paypal.me/zfbx) and I even have a [Patreon](https://www.patreon.com/zfbx)! Any and all support is greatly appreciated but in no way manditory, all my resources will be free and open source :)
+1. Get a bot application if you haven't already [Guide Here](https://discordjs.guide/preparations/setting-up-a-bot-application.html)
 
+2. **IMPORTANT: Enable BOTH intents** on the **bot** page of step 1 ([Picture example](https://github.com/zfbx/zdiscord/wiki/FAQ#intents)) *If you don't do this.. your bot will NOT work.
 
-## How to use
+3. Add the bot to your server - To do this copy the following link and replace `YOUR-BOT-ID` with your bots ID then follow the invite process to your discord from the link
+`https://discord.com/api/oauth2/authorize?client_id=YOUR-BOT-ID&permissions=8&scope=bot%20applications.commands`
 
-All the config options for this module are to be set inside your server .cfg file
+4. Copy the resource into your fiveM resources directory and make sure it's named `zdiscord` (no -main or anything)
 
-1. Copy the inner `zdiscord` directory into your fiveM resources directory
+5. Make sure you have the [cfx-server-data](https://github.com/citizenfx/cfx-server-data) resource in your resources (at the very least you need `[system]/[builders]/yarn/`)
+
 2. Add `ensure zdiscord` (or whatever you renamed it to) to your server's .cfg
-3. Adjust the `config.js` variables to how you'd like them.
 
-* **MAKE SURE TO ENABLE `Presence Intent` AND `Server Members Intent` ON THE DISCORD BOT SETTINGS OR THE BOT WONT START!** (Getting really tired of seeing tickets and questions about this when it's in the setup guide and FAQ) [Picture](https://github.com/zfbx/zdiscord/wiki/FAQ#intents)
+3. Adjust the `config.js` variables to how you'd like them. (Optionally use [Convars](./docs/convars.md))
 
-[More detailed Setup Guide](https://github.com/zfbx/zdiscord/wiki/Setup)
+4. **If you missed step 2, go back and do it.. or else IT WONT WORK!**
+
 
 ## Languages
 
@@ -47,65 +43,21 @@ All the config options for this module are to be set inside your server .cfg fil
 - ar - Arabic - By RadhwaneDZ
 
 
-## FAQ
+## Donate
 
-Moved to [FAQ Wiki Page](https://github.com/zfbx/zdiscord/wiki/FAQ)
+I've built and polished this resource from the ground up for free and open sourced it for everybody. If you use it, enjoy it, get support from me or just want to support the project please consider sending a tip or donation through any of the following platforms:
 
-## Change log
+[![Donate on PayPal](https://img.shields.io/badge/Donate-PayPal-%2300457C?style=for-the-badge&logo=paypal)](https://paypal.me/zfbx)
+[![Sub on Patreon](https://img.shields.io/badge/Support-Patreon-%23FF424D?style=for-the-badge&logo=patreon)](https://www.patreon.com/zfbx)
+[![Buy Me a Pizza](https://img.shields.io/badge/Pizza-BuyMeACoffee-%23FFDD00?style=for-the-badge&logo=buymeacoffee)](https://www.buymeacoffee.com/zfbx)
 
-**5.0.0 - Hello discord.js! & Much much more.**
-
-*It should be noted, this is essentially a complete rewrite of the resource and should probably be treated as such.*
-
-- NEW LICENSE - GPL version 3.0
-- Replaced eris with discord.js
-- replaced commands with slash commands
-
-**4.0.0 - permissions! bye yarn!.. and esx.**
-
-- Dependencies are now embeded libs making the project slimer on install and not requiring yarn.
-- ESX support was dropped, it wasn't getting used and I don't have an esx server for testing.
-- translations were slimmed down to fivem messages only.
-- `add/removepermissions` merged into `perms` command
--  Convars changed to be more readable using standard FiveM format with `_` spacing
-
-**3.2.0 - Convars everywhere!**
-
-- Convar hooks added for nearly every config option [Read More](https://github.com/zfbx/zdiscord/wiki/Convars)
-- Slimmed up locales by removing console log messages
-- Added {{prefix}} to the global variables
-- New Add/Remove permissions command for QBCore
-
-
-**3.1.0 - QBCore (potential ESX) support added**
-
-- Commands starting with `qb-` will load automatically if QBCore is detected.
-- Placeholders for `esx-` commands have been added.
-    
-
-**3.0.0 - Modular commands!**
-
-- Commands are now loaded dynamically from the `/commands` folder
-- Help command now has sub commands `!help commandName`
-- New DM command
-- various Error checks and fixes
-    
-
-**2.0.0 - Github Release**
-
-- polished standalone
-- Added translation support
-
-
-**1.0.0 - First unsupported build**
-
-- A lot.
-
-
+Any contribution is greatly appreciated but you're amazing regardless ♥
 
 ## License
 
-**as of version 5.0.0 zdiscord is licensed under GPL version 3**
+**Note: as of version 5.0.0 zdiscord, it is licensed under GPL version 3**
+
+    Copyright (C) 2021 Tony/zfbx <https://github.com/zfbx>
 
     This program (zdiscord) is free software: you can redistribute it
     and/or modify it under the terms of the GNU General Public License
