@@ -20,7 +20,7 @@
 const root = GetResourcePath(GetCurrentResourceName());
 const config = require(`${root}/config.js`);
 const utils = require("./utils.js");
-utils.log.assert((process.version == "v12.13.0"), "You are running unsupported artifacts, download a newer artifact or revert to version 4.0.0 of this zdiscord");
+utils.log.assert((process.version == "v12.13.0"), `You are running unsupported artifacts, download a newer artifact or revert to version 4.0.0 of ${GetCurrentResourceName()}`);
 utils.log.assert((config.token == "CHANGE"), "This module requires a discord bot token to run. Check the config.js");
 utils.log.assert((config.guildid == "000000000000000000"), "This resource requires a discord guildid to work properly. Check the config.js");
 
