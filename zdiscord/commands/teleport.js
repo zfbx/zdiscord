@@ -73,7 +73,6 @@ module.exports = {
                     type: "STRING",
                     choices: [
                         { name: "Airport", value: "airport" },
-                        { name: "Paleto Bay", value: "paleto" },
                         { name: "Maze Bank Roof", value: "mazeroof" },
                         { name: "Del Perro Pier", value: "pier" },
                         { name: "Fort Zancudo Base", value: "militarybase" },
@@ -87,7 +86,6 @@ module.exports = {
     run: async (client, interaction, args) => {
         const locations = {
             "airport": [ -948.35, -3367.04, 13.94 ],
-            "paleto": [ 1004.37, -593.2, 40.24 ],
             "mazeroof": [ -75.19, -819.2, 326.18 ],
             "pier": [ -1712.06, -1136.48, 13.08 ],
             "militarybase": [ -2105.88, 2871.16, 32.81 ],
