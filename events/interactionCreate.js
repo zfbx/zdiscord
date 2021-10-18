@@ -40,7 +40,7 @@ module.exports = {
                 command.run(client, interaction, args);
             } catch (error) {
                 client.utils.log.error(error);
-                interaction.reply({ content: "There was an error while executing this command!", ephemeral: true }).catch(console.error);
+                interaction.reply({ content: "There was an error while executing this command!", ephemeral: true }).catch(client.utils.log.error);
             }
         }
         if (interaction.isContextMenu()) {
