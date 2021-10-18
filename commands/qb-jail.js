@@ -63,7 +63,7 @@ module.exports = {
         if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
         if (subcommand === "sentence") {
             if (time < 5) return interaction.reply({ content: "Jail time need to be more than 5 seconds", ephemeral: true });
-            player = client.QBCore.Functions.GetPlayer(id);
+            const player = client.QBCore.Functions.GetPlayer(id);
             const d = new Date();
             // Stupid hack to replicate lua's os.date("*t") for the prison jail script is stupid..
             const currentDate = {
@@ -79,12 +79,12 @@ module.exports = {
             };
             player.Functions.SetMetaData("injail", time);
             player.Functions.SetMetaData("criminalrecord", { ["hasRecord"]: true, ["date"]: currentDate });
-            TriggerClientEvent("police:client:SendToJail", id, parseInt(time));
-            TriggerClientEvent("QBCore:Notify", id, `You were sent to prison for ${time} months`);
+            emitNet("police:client:SendToJail", id, parseInt(time));
+            emitNet("QBCore:Notify", id, `You were sent to prison for ${time} months`);
             client.utils.log.info(`[${interaction.member.displayName}] jailed ${GetPlayerName(id)} (${id}) for ${time} seconds`);
             return interaction.reply({ content: `${GetPlayerName(id)} (${id}) was jailed for ${time} months.`, ephemeral: false });
         } else if (subcommand === "free") {
-            TriggerClientEvent("prison:client:UnjailPerson", id);
+            emitNet("prison:client:UnjailPerson", id);
             client.utils.log.info(`[${interaction.member.displayName}] freed ${GetPlayerName(id)} (${id}) from jail`);
             return interaction.reply({ content: `${GetPlayerName(id)} (${id}) was set free`, ephemeral: false });
         }

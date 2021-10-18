@@ -35,7 +35,7 @@ module.exports = {
     run: async (client, interaction, args) => {
         const [ id ] = args;
         if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        TriggerClientEvent("hospital:client:Revive", id);
+        emitNet("hospital:client:Revive", id);
         client.utils.log.info(`[${interaction.member.displayName}] revived ${GetPlayerName(id)} (${id})`);
         return interaction.reply({ content: `${GetPlayerName(id)} (${id}) has been fully healed.`, ephemeral: false });
     },

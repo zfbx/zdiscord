@@ -34,7 +34,7 @@ module.exports = {
 
     run: async (client, interaction, args) => {
         const [ message ] = args;
-        TriggerClientEvent("chatMessage", -1, client.locale.announcement, "error", message);
+        emitNet("chatMessage", -1, client.locale.announcement, "error", message);
         client.utils.log.info(`[${interaction.member.displayName}] Announcement: ${message}`);
         interaction.reply({ content: "Announcement Sent", ephemeral: false });
     },

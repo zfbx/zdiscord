@@ -36,7 +36,6 @@ module.exports = {
             if (client.QBCore) {
                 try {
                     const player = client.QBCore.Functions.GetPlayer(parseInt(id));
-                    console.log(player);
                     parts[i] += ` | (${player.PlayerData.citizenid}) **${player.PlayerData.charinfo.firstname} ${player.PlayerData.charinfo.lastname}**\n`;
                 } catch { parts[i] += " (Not yet loaded)\n"; }
             } else { parts[i] += "\n"; }
