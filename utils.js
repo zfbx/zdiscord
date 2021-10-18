@@ -115,7 +115,7 @@ const log = {
      * @param {string|object} err - error to process */
     handler: (type, err) => {
         const e = err.toString();
-        if (e.includes("[DISALLOWED_INTENTS]")) log.error("YOU DIDN'T ENABLE INTENTS - go back to the zdiscord readme.md and read the section under 'setup'");
+        if (e.includes("[DISALLOWED_INTENTS]")) log.error(`YOU DIDN'T ENABLE INTENTS - go back to the ${GetCurrentResourceName()} readme.md and read the section under "setup"`);
         else if (e.includes("[TOKEN_INVALID]")) log.error("YOUR DISCORD API TOKEN IS INVALID OR REVOKED - GENERATE A NEW ONE AND UPDATE THE CONFIG");
         else if (e.includes("[HeartbeatTimer]")) return;
         else if (e.includes("Heartbeat acknowledged")) return;

@@ -35,7 +35,7 @@ module.exports = {
     run: async (client, interaction, args) => {
         const [ id ] = args;
         if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        TriggerClientEvent("zdiscord:kill", id);
+        TriggerClientEvent(`${GetCurrentResourceName()}:kill`, id);
         client.utils.log.info(`[${interaction.member.displayName}] Killed ${GetPlayerName(id)} (${id})`);
         return interaction.reply({ content: `${GetPlayerName(id)} (${id}) has been murdered.`, ephemeral: false });
     },

@@ -17,7 +17,7 @@
  - along with zdiscord. If not, see <https://www.gnu.org/licenses/>.
 --]]
 
-RegisterNetEvent('zdiscord:kill', function()
+RegisterNetEvent(GetCurrentResourceName()..':kill', function()
     SetEntityHealth(PlayerPedId(), 0)
 end)
 
