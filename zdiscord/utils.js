@@ -110,13 +110,19 @@ const log = {
         return cleaned;
     },
 
-    /** Special case error handler for zdiscord specifc errors
+    /** Special case log handler for zdiscord specifc logs
+     *  Or just outright void spammy logging (heartbeats)
      * @param {string|object} err - error to process */
-    handler: (err) => {
+    handler: (type, err) => {
         const e = err.toString();
         if (e.includes("[DISALLOWED_INTENTS]")) log.error("YOU DIDN'T ENABLE INTENTS - GO BACK TO THE ZDISCORD README FOR INSTRUCTIONS HOW TO DO SO.");
         else if (e.includes("[TOKEN_INVALID]")) log.error("YOUR DISCORD API TOKEN IS INVALID OR REVOKED - GENERATE A NEW ONE AND UPDATE THE CONFIG");
-        else log.error(e);
+        else if (e.includes("[HeartbeatTimer]")) return;
+        else if (e.includes("Heartbeat acknowledged")) return;
+        else if (type === "error") log.error(e);
+        else if (type === "warn") log.warn(e);
+        else if (type === "info") log.info(e);
+        else log.log(e);
     },
 
     /** Special case error handler for zdiscord specifc errors

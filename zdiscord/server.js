@@ -67,11 +67,11 @@ for (const file of eventFiles) {
 }
 
 // Uncomment for discord.js debugging
-// client.on("debug", (debug) => client.utils.log.log(debug));
-client.on("warn", (warning) => client.utils.log.warn(warning));
-client.on("error", (error) => client.utils.log.handler(error));
+// client.on("debug", (debug) => client.utils.log.handler("log", debug));
+client.on("warn", (warning) => client.utils.log.handler("warn", warning));
+client.on("error", (error) => client.utils.log.handler("error", error));
 
-client.login(config.token).catch((e) => client.utils.log.handler(e));
+client.login(config.token).catch((e) => client.utils.log.handler("error", e));
 
 on("playerConnecting", async (name, setKickReason, deferrals) => {
     if (!config.enableWhitelist) return;
