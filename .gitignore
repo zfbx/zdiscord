@@ -1,7 +1,5 @@
 node_modules
-yarn.lock
 .yarn.installed
-package-lock.json
 
 # Logs
 logs
