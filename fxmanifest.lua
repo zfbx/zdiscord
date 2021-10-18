@@ -31,5 +31,5 @@ server_script "server.js"
 client_script "client.lua"
 
 dependencies {
-    '/server:4780', -- Node16+
+    '/server:4800', -- Node16+
 }
