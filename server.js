@@ -118,6 +118,6 @@ exports("isRolePresent", async (discordID, role) => {
         });
         return { found: (found ? true : false), roles: member.roles };
     } else {
-        return { found: (member.roles.cache.has(role) ? true : false), roles: member.roles.cache.map() };
+        return { found: member.roles.cache.has(role), roles: member.roles.cache.map() };
     }
 });

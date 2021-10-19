@@ -200,7 +200,7 @@ const parseConfigBool = (value) => {
     if (typeof value == "string") {
         const trues = ["true", "t", "tru", "on", "yes", "y", "1", "si", "oui", "ja", "da"];
         const val = value.toLocaleLowerCase().trim();
-        return trues.includes(val) ? true : false;
+        return trues.includes(val);
     }
     if (typeof value == "number") return value > 0;
     return false;
