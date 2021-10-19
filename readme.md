@@ -2,7 +2,7 @@
 
 A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and utilties using [discord.js](https://discord.js.org/). The goal is for this this resource to be easy to setup and expand upon while giving your staff team an easy method of support and moderation of players in game without actually launching FiveM. This resource also heavily support [QBCore](https://github.com/qbcore-framework) in most of it's functionality but it's not required
 
-[Setup](#setup) | [Donate](#donate) | [License](#license) | [FAQ](https://github.com/zfbx/zdiscord/wiki/FAQ)
+[Setup](#setup) | [Donate](#donate) | [License](#license) | [FAQ](https://github.com/zfbx/zdiscord/wiki/FAQ) | [Support](#support)
 
 ## Features
 
@@ -41,6 +41,16 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 - pl - Polish - By insaneArian
 - vn - Vietnamese - By xenfovn
 - ar - Arabic - By RadhwaneDZ
+
+## Support
+
+*Please note we only support the official, free and open source, [QBCore](https://github.com/qbcore-framework) framework and not old "qbus" or paid copies of QBCore*
+
+If you have any errors or problems please first check:
+- [Frequently Asked Questions](https://github.com/zfbx/zdiscord/wiki)
+- [Github Issues](https://github.com/zfbx/zdiscord/issues?q=)
+
+If neither of those solve your problem [Open a ticket](https://github.com/zfbx/zdiscord/issues/new/choose) or message me on [Discord](https://discord.gg/M6neBU3cvP) (My name is Tony#1275 on discord)
 
 
 ## Donate
