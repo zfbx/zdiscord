@@ -1,11 +1,14 @@
-# zdiscord
+# zdiscord (v4)
+
+
+**Note: this is an older and slightly less focused build of zdiscord built around the eris discord framework. Future work will be put into the djs branch which is built around the discord.js framework and uses slash commands. if you are running FiveM artifacts before 4800 you will have to stick with this version**
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge&logo=opensourceinitiative)](https://opensource.org/licenses/MIT)
 [![Donate on PayPal](https://img.shields.io/badge/Donate-PayPal-%2300457C?style=for-the-badge&logo=paypal)](https://paypal.me/zfbx)
 [![Sub on Patreon](https://img.shields.io/badge/Support-Patreon-%23FF424D?style=for-the-badge&logo=patreon)](https://www.patreon.com/zfbx)
 [![Buy Me a Pizza](https://img.shields.io/badge/Pizza-BuyMeACoffee-%23FFDD00?style=for-the-badge&logo=buymeacoffee)](https://www.buymeacoffee.com/zfbx)
 
-A Discord whitelist (allowlist) and moderation tool
+A Discord whitelist (allowlist) and moderation tool 
 
 I've not seen many decent whitelist systems out there that connect with discord and the good ones seem to use oauth but I wanted more.. specifically I wanted to be able to have a full blown bot built in and be able to have bi-directional communication between the server and discord, so here it is!
 
