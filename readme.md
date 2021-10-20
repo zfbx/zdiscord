@@ -9,10 +9,11 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 - Standalone FiveM resource (no external hosting required)
 - Uses [Slash commands](https://support.discord.com/hc/en-us/articles/1500000368501-Slash-Commands-FAQ) with help/suggestions
 - Moderation tools (kick, ban, inspect, etc)
-- [QBCore](https://github.com/qbcore-framework) commands included!
-- Send server wide announcements from a command in discord
-- Easy to expand and customize with modular commands!
-- Can be configured with convars
+- [QBCore](https://github.com/qbcore-framework) [commands](./docs/commands.md) included!
+- Easy to expand and customize with modular [commands](./docs/commands.md#add-commands)!
+- Can be configured with [convars](./docs/convars.md)
+- Automatic Ace Permission granting system
+- [Helpful exports](./docs/exports.md)
 
 ## Setup
 
