@@ -34,11 +34,13 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 
 5. Make sure you have the [cfx-server-data](https://github.com/citizenfx/cfx-server-data) resource in your resources (at the very least you need `[system]/[builders]/yarn/`)
 
-2. Add `ensure zdiscord` (or whatever you renamed it to) to your server's .cfg
+6. In your `server.cfg` do the following:<br>
+    6a. Add `ensure zdiscord` (after qb-core and/or [convars](./docs/convars.md) you may have)<br>
+    6b. Add `add_ace resource.zdiscord command allow` anywhere in the .cfg file
 
-3. Adjust the `config.js` variables to how you'd like them. (Optionally use [Convars](./docs/convars.md))
+7. Adjust the `config.js` variables to how you'd like them. (Optionally use [Convars](./docs/convars.md))
 
-4. **If you missed step 2, go back and do it.. or else IT WONT WORK!**
+8. **If you missed step 2, go back and do it.. or else IT WONT WORK!**
 
 ## Docs
 
