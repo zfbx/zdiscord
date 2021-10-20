@@ -13,4 +13,4 @@ show_excerpts: false # set to true to show excerpts on the homepage
 # - about.md
 
 # Build settings
-theme: zfbx/zfbx-jekyll-template
+remote_theme: sighingnow/jekyll-gitbook
