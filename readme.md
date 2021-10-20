@@ -1,8 +1,14 @@
 # zdiscord (v5)
 
+**Note: This version of zdiscord REQUIRES FiveM artifacts 4800 or newer, if you're running an earlier version you might want to checkout the [v4 eris branch](https://github.com/zfbx/zdiscord/tree/eris) instead**
+
+[Setup](#setup) | [Donate](#donate) | [License](#license) | [FAQ](https://github.com/zfbx/zdiscord/wiki/FAQ) | [Support](#support) | [Docs](#docs)
+
+## About
+
 A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and utilties using [discord.js](https://discord.js.org/). The goal is for this this resource to be easy to setup and expand upon while giving your staff team an easy method of support and moderation of players in game without actually launching FiveM. This resource also heavily support [QBCore](https://github.com/qbcore-framework) in most of it's functionality but it's not required
 
-[Setup](#setup) | [Donate](#donate) | [License](#license) | [FAQ](https://github.com/zfbx/zdiscord/wiki/FAQ) | [Support](#support)
+
 
 ## Features
 
@@ -34,6 +40,12 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 
 4. **If you missed step 2, go back and do it.. or else IT WONT WORK!**
 
+## Docs
+
+Documentation is fairly slim for zdiscord but a lot of concepts are covered in the [docs folder](./docs/)
+- [Commands](./docs/commands.md)
+- [Exports](./docs/exports.md)
+- [Convars](./docs/convars.md)
 
 ## Languages
 
