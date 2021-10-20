@@ -34,7 +34,9 @@ module.exports = {
 
     run: async (client, interaction, args) => {
         const [ message ] = args;
-        emitNet("chatMessage", -1, client.locale.announcement, "error", message);
+        emitNet("chat:addMessage", -1, {
+            template: `<div class=chat-message server'><strong>${client.locale.announcement}:</strong> ${message}</div>`,
+        });
         client.utils.log.info(`[${interaction.member.displayName}] Announcement: ${message}`);
         interaction.reply({ content: "Announcement Sent", ephemeral: false });
     },
