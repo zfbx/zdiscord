@@ -32,4 +32,5 @@ client_script "client.lua"
 
 dependencies {
     '/server:4800', -- Node16+
+    'yarn',
 }
