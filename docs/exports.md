@@ -44,7 +44,7 @@ const roles = global.exports.zdiscord.getRoles("142831624868855808");
 local roles = exports.zdiscord:getRoles(source);
 
 -- Discord ID
-local rooles = exports.zdiscord:getRoles("142831624868855808");
+local roles = exports.zdiscord:getRoles("142831624868855808");
 ```
 
 
@@ -54,16 +54,16 @@ Returns an string containing the discord name/nickname for a discord id or sourc
 ```js
 // JAVASCRIPT EXAMPLE
 // Source
-const roles = global.exports.zdiscord.getName(global.source);
+const name = global.exports.zdiscord.getName(global.source);
 
 // Discord ID
-const roles = global.exports.zdiscord.getName("142831624868855808");
+const name = global.exports.zdiscord.getName("142831624868855808");
 ```
 ```lua
 -- LUA EXAMPLE
 -- Source
-local roles = exports.zdiscord:getName(source);
+local name = exports.zdiscord:getName(source);
 
 -- Discord ID
-local rooles = exports.zdiscord:getName("142831624868855808");
+local name = exports.zdiscord:getName("142831624868855808");
 ```
