@@ -49,6 +49,19 @@ const BotStatusMessages = [
     "{{playercount}} online",
 ];
 
+// Enable the AutoAcePermissions function config below
+const EnableAutoAcePermissions = "false";
+
+// Automatically assign Ace permissions to set roles on login
+// "AcePermission(no spaces)": "DiscordRoleId",
+const AutoAcePermissions = {
+    "group.god": DiscordGodRoleId,
+    "group.admin": DiscordAdminRoleId,
+    "group.mod": DiscordModRoleId,
+    // "example": "000000000000000000",
+    // "example2": [ "000000000000000000", "000000000000000000"],
+};
+
 /** !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * !! DO NOT EDIT BELOW THIS LINE UNLESS YOU KNOW WHAT YOU'RE DOING !!
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
@@ -67,4 +80,6 @@ module.exports = {
     godRole: GetConvar("discord_god_role", DiscordGodRoleId),
     whitelistRoles: GetConvar("discord_whitelist_roles", DiscordWhitelistRoleIds),
     statusMessages: BotStatusMessages,
+    enableaceperms: GetConvar("discord_enable_ace_perms", EnableAutoAcePermissions),
+    aceperms: AutoAcePermissions,
 };

@@ -19,10 +19,11 @@
 
 const util = require("util");
 
+
 /** Get player identifiers as an object
  * @param {number} id - Player ID to get identifiers from
  * @returns {object} - object of returned identifiers */
-exports.getPlayerIdentifiers = (id) => {
+const getPlayerIdentifiers = (id) => {
     const ids = {};
     for (let i = 0; i < GetNumPlayerIdentifiers(id); i++) {
         const identifier = GetPlayerIdentifier(id, i).split(":");
@@ -30,6 +31,88 @@ exports.getPlayerIdentifiers = (id) => {
     }
     return ids;
 };
+exports.getPlayerIdentifiers = getPlayerIdentifiers;
+
+/** Get player's discord id from source
+ * @param {number} id - Player ID to get identifiers from
+ * @returns {string|boolean} - discord id or false */
+const getPlayerDiscordId = (id) => {
+    const ids = getPlayerIdentifiers(id);
+    return ids["discord"] || false;
+};
+exports.getPlayerDiscordId = getPlayerDiscordId;
+
+
+/** Get discord member object by userid
+ * @param {object} client - discord client
+ * @param {number} userid - discordid
+ * @returns {object|boolean} - discord member or false */
+const getMember = (client, userid) => {
+    const guild = client.guilds.cache.get(client.config.guildid);
+    if (!guild) {
+        client.utils.log.error("Failed to fetch Discord server.");
+        return false;
+    }
+    return guild.members.cache.get(userid) || false;
+};
+exports.getMember = getMember;
+
+
+/** Get discord member object by source
+ * @param {object} client - discord client
+ * @param {number} id - Player ID / source
+ * @returns {object|boolean} - discord member or false */
+const getMemberFromSource = (client, id) => {
+    const ids = getPlayerIdentifiers(id);
+    if (!ids.discord) return false;
+    return getMember(client, ids.discord);
+};
+exports.getMemberFromSource = getMemberFromSource;
+
+
+/** take any sort of identifier and try to parse a discord member from it
+ * @param {object} client - discord client
+ * @param {number|string|object} member - source | discordid | member object
+ * @returns {object|boolean} - discord member or false */
+const parseMember = (client, member) => {
+    if (typeof member === "number") {
+        return getMemberFromSource(client, member);
+    } else if (typeof member === "string") {
+        return getMember(client, member);
+    } else { return member || false; }
+};
+exports.parseMember = parseMember;
+
+
+/** Returns true if a role is found by id or array of ids
+ * @param {object} client - discord client
+ * @param {number|object|string} member - source | member | discordid
+ * @param {string|object} role - Role ID or Role IDs
+ * @returns {boolean} - true if role was found, false otherwise */
+exports.isRolePresent = (client, member, role) => {
+    member = parseMember(client, member);
+    if (!member) return false;
+    if (typeof role === "object") {
+        let found = false;
+        role.forEach(function(item) {
+            if (member.roles.cache.has(item)) found = true;
+        });
+        return found;
+    } else {
+        return member.roles.cache.has(role);
+    }
+};
+
+/** get array of discord member roles by id
+ * @param {object} client - discord client
+ * @param {number|object|string} member - source | member | discordid
+ * @returns {Array} - array of role ids */
+exports.getMemberRoles = (client, member) => {
+    member = parseMember(client, member);
+    if (!member) return [];
+    return member.roles.cache.map(r => r.id);
+};
+
 
 /** Await a set number of miliseconds as a promise for clean 1 line pauses
  * @param {number} ms - number of miliseconds to wait
@@ -38,12 +121,14 @@ exports.sleep = (ms) => {
     return new Promise(resolve => setTimeout(resolve, ms));
 };
 
+
 /** Capitalize the first character of a string
  * @param {string} string - a word or sentence
  * @returns {string} - same sentence with first character uppercase */
 exports.uppercaseFirstLetter = (string) => {
     return `${string[0].toUpperCase()}${string.slice(1)}` || "";
 };
+
 
 /** Replaces common global variables: {{servername}} {{invite}} {{playercount}}
  * @param {string} string - string to be converted
@@ -54,6 +139,7 @@ exports.replaceGlobals = (string) => {
         .replace(/{{invite}}/g, config.discordInvite)
         .replace(/{{playercount}}/g, GetNumPlayerIndices());
 };
+
 
 /** Logging class for a cleaner console logging experience */
 const log = {
@@ -136,6 +222,7 @@ const log = {
 };
 exports.log = log;
 
+
 const { MessageActionRow, MessageEmbed, MessageButton } = require("discord.js");
 /**
  * Creates a pagination embed
@@ -181,6 +268,7 @@ const paginationEmbed = async (interaction, pages, buttonList, timeout = 120000)
 };
 exports.paginationEmbed = paginationEmbed;
 
+
 // LOCAL FUNCTIONS FOR INIT()
 
 /** Explode list of elements in a string seperated by comma into an array
@@ -213,6 +301,7 @@ exports.init = (config) => {
     config.enableWhitelist = parseConfigBool(config.enableWhitelist);
     config.enableCommands = parseConfigBool(config.enableCommands);
     config.enableStatus = parseConfigBool(config.enableStatus);
+    config.enableaceperms = parseConfigBool(config.enableaceperms);
 
     const mod = { id: config.modRole, type: 1, permission: true };
     const admin = { id: config.adminRole, type: 1, permission: true };

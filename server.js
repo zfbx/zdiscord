@@ -79,45 +79,46 @@ on("playerConnecting", async (name, setKickReason, deferrals) => {
     deferrals.defer();
     await utils.sleep(0);
     deferrals.update(client.utils.replaceGlobals(locale.checkingWhitelist.replace(/{{name}}/g, name)));
-
-    let discordID = null;
-    for (let i = 0; i < GetNumPlayerIdentifiers(player); i++) {
-        const id = GetPlayerIdentifier(player, i);
-        if (id.includes("discord:")) discordID = id.slice(8);
-    }
     await utils.sleep(0);
-    if (discordID === null) return deferrals.done(client.utils.replaceGlobals(locale.discordNotOpen));
-    const guild = client.guilds.cache.get(config.guildid);
-    if (!guild) {
-        client.utils.log.error(`Something went wrong fetching the Discord server for whitelist checking using guild id: ${config.guildid}`);
-        return deferrals.done(client.utils.replaceGlobals(locale.fatalError));
-    }
-    const member = guild.members.cache.get(discordID);
+    const discordID = utils.getPlayerDiscordId(player);
+    if (!discordID) return deferrals.done(client.utils.replaceGlobals(locale.discordNotOpen));
+    const member = utils.getMember(client, discordID);
     if (!member) return deferrals.done(client.utils.replaceGlobals(locale.notInDiscordServer));
-    let whitelisted = false;
-    config.whitelistRoles.forEach(function(item) {
-        if (member.roles.cache.has(item)) whitelisted = true;
-    });
+    const whitelisted = utils.isRolePresent(client, member, config.whitelistRoles);
     if (whitelisted) deferrals.done();
     else deferrals.done(client.utils.replaceGlobals(locale.notWhitelisted));
 });
 
-exports("isRolePresent", async (discordID, role) => {
-    if (discordID.includes("discord:")) discordID = id.slice(8);
-    const guild = client.guilds.cache.get(config.guildid);
-    if (!guild) {
-        client.utils.log.error(`Something went wrong fetching the Discord server for whitelist checking using guild id: ${config.guildid}`);
-        return { found: false, roles: [] };
+global.exports("isRolePresent", (identifier, role) => {
+    return utils.isRolePresent(client, identifier, role);
+});
+
+global.exports("getRoles", (identifier) => {
+    return utils.getMemberRoles(client, identifier);
+});
+
+global.exports("getName", (identifier) => {
+    const member = utils.parseMember(client, identifier);
+    return member.displayName || false;
+});
+
+on("playerJoining", (oldId) => {
+    const source = global.source;
+    if (config.enableaceperms) {
+        const member = utils.getMemberFromSource(client, source);
+        for (const [perm, role] of Object.entries(config.aceperms)) {
+            if (utils.isRolePresent(client, member, role)) {
+                ExecuteCommand(`add_principal "player.${source}" "${perm}"`);
+            }
+        }
     }
-    const member = guild.members.cache.get(discordID);
-    if (!member) return { found: false, roles: [] };
-    if (typeof role === "object") {
-        let found = false;
-        role.forEach(function(item) {
-            if (member.roles.cache.has(item)) found = true;
-        });
-        return { found: (found ? true : false), roles: member.roles };
-    } else {
-        return { found: member.roles.cache.has(role), roles: member.roles.cache.map() };
+});
+
+on("playerDropped", (reason) => {
+    const source = global.source;
+    if (config.enableaceperms) {
+        for (const [perm, role] of Object.entries(config.aceperms)) {
+            ExecuteCommand(`remove_principal "player.${source}" "${perm}"`);
+        }
     }
 });

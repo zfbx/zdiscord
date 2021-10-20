@@ -1,5 +1,10 @@
 ## Change log
 
+**5.0.1 - Exports and ace perms**
+
+- Automatic Ace permission granting by discord role
+- new and changed exports for checking if role exist and getting roles
+
 **5.0.0 - Hello discord.js! & Much much more.**
 
 *It should be noted, this is essentially a complete rewrite of the resource and should probably be treated as such.*
