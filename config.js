@@ -62,6 +62,12 @@ const AutoAcePermissions = {
     // "example2": [ "000000000000000000", "000000000000000000"],
 };
 
+/* If true, using the /screenshot command will save the files taken to a folder in zdiscord.
+   * If you use this, please keep in mind screenshots will take up more space over time
+   so make sure to move or delete them on a regular basis if the command gets used regularly. */
+const saveScreenshotsToServer = "false";
+
+
 /** !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * !! DO NOT EDIT BELOW THIS LINE UNLESS YOU KNOW WHAT YOU'RE DOING !!
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!*/
@@ -71,15 +77,39 @@ module.exports = {
     lang: GetConvar("discord_lang", LanguageLocaleCode),
     serverName: GetConvar("discord_server_name", YourFiveMServerName),
     discordInvite: GetConvar("discord_invite", DiscordInviteLink),
-    enableWhitelist: GetConvar("discord_enable_whitelist", EnableWhitelistChecking),
-    enableCommands: GetConvar("discord_enable_commands", EnableDiscordSlashCommands),
-    enableStatus: GetConvar("discord_enable_status", EnableBotStatusMessages),
+    enableWhitelist: getConBool("discord_enable_whitelist", EnableWhitelistChecking),
+    enableCommands: getConBool("discord_enable_commands", EnableDiscordSlashCommands),
+    enableStatus: getConBool("discord_enable_status", EnableBotStatusMessages),
     guildid: GetConvar("discord_guild_id", DiscordGuildId),
     modRole: GetConvar("discord_mod_role", DiscordModRoleId),
     adminRole: GetConvar("discord_admin_role", DiscordAdminRoleId),
     godRole: GetConvar("discord_god_role", DiscordGodRoleId),
-    whitelistRoles: GetConvar("discord_whitelist_roles", DiscordWhitelistRoleIds),
+    whitelistRoles: getConList("discord_whitelist_roles", DiscordWhitelistRoleIds),
     statusMessages: BotStatusMessages,
-    enableaceperms: GetConvar("discord_enable_ace_perms", EnableAutoAcePermissions),
+    enableaceperms: getConBool("discord_enable_ace_perms", EnableAutoAcePermissions),
     aceperms: AutoAcePermissions,
+    saveScreenshots: getConBool("discord_save_screenshots", saveScreenshotsToServer),
 };
+
+/** Returns convar or default value fixed to a true/false boolean
+ * @param {boolean|string|number} con - Convar name
+ * @param {boolean|string|number} def - Default fallback value
+ * @returns {boolean} - parsed bool */
+function getConBool(con, def) {
+    const ret = GetConvar(con, def);
+    if (typeof ret == "boolean") return ret;
+    if (typeof ret == "string") return ["true", "on", "yes", "y", "1"].includes(ret.toLocaleLowerCase().trim());
+    if (typeof ret == "number") return ret > 0;
+    return false;
+}
+
+/** returns array of items or default array provided
+ * @param {string} con - string of comma seperated values
+ * @param {string|Array} def - string of comma seperated values
+ * @returns {object} - array of discord ids */
+function getConList(con, def) {
+    const ret = GetConvar(con, def);
+    if (typeof ret == "string") return ret.replace(/[^0-9,]/g, "").replace(/(,$)/g, "").split(",");
+    if (Array.isArray(ret)) return ret;
+    if (!ret) return [];
+}

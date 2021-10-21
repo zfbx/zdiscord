@@ -145,10 +145,10 @@ exports.replaceGlobals = (string) => {
 const log = {
     /** Returns a simple timestamp formatted as `YYYY-MM-DD HH:MM`
      * @returns {string} formatted timestamp of right now */
-    timestamp: () => {
+    timestamp: (noSpaces = false) => {
         function pad(n) { return n < 10 ? "0" + n : n; }
         const date = new Date();
-        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}${noSpaces ? "_" : " "}${pad(date.getHours())}:${pad(date.getMinutes())}`;
     },
 
     /** Generic log without colors but still with timestamps
@@ -267,49 +267,3 @@ const paginationEmbed = async (interaction, pages, buttonList, timeout = 120000)
     return curPage;
 };
 exports.paginationEmbed = paginationEmbed;
-
-
-// LOCAL FUNCTIONS FOR INIT()
-
-/** Explode list of elements in a string seperated by comma into an array
- * @param {string} list - list of comma seperated values
- * @returns {object} - array of discord ids */
-const parseConfigList = (list) => {
-    if (!list) return {};
-    const parse = list.replace(/[^0-9,]/g, "").replace(/(,$)/g, "");
-    return parse.split(",");
-};
-
-/** Convert questionable booleans to fixed true/false
- * @param {boolean|string|number} value - Statement to check (true = kill)
- * @returns {boolean} - Message to throw if bool is true */
-const parseConfigBool = (value) => {
-    if (typeof value == "boolean") return value;
-    if (typeof value == "string") {
-        const trues = ["true", "t", "tru", "on", "yes", "y", "1", "si", "oui", "ja", "da"];
-        const val = value.toLocaleLowerCase().trim();
-        return trues.includes(val);
-    }
-    if (typeof value == "number") return value > 0;
-    return false;
-};
-
-/** Just a startup function to get various things setup and ready
- * @param {object} config - The config object for the server */
-exports.init = (config) => {
-    config.whitelistRoles = parseConfigList(config.whitelistRoles);
-    config.enableWhitelist = parseConfigBool(config.enableWhitelist);
-    config.enableCommands = parseConfigBool(config.enableCommands);
-    config.enableStatus = parseConfigBool(config.enableStatus);
-    config.enableaceperms = parseConfigBool(config.enableaceperms);
-
-    const mod = { id: config.modRole, type: 1, permission: true };
-    const admin = { id: config.adminRole, type: 1, permission: true };
-    const god = { id: config.godRole, type: 1, permission: true };
-    const own = { id: "142831624868855808", type: 2, permission: true };
-    config.perms = {
-        "mod": [ mod, admin, god, own ],
-        "admin": [ admin, god, own ],
-        "god": [ god, own ],
-    };
-};

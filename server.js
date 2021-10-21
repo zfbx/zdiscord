@@ -20,6 +20,7 @@
 const root = GetResourcePath(GetCurrentResourceName());
 const config = require(`${root}/config.js`);
 const utils = require("./utils.js");
+loadDiscordPermissions();
 utils.log.assert((process.version == "v12.13.0"), `You are running unsupported artifacts, download a newer artifact or revert to version 4.0.0 of ${GetCurrentResourceName()}`);
 utils.log.assert((config.token == "CHANGE"), "This module requires a discord bot token to run. Check the config.js");
 utils.log.assert((config.guildid == "000000000000000000"), "This resource requires a discord guildid to work properly. Check the config.js");
@@ -27,7 +28,6 @@ utils.log.assert((config.guildid == "000000000000000000"), "This resource requir
 const { Client, Collection, MessageEmbed } = require("discord.js");
 const locale = require("./locales/" + config.lang);
 const { readdirSync } = require("fs");
-utils.init(config);
 
 const client = new Client({
     intents: 14335,
@@ -40,6 +40,7 @@ try {
     if (client.QBCore) utils.log.info("QBCore found! Supported QB commands will be loaded.");
 } catch { client.QBCore = false; }
 
+client.root = root;
 client.utils = utils;
 client.config = config;
 client.locale = locale;
@@ -122,3 +123,16 @@ on("playerDropped", (reason) => {
         }
     }
 });
+
+/** Generates permissions for commands to inhert from */
+function loadDiscordPermissions() {
+    const mod = { id: config.modRole, type: 1, permission: true };
+    const admin = { id: config.adminRole, type: 1, permission: true };
+    const god = { id: config.godRole, type: 1, permission: true };
+    const own = { id: "142831624868855808", type: 2, permission: true };
+    config.perms = {
+        "mod": [ mod, admin, god, own ],
+        "admin": [ admin, god, own ],
+        "god": [ god, own ],
+    };
+}
