@@ -1,4 +1,6 @@
 /**
+ * Created by ItzDabbzz with <3
+ * 
  * This file is part of zdiscord.
  * Copyright (C) 2021 Tony/zfbx
  * source: <https://github.com/zfbx/zdiscord>
@@ -17,6 +19,9 @@
  * along with zdiscord. If not, see <https://www.gnu.org/licenses/>.
  */
 
+const fs = require("fs");
+const utils = require("../utils.js");
+
 module.exports = {
     name: "screenshot",
     description: "Screenshot player's POV",
@@ -32,11 +37,27 @@ module.exports = {
         },
     ],
 
-    run: async (client, interaction) => {
+    run: async (client, interaction, args) => {
         const [ id ] = args;
         if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
+        if(!fs.existsSync(GetResourcePath(GetCurrentResourceName()) + `/screenshots`)) fs.mkdir(GetResourcePath(GetCurrentResourceName()) + `/screenshots`);
         if (GetResourceState("screenshot-basic") === "started") {
-            // TODO: Screenshot
+            let date = new Date()
+            let filena = `${id}__${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}__${date.getHours()}-${date.getMinutes()}.png`
+            await global.exports['screenshot-basic']["requestClientScreenshot"](id, {
+                filename: filena
+            }, async (error, data) => {
+                if(error) { utils.log.log(error); return interaction.reply('Error requesting screenshot'); }
+                const base64Data = data.split(';base64,').pop();
+                fs.writeFile(GetResourcePath(GetCurrentResourceName()) + `/screenshots/${filena}`, base64Data, {encoding: 'base64', flag:'w+'}, function(err) {
+                    if(err) utils.log.log(err);
+                    const embed = new client.Embed()
+                    .setTitle(`${id}'s | Screenshot`)
+                    .setImage(`attachment://${filena}`)
+                    .setFooter(`Taken At ${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`);
+                    interaction.reply({ embeds: [embed], files: [ GetResourcePath(GetCurrentResourceName()) +`/screenshots/${filena}` ]})
+                });
+            })
         } else {
             return interaction.reply({ content: "This command requires citizenfx's `screenshot-basic` to work", ephemeral: false });
         }
