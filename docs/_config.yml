@@ -14,3 +14,5 @@ show_excerpts: false # set to true to show excerpts on the homepage
 
 # Build settings
 remote_theme: sighingnow/jekyll-gitbook
+
+theme: jekyll-theme-cayman
