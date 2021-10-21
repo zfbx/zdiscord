@@ -1,6 +1,6 @@
 /**
  * Created by ItzDabbzz with <3
- * 
+ *
  * This file is part of zdiscord.
  * Copyright (C) 2021 Tony/zfbx
  * source: <https://github.com/zfbx/zdiscord>
@@ -18,6 +18,9 @@
  * You should have received a copy of the GNU General Public License
  * along with zdiscord. If not, see <https://www.gnu.org/licenses/>.
  */
+
+const fs = require("fs").promises;
+const Buffer = require("buffer").Buffer;
 
 module.exports = {
     name: "screenshot",
@@ -37,26 +40,32 @@ module.exports = {
     run: async (client, interaction, args) => {
         const [ id ] = args;
         if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        if(!require("fs").existsSync(GetResourcePath(GetCurrentResourceName()) + `/screenshots`)) fs.mkdir(GetResourcePath(GetCurrentResourceName()) + `/screenshots`);
-        if (GetResourceState("screenshot-basic") === "started") {
-            let date = new Date()
-            let filena = `${id}__${date.getMonth()+1}-${date.getDate()}-${date.getFullYear()}__${date.getHours()}-${date.getMinutes()}.png`
-            await global.exports['screenshot-basic']["requestClientScreenshot"](id, {
-                filename: filena
-            }, async (error, data) => {
-                if(error) { client.utils.log.log(error); return interaction.reply('Error requesting screenshot'); }
-                const base64Data = data.split(';base64,').pop();
-                require("fs").writeFile(GetResourcePath(GetCurrentResourceName()) + `/screenshots/${filena}`, base64Data, {encoding: 'base64', flag:'w+'}, function(err) {
-                    if(err) client.utils.log.log(err);
-                    const embed = new client.Embed()
-                    .setTitle(`${id}'s | Screenshot`)
-                    .setImage(`attachment://${filena}`)
-                    .setFooter(`Taken At ${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`);
-                    interaction.reply({ embeds: [embed], files: [ GetResourcePath(GetCurrentResourceName()) +`/screenshots/${filena}` ]})
-                });
-            })
-        } else {
-            return interaction.reply({ content: "This command requires citizenfx's `screenshot-basic` to work", ephemeral: false });
+        if (GetResourceState("screenshot-basic") !== "started") return interaction.reply({ content: "This command requires citizenfx's `screenshot-basic` to work", ephemeral: false });
+        await interaction.reply("Taking screenshot..");
+        const name = `${client.utils.log.timestamp(true)}_${id}.jpg`;
+        const data = await takeScreenshot(id).catch(error => {
+            client.utils.log.error(error);
+            return interaction.editReply("**Error requesting screenshot**");
+        });
+        const buffer = new Buffer.from(data, "base64");
+        const embed = new client.Embed()
+            .setTitle(`${GetPlayerName(id)}'s Screen`)
+            .setImage(`attachment://${name}`)
+            .setFooter(`Taken At ${client.utils.log.timestamp()}`);
+        await interaction.editReply({ content: null, embeds: [ embed ], files: [ { attachment: buffer, name: name } ] }).catch(console.error);
+        if (client.config.saveScreenshots) {
+            await fs.mkdir(`${client.root}/screenshots`, { recursive: true }).catch();
+            await fs.writeFile(`${client.root}/screenshots/${name}`, data, { encoding: "base64", flag:"w+" }).catch(client.utils.log.error);
         }
+        return client.utils.log.info(`[${interaction.member.displayName}] Took a screenshot of ${GetPlayerName(id)}'s (${id}) screen`);
     },
+};
+
+const takeScreenshot = async (id) => {
+    return new Promise((resolve, reject) => {
+        global.exports["screenshot-basic"]["requestClientScreenshot"](id, {}, async (error, data) => {
+            if (error) return reject(error);
+            resolve(data.split(";base64,").pop());
+        });
+    });
 };

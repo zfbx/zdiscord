@@ -148,7 +148,7 @@ const log = {
     timestamp: (noSpaces = false) => {
         function pad(n) { return n < 10 ? "0" + n : n; }
         const date = new Date();
-        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}${noSpaces ? "_" : " "}${pad(date.getHours())}:${pad(date.getMinutes())}`;
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}${noSpaces ? "_" : " "}${pad(date.getHours())}${noSpaces ? "-" : ":"}${pad(date.getMinutes())}${noSpaces ? "-" : ":"}${pad(date.getSeconds())}`;
     },
 
     /** Generic log without colors but still with timestamps
