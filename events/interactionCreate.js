@@ -24,7 +24,7 @@ module.exports = {
         if (interaction.isCommand()) {
             const command = client.commands.get(interaction.commandName);
             if (!command) {
-                return interaction.reply({ content: "An error has occured ", ephemeral: true });
+                return interaction.reply({ content: "An error has occured ", ephemeral: true }).catch((error) => client.utils.log.handler("error", error));
             }
             const args = [];
             for (const option of interaction.options.data) {
@@ -40,7 +40,7 @@ module.exports = {
                 command.run(client, interaction, args);
             } catch (error) {
                 client.utils.log.error(error);
-                interaction.reply({ content: "There was an error while executing this command!", ephemeral: true }).catch(client.utils.log.error);
+                interaction.reply({ content: "There was an error while executing this command!", ephemeral: true }).catch((err) => client.utils.log.handler("error", err));
             }
         }
         if (interaction.isContextMenu()) {

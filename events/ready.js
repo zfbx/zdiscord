@@ -33,7 +33,7 @@ module.exports = {
                         { id: x.id, permissions },
                     ];
                 }, []);
-                guild.commands.permissions.set({ fullPermissions });
+                guild.commands.permissions.set({ fullPermissions }).catch((error) => client.utils.log.handler("error", error));
             });
         }
         if (config.enableStatus && config.statusMessages) statusUpdater(client);
