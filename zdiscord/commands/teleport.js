@@ -26,11 +26,11 @@ module.exports = {
             let z = args.shift();
             if (!y || !z) return discord.createMessage(msg.channel.id, "You must provide x y and z coordinates");
             if (isNaN(Number(y)) || isNaN(Number(z))) return discord.createMessage(msg.channel.id, "invalid x y or z coordinate");
-            SetEntityCoords(GetPlayerPed(id), Number(xOrLoc).toFixed(1), Number(y).toFixed(1), Number(z).toFixed(1));
+            teleport(id, Number(xOrLoc), Number(y), Number(z));
         } else {
             xOrLoc = xOrLoc.toLowerCase()
             if (locations[xOrLoc]) {
-                SetEntityCoords(GetPlayerPed(id), locations[xOrLoc][0], locations[xOrLoc][1], locations[xOrLoc][2]);
+                teleport(id, locations[xOrLoc][0], locations[xOrLoc][1], locations[xOrLoc][2]);
             } else {
                 return discord.createMessage(msg.channel.id, `This location id is invalid. Valid locations: ${Object.keys(locations).join(", ")}`);
             }
@@ -39,3 +39,14 @@ module.exports = {
         msg.addReaction('✅');
     },
 };
+
+function teleport(id, x, y, z, withVehicle = false) {
+    x = x.toFixed(2);
+    y = y.toFixed(2);
+    z = z.toFixed(2);
+    if (NetworkGetEntityOwner(GetPlayerPed(id)) == id) {
+        emitNet(`${GetCurrentResourceName()}:teleport`, id, x, y, z, withVehicle);
+    } else {
+        SetEntityCoords(GetPlayerPed(id), x, y, z);
+    }
+}
