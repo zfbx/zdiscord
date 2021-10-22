@@ -63,6 +63,7 @@ Documentation is fairly slim for zdiscord but a lot of concepts are covered in t
 - pl - Polish - By insaneArian
 - vn - Vietnamese - By xenfovn
 - ar - Arabic - By RadhwaneDZ
+- tr - Turkish - By alp1x
 
 ## Support
 
