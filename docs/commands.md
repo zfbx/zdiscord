@@ -4,32 +4,35 @@
 Key: *[required] (optional)*
 
 `/announcement [message]` - mod+<br>
-`/ban [id] [time] [reason]` - admin+<br>
+`/ban [id] [time] [reason]` - admin+ (qb)<br>
 `/identifiers [id]` - admin+<br>
-`/inventory give [id] [item] [count]` - admin+<br>
-`/inventory inspect [id]` - admin+<br>
-`/inventory take [id] [item] [count]` - admin+<br>
-`/jail free [id]` - mod+<br>
-`/jail sentence [id] [time]` - mod+<br>
-`/job fire [id]` - admin+<br>
-`/job inspect [id]` - admin+<br>
-`/job set [id] [job] [grade]` - admin+<br>
+`/inventory give [id] [item] [count]` - admin+ (qb)<br>
+`/inventory inspect [id]` - admin+ (qb)<br>
+`/inventory take [id] [item] [count]` - admin+ (qb)<br>
+`/jail free [id]` - mod+ (qb)<br>
+`/jail sentence [id] [time]` - mod+ (qb)<br>
+`/job fire [id]` - admin+ (qb)<br>
+`/job inspect [id]` - admin+ (qb)<br>
+`/job set [id] [job] [grade]` - admin+ (qb)<br>
 `/kick [id] (message)` - mod+<br>
 `/kickall [message]` - admin+<br>
 `/kill [id]` - admin+<br>
 `/message [id] [message]` - mod+<br>
-`/money add [id] [type] [amount]` - admin+<br>
-`/money inspect [id]` - admin+<br>
-`/money remove [id] [type] [amount]` - admin+<br>
-`/money set [id] [type] [amount]` - admin+<br>
+`/money add [id] [type] [amount]` - admin+ (qb)<br>
+`/money inspect [id]` - admin+ (qb)<br>
+`/money remove [id] [type] [amount]` - admin+ (qb)<br>
+`/money set [id] [type] [amount]` - admin+ (qb)<br>
 `/onlinecount`<br>
-`/permissions add [id] [permission]` - god<br>
-`/permissions remove [id]` - god<br>
+`/permissions add [id] [permission]` - god (qb)<br>
+`/permissions remove [id]` - god (qb)<br>
 `/players` - mod+<br>
-`/revive [id]` - admin+<br>
+`/revive [id]` - admin+ (qb)<br>
 `/screenshot [id]` - god<br>
-`/teleport coords [id] [x] [y] [z]` - mod+<br>
-`/teleport preset [id] [location]` - mod+<br>
+`/teleport coords [id] [x] [y] [z] (keepvehicle)` - mod+<br>
+`/teleport preset [id] [location] (keepvehicle)` - mod+<br>
+`/time [hour]` - admin+ (qb)<br>
+`/weather blackout` - admin+ (qb)<br>
+`/weather set [weather]` - admin+ (qb)<br>
 
 ## Change permissions
 
