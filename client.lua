@@ -21,4 +21,15 @@ RegisterNetEvent(GetCurrentResourceName()..':kill', function()
     SetEntityHealth(PlayerPedId(), 0)
 end)
 
+RegisterNetEvent(GetCurrentResourceName()..':teleport', function(x, y, z, withVehicle)
+    x = tonumber(x)
+    y = tonumber(y)
+    z = tonumber(z)
+    if (withVehicle) then
+        SetPedCoordsKeepVehicle(PlayerPedId(), x, y, z)
+    else
+        SetEntityCoords(PlayerPedId(), x, y, z);
+    end
+end)
+
 -- Add staff reply command? (reply to the same channel that a message was sent to the player from or default to a reports channel?)

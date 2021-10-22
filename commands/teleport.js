@@ -53,6 +53,12 @@ module.exports = {
                     required: true,
                     type: "INTEGER",
                 },
+                {
+                    name: "vehicle",
+                    description: "Teleport them with vehicle they're driving?",
+                    required: false,
+                    type: "BOOLEAN",
+                },
             ],
         },
         {
@@ -79,29 +85,46 @@ module.exports = {
                         { name: "Mount Chiliad", value: "chiliad" },
                     ],
                 },
+                {
+                    name: "vehicle",
+                    description: "Teleport them with vehicle they're driving?",
+                    required: false,
+                    type: "BOOLEAN",
+                },
             ],
         },
     ],
 
     run: async (client, interaction, args) => {
         const locations = {
-            "airport": [ -948.35, -3367.04, 13.94 ],
-            "mazeroof": [ -75.19, -819.2, 326.18 ],
+            "airport": [ -1096.19, -3501.1, 17.18 ],
+            "mazeroof": [ -75.57, -818.88, 327.96 ],
             "pier": [ -1712.06, -1136.48, 13.08 ],
             "militarybase": [ -2105.88, 2871.16, 32.81 ],
             "chiliad": [ 453.73, 5572.2, 781.18 ],
         };
-        // x = x coord or location if preset
-        const [ subcommand, id, x, y, z ] = args;
+        // if subcommand = preset: x = location & y = vehicle
+        const [ subcommand, id, x, y, z, vehicle ] = args;
         if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
         if (subcommand === "coords") {
-            SetEntityCoords(GetPlayerPed(id), x.toFixed(1), y.toFixed(1), z.toFixed(1));
+            teleport(id, x, y, z, vehicle || false);
             client.utils.log.info(`[${interaction.member.displayName}] Teleported ${GetPlayerName(id)} (${id}) to ${x}, ${y}, ${z}`);
             return interaction.reply({ content: `${GetPlayerName(id)} (${id}) was teleported to specified coords.`, ephemeral: false });
         } else if (subcommand === "preset") {
-            SetEntityCoords(GetPlayerPed(id), locations[x][0], locations[x][1], locations[x][2]);
+            teleport(id, locations[x][0], locations[x][1], locations[x][2], y || false);
             client.utils.log.info(`[${interaction.member.displayName}] teleported ${id} to ${x}`);
             return interaction.reply({ content: `${GetPlayerName(id)} (${id}) was teleported to ${x}`, ephemeral: false });
         }
     },
 };
+
+function teleport(id, x, y, z, withVehicle = false) {
+    x = x.toFixed(2);
+    y = y.toFixed(2);
+    z = z.toFixed(2);
+    if (NetworkGetEntityOwner(GetPlayerPed(id)) == id) {
+        emitNet(`${GetCurrentResourceName()}:teleport`, id, x, y, z, withVehicle);
+    } else {
+        SetEntityCoords(GetPlayerPed(id), x, y, z);
+    }
+}
