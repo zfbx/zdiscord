@@ -1,5 +1,12 @@
 ## Change log
 
+**5.0.2 - New commands and docs!**
+
+- added screenshot command
+- added weather, blackout, time commands
+- added docs at [zfbx.github.io/zdiscord](https://zfbx.github.io/zdiscord)
+- updated/fixed chat events and teleport command
+
 **5.0.1 - Exports and ace perms**
 
 - Automatic Ace permission granting by discord role

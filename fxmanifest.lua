@@ -23,7 +23,7 @@ games { "gta5" }
 author "zfbx"
 description "Discord bot allowlist and more"
 repository "https://github.com/zfbx/zdiscord"
-version "5.0.1"
+version "5.0.2"
 license "GPLv3"
 lua54 'yes'
 
