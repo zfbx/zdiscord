@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: "en-US" }}">
+  <head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <link rel="stylesheet" type="text/css" href="{{ '/assets/css/print.css' | relative_url }}" media="print">
+    {% seo %}
+    {% include head-custom.html %}
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+        <header>
+          <h1>zdiscord</h1>
+          <h2><a href="/zdiscord/">Home</a> | <a href="/zdiscord/faq">FAQ</a> | <a href="/zdiscord/commands">Commands</a> | <a href="/zdiscord/convars">Convars</a> | <a href="/zdiscord/exports">Exports</a></h2>
+        </header>
+        <hr>
+        <section id="main_content">
+          {{ content }}
+        </section>
+
+        <footer>
+            <a href="https://github.com/zfbx/zdiscord">Github</a> | <a href="/zdiscord/changelog">Changelog</a> | <a href="/zdiscord/contributing">Contributing</a><br>
+            zdiscord is maintained by <a href="https://github.com/zfbx">zfbx</a><br>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,40 +1,54 @@
 # Commands
 
-## Included
+zdiscord comes preloaded with a fairly sizable set of default command with their own permission levels
+
+#### Table of Contents:
+
+- [Included Commands](#included-commands)
+- [Change permissions](#change-permissions)
+- [Add commands](#add-commands)
+- [Add permission levels](#add-permission-levels)
+
+### Included Commands
 Key: *[required] (optional)*
 
+**Standalone Commands:**
+
 `/announcement [message]` - mod+<br>
-`/ban [id] [time] [reason]` - admin+ (qb)<br>
 `/identifiers [id]` - admin+<br>
-`/inventory give [id] [item] [count]` - admin+ (qb)<br>
-`/inventory inspect [id]` - admin+ (qb)<br>
-`/inventory take [id] [item] [count]` - admin+ (qb)<br>
-`/jail free [id]` - mod+ (qb)<br>
-`/jail sentence [id] [time]` - mod+ (qb)<br>
-`/job fire [id]` - admin+ (qb)<br>
-`/job inspect [id]` - admin+ (qb)<br>
-`/job set [id] [job] [grade]` - admin+ (qb)<br>
 `/kick [id] (message)` - mod+<br>
 `/kickall [message]` - admin+<br>
 `/kill [id]` - admin+<br>
 `/message [id] [message]` - mod+<br>
-`/money add [id] [type] [amount]` - admin+ (qb)<br>
-`/money inspect [id]` - admin+ (qb)<br>
-`/money remove [id] [type] [amount]` - admin+ (qb)<br>
-`/money set [id] [type] [amount]` - admin+ (qb)<br>
 `/onlinecount`<br>
-`/permissions add [id] [permission]` - god (qb)<br>
-`/permissions remove [id]` - god (qb)<br>
 `/players` - mod+<br>
-`/revive [id]` - admin+ (qb)<br>
 `/screenshot [id]` - god<br>
 `/teleport coords [id] [x] [y] [z] (keepvehicle)` - mod+<br>
 `/teleport preset [id] [location] (keepvehicle)` - mod+<br>
-`/time [hour]` - admin+ (qb)<br>
-`/weather blackout` - admin+ (qb)<br>
-`/weather set [weather]` - admin+ (qb)<br>
 
-## Change permissions
+**QBCore Commmands:**
+
+`/ban [id] [time] [reason]` - admin+<br>
+`/inventory give [id] [item] [count]` - admin+<br>
+`/inventory inspect [id]` - admin+<br>
+`/inventory take [id] [item] [count]` - admin+<br>
+`/jail free [id]` - mod+<br>
+`/jail sentence [id] [time]` - mod+<br>
+`/job fire [id]` - admin+<br>
+`/job inspect [id]` - admin+<br>
+`/job set [id] [job] [grade]` - admin+<br>
+`/money add [id] [type] [amount]` - admin+<br>
+`/money inspect [id]` - admin+<br>
+`/money remove [id] [type] [amount]` - admin+<br>
+`/money set [id] [type] [amount]` - admin+<br>
+`/permissions add [id] [permission]` - god<br>
+`/permissions remove [id]` - god<br>
+`/revive [id]` - admin+<br>
+`/time [hour]` - admin+<br>
+`/weather blackout` - admin+<br>
+`/weather set [weather]` - admin+<br>
+
+### Change permissions
 
 I tried to make all the permissions as fair and even as I could with my experience with servers and staffing, if you disagree with them it's quite easy to change.<br>
 There's currently only 3 permission tiers (mod, admin, god). Permissions are granted by a hierachy so "mod" will also mean "admin" and "god" can access them but a command with "god" will only be usable by someone with the "god" role.
@@ -48,7 +62,7 @@ To remove permissions from a command all together where anyone can use them dele
 
 *Please note that permissions are synced across whole base commands so if you wanted `/money inspect` to be mod+ and `/money add` to be admin+ you'd need to seperate them into seperate commands to achieve that.*
 
-## Add commands
+### Add commands
 
 Adding commands can be really simple if you're familiar with javascript but very confusing otherwise. continue at your own risk and if you do make something cool, consider submitting a pull request and maybe it'll become a part of the default zdiscord commands :)
 
@@ -57,49 +71,76 @@ Adding commands can be really simple if you're familiar with javascript but very
 
 2. Paste in the following base. this is everything REQUIRED for a command to work properly:
 
-```js
-module.exports = {
-    name: "commandname",
-    description: "description of command",
+    ```js
+    module.exports = {
+        name: "commandname",
+        description: "description of command",
 
-    run: async (client, interaction, args) => {
-        return interaction.reply({ content: "The Message that will be sent to back when the command is run" });
-    },
-};
-```
+        run: async (client, interaction, args) => {
+            return interaction.reply({ content: "The Message that will be sent to back when the command is run" });
+        },
+    };
+    ```
 3. If you wanted to make it so only admin or god could run your command you'd add the following 2 lines under your description line:
 
-```js
-default_permission: false,
-role: "admin",
-```
+    ```js
+    default_permission: false,
+    role: "admin",
+    ```
 
 4. If you wanted to be able to accept input from the person submitting the command like an id and a message you'd add the following:
 
-```js
-options: [
-    {
-            name: "id",
-            description: "Player's current id",
-            required: true,
-            type: "INTEGER", // This forces this value to be a number only
-    },
-    {
-            name: "message",
-            description: "description for what this message is for",
-            required: true, // Setting this to false will make it optional
-            type: "STRING",
-    },
-],
+    ```js
+    options: [
+        {
+                name: "id",
+                description: "Player's current id",
+                required: true,
+                type: "INTEGER", // This forces this value to be a number only
+        },
+        {
+                name: "message",
+                description: "description for what this message is for",
+                required: true, // Setting this to false will make it optional
+                type: "STRING",
+        },
+    ],
 
-run: async (client, interaction, args) => { // You should already have this from the first part
-    const [ id, message ] = args;
-    // Do waht you want with id and message from here on
-```
+    run: async (client, interaction, args) => { // You should already have this from the first part
+        const [ id, message ] = args;
+        // Do waht you want with id and message from here on
+    ```
 
 5. If you need further guidance these links should help:<br>
-[discord.js guide](https://discordjs.guide/#before-you-begin) - Great for beginners to discord.js<br>
-[discord.js docs](https://discord.js.org/#/docs/main/stable/general/welcome) - Has almost everything you need to know<br>
-[discord.com command docs](https://discord.com/developers/docs/interactions/application-commands) - specific details about how things work<br>
-[FiveM server functions for JS](https://docs.fivem.net/docs/scripting-reference/runtimes/javascript/server-functions/) - Everything you can do with FiveM from a command<br>
-**This resource itself** - Honestly there's so many features and practices being used actively here in commands and utils that you can take note from or in many cases just copy and paste and use so have at it and don't be affraid to break things to help learn more.. as long as you're not working on a live server while you're breaking things ;)
+    [discord.js guide](https://discordjs.guide/#before-you-begin) - Great for beginners to discord.js<br>
+    [discord.js docs](https://discord.js.org/#/docs/main/stable/general/welcome) - Has almost everything you need to know<br>
+    [discord.com command docs](https://discord.com/developers/docs/interactions/application-commands) - specific details about how things work<br>
+    [FiveM server functions for JS](https://docs.fivem.net/docs/scripting-reference/runtimes/javascript/server-functions/) - Everything you can do with FiveM from a command<br>
+    **This resource itself** - Honestly there's so many features and practices being used actively here in commands and utils that you can take note from or in many cases just copy and paste and use so have at it and don't be affraid to break things to help learn more.. as long as you're not working on a live server while you're breaking things ;)
+
+
+### Add permission levels
+
+By defaults there is mod, admin and god but if you wanted to add another level, for like trial mods, it's actually quite easy to do. In `server.js`, at the bottom there's a section called `loadDiscordPermissions()`.<br>
+It has 2 main parts, The role levels, which look like `const mod = { id:..`<br>
+And the role table
+```js
+config.perms = {
+    "mod": [ mod, admin, god, own ],
+    "admin": [ admin, god, own ], ...
+```
+you first would add a role level like:
+```js
+// You would replace "000000000000000" with the trialmod role id from discord
+const trialmod = { id: "000000000000000", type: 1, permission: true };
+```
+then you would add it to the role table with all the other roles you want to inherit permissions from trialmod:
+```js
+config.perms = {
+    "trialmod": [ trialmod, mod, admin, god, own ],
+    "mod": [ mod, admin, god, own ], ...
+```
+
+Then in the command files for the commands you want trial mods to be able to access change what was like `role: "mod",` to `role: "trialmod",`, save and restart the resource or server. 
+
+**Note:** If you don't add the extra role levels to the trialmod list those roles wont be able to access the commands set with `role: "trialmod"`

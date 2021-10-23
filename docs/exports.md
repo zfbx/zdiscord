@@ -1,6 +1,13 @@
 # Exports
 
-## isRolePresent
+If you have other resources that you wish to be able to use information available in zdiscord, you might just be in luck. Here is a list of all the available exports for zdiscord and samples of how to use them in javascript or lua. If you don't see something you want here [submit a feature request](https://github.com/zfbx/zdiscord/issues/new/choose) or [pull request](https://github.com/zfbx/zdiscord/pulls)
+
+#### Table of Contents
+- [isRolePresent](#isrolepresent)
+- [getRoles](#getroles)
+- [getName](#getname)
+
+### isRolePresent
 Returns a true/false boolean if a role is present for a role id or array of role-ids
 
 ```js
@@ -27,7 +34,7 @@ local bool = exports.zdiscord:isRolePresent("142831624868855808", {
 ```
 
 
-## getRoles
+### getRoles
 Returns an array of roles for a discord id or source
 
 ```js
@@ -48,7 +55,7 @@ local roles = exports.zdiscord:getRoles("142831624868855808");
 ```
 
 
-## getName
+### getName
 Returns an string containing the discord name/nickname for a discord id or source
 
 ```js
