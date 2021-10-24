@@ -9,6 +9,8 @@ Here's a list of common problems people have run into and how to solve them. If 
 - ["ENABLE INTENTS" Error](#enable-intents-error)
 - [Can't find yarn dependency](#cant-find-yarn-dependency)
 - [QBCore commands not showing](#qbcore-commands-not-showing)
+- [Bot status message updates slow](#bot-status-message-updates-slow)
+- [Buffer Deprecation Warning](#buffer-deprecation-warning)
 
 
 ### No Slash Commands?
@@ -45,3 +47,18 @@ This resource requires FiveM's yarn module from [cfx-server-data](https://github
 ### QBCore commands not showing
 
 For QBCore support you either have to `ensure qb-core` before this resource or have qb-core as a dependency in the fxmanifest.lua which will essentially start qb-core automatically before it but the former suggestion is more recommended since some dependency requirements can act up.
+
+
+### Bot status message updates slow
+
+By default the bot status updates every 30 seconds to prevent abusing the discord API, you can lower this to probably 10 seconds at the lowest without problems by changing the last line in `/events/ready.js` where it's `30000` to `10000` (it's in milliseconds)
+
+
+### Buffer Deprecation Warning
+
+You may see a warning like:
+```
+[DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
+```
+
+This is fine.. it's just a warning that future versions may drop support for it. I don't see FiveM updating node again for quite some time so it's nothing to concern yourself with at the moment. This issue comes from a sub-dependency (node-fetch and whatwg) thinking FiveM is a browser so falling back to use `Buffer()`. I hope future updates of those resources will fix it, currently there's nothing I can do about it without forking entire collections of node modules and changing them. And I don't want the responsibility of keeping them updated esspecially when they're fairly active repositories.
