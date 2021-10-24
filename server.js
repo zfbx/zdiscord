@@ -53,6 +53,10 @@ if (config.enableCommands) {
     for (const file of commandFiles) {
         const command = require(`${root}/commands/${file}`);
         if (!command?.name) continue;
+        if (command.args || command.alias) {
+            utils.log.warn(`${file} is an v4 or later command and is not supported, upgrade it or remove it`);
+            continue;
+        }
         if (file.startsWith("qb-") && !client.QBCore) continue;
         client.commands.set(command.name, command);
         if (["MESSAGE", "USER"].includes(command.type)) delete command.description;
