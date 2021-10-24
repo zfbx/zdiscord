@@ -203,6 +203,8 @@ const log = {
         const e = err.toString();
         if (e.includes("[DISALLOWED_INTENTS]")) log.error(`YOU DIDN'T ENABLE INTENTS - go back to the ${GetCurrentResourceName()} readme.md and read the section under "setup"`);
         else if (e.includes("[TOKEN_INVALID]")) log.error("YOUR DISCORD API TOKEN IS INVALID OR REVOKED - GENERATE A NEW ONE AND UPDATE THE CONFIG");
+        else if (e.includes("Missing Access")) log.error("NO COMMAND CREATION PERMISSIONS - You must reinvite the bot to your server with the invite link provided in setup");
+        else if (e.includes("Invalid Form Body")) log.error("DUPLICATE COMMAND NAME FOUND - Your commands folder has commands that share a name which isn't allowed");
         else if (e.includes("[HeartbeatTimer]")) return;
         else if (e.includes("Heartbeat acknowledged")) return;
         else if (type === "error") log.error(e);
