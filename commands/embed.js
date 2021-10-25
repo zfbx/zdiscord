@@ -76,7 +76,7 @@ module.exports = {
         },
         {
             type: "SUB_COMMAND",
-            name: "json",
+            name: "complex",
             description: "send an embed from a json string",
             options: [
                 {
@@ -116,7 +116,7 @@ module.exports = {
             }
             embed.setDescription(args.message);
             channel.send({ embeds: [ embed ] });
-        } else if (args.json) {
+        } else if (args.complex) {
             let embed = args.json;
             try {
                 embed = JSON.parse(args.json);

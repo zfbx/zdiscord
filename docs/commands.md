@@ -15,6 +15,8 @@ Key: *[required] (optional)*
 **Standalone Commands:**
 
 `/announcement [message]` - mod+<br>
+`/embed complex [channel] [json]` - god<br>
+`/embed simple [channel] [message] (title) (image) (thumbnail) (footer) (color)` - god<br>
 `/identifiers [id]` - admin+<br>
 `/kick [id] (message)` - mod+<br>
 `/kickall [message]` - admin+<br>
