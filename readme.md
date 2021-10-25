@@ -49,6 +49,8 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 
 8. **If you missed step 2, go back and do it.. or else IT WONT WORK!**
 
+9. If you run into any errors check out the [FAQ](https://zfbx.github.io/zdiscord/faq) where a lot of common problems are listed and answered
+
 
 ## Support
 

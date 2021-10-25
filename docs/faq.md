@@ -11,6 +11,7 @@ Here's a list of common problems people have run into and how to solve them. If 
 - [QBCore commands not showing](#qbcore-commands-not-showing)
 - [Bot status message updates slow](#bot-status-message-updates-slow)
 - [Buffer Deprecation Warning](#buffer-deprecation-warning)
+- [Could not find dependency /server:4800](#could-not-find-dependency-server4800)
 
 
 ### No Slash Commands?
@@ -62,3 +63,8 @@ You may see a warning like:
 ```
 
 This is fine.. it's just a warning that future versions may drop support for it. I don't see FiveM updating node again for quite some time so it's nothing to concern yourself with at the moment. This issue comes from a sub-dependency (node-fetch and whatwg) thinking FiveM is a browser so falling back to use `Buffer()`. I hope future updates of those resources will fix it, currently there's nothing I can do about it without forking entire collections of node modules and changing them. And I don't want the responsibility of keeping them updated esspecially when they're fairly active repositories.
+
+
+### Could not find dependency /server:4800
+
+When trying to start zdiscord you get an error that says `Could not find dependency /server:4800 for resource zdiscord`. This means you aren't running [FiveM artifacts](https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/) version 4800 or later. updating to a version number higher than 4800 will fix this errror and allow the resource to start.

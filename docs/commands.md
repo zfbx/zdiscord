@@ -66,7 +66,7 @@ To remove permissions from a command all together where anyone can use them dele
 
 Adding commands can be really simple if you're familiar with javascript but very confusing otherwise. continue at your own risk and if you do make something cool, consider submitting a pull request and maybe it'll become a part of the default zdiscord commands :)
 
-1. create a new javascript files under `/commands` with the name of your command (all lowercase, no spaces).<br>
+1. create a new javascript file under `/commands` with the name of your command (all lowercase, no spaces).<br>
 *Note: If the command filename starts with `qb-` it will only load if QBCore is detected*
 
 2. Paste in the following base. this is everything REQUIRED for a command to work properly:
@@ -141,6 +141,6 @@ config.perms = {
     "mod": [ mod, admin, god, own ], ...
 ```
 
-Then in the command files for the commands you want trial mods to be able to access change what was like `role: "mod",` to `role: "trialmod",`, save and restart the resource or server. 
+Then in the command files for the commands you want trial mods to be able to access change what was like `role: "mod",` to `role: "trialmod",`, save and restart the resource or server.
 
 **Note:** If you don't add the extra role levels to the trialmod list those roles wont be able to access the commands set with `role: "trialmod"`
