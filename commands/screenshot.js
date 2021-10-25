@@ -25,6 +25,7 @@ const Buffer = require("buffer").Buffer;
 module.exports = {
     name: "screenshot",
     description: "Screenshot player's POV",
+    version: 6,
     default_permission: false,
     role: "god",
 
@@ -38,18 +39,17 @@ module.exports = {
     ],
 
     run: async (client, interaction, args) => {
-        const [ id ] = args;
-        if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
+        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
         if (GetResourceState("screenshot-basic") !== "started") return interaction.reply({ content: "This command requires citizenfx's `screenshot-basic` to work", ephemeral: false });
         await interaction.reply("Taking screenshot..");
-        const name = `${client.utils.log.timestamp(true)}_${id}.jpg`;
-        const data = await takeScreenshot(id).catch(error => {
+        const name = `${client.utils.log.timestamp(true)}_${args.id}.jpg`;
+        const data = await takeScreenshot(args.id).catch(error => {
             client.utils.log.error(error);
             return interaction.editReply("**Error requesting screenshot**");
         });
         const buffer = new Buffer.from(data, "base64");
         const embed = new client.Embed()
-            .setTitle(`${GetPlayerName(id)}'s Screen`)
+            .setTitle(`${GetPlayerName(args.id)}'s Screen`)
             .setImage(`attachment://${name}`)
             .setFooter(`Taken At ${client.utils.log.timestamp()}`);
         await interaction.editReply({ content: null, embeds: [ embed ], files: [ { attachment: buffer, name: name } ] }).catch(console.error);
@@ -57,7 +57,7 @@ module.exports = {
             await fs.mkdir(`${client.root}/screenshots`, { recursive: true }).catch();
             await fs.writeFile(`${client.root}/screenshots/${name}`, data, { encoding: "base64", flag:"w+" }).catch(client.utils.log.error);
         }
-        return client.utils.log.info(`[${interaction.member.displayName}] Took a screenshot of ${GetPlayerName(id)}'s (${id}) screen`);
+        return client.utils.log.info(`[${interaction.member.displayName}] Took a screenshot of ${GetPlayerName(args.id)}'s (${args.id}) screen`);
     },
 };
 

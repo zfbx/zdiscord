@@ -20,6 +20,7 @@
 module.exports = {
     name: "permissions",
     description: "Manage player's in-city permissions",
+    version: 6,
     default_permission: false,
     role: "god",
 
@@ -63,16 +64,15 @@ module.exports = {
     ],
 
     run: async (client, interaction, args) => {
-        const [ subcommand, id, permission ] = args;
-        if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        if (subcommand === "add") {
-            client.QBCore.Functions.AddPermission(id, permission);
-            client.utils.log.info(`[${interaction.member.displayName}] Gave ${id} the ${permission} permission`);
-            return interaction.reply({ content: `${GetPlayerName(id)} (${id}) was given ${permission} permission.`, ephemeral: false });
-        } else if (subcommand === "remove") {
-            client.QBCore.Functions.RemovePermission(id);
-            client.utils.log.info(`[${interaction.member.displayName}] Removed ${id} permissions`);
-            return interaction.reply({ content: `${GetPlayerName(id)} (${id}) had their permissions removed.`, ephemeral: false });
+        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
+        if (args.add) {
+            client.QBCore.Functions.AddPermission(args.id, args.permission);
+            client.utils.log.info(`[${interaction.member.displayName}] Gave ${args.id} the ${args.permission} permission`);
+            return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) was given ${args.permission} permission.`, ephemeral: false });
+        } else if (args.remove) {
+            client.QBCore.Functions.RemovePermission(args.id);
+            client.utils.log.info(`[${interaction.member.displayName}] Removed ${args.id} permissions`);
+            return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) had their permissions removed.`, ephemeral: false });
         }
     },
 };

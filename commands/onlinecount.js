@@ -20,6 +20,7 @@
 module.exports = {
     name: "onlinecount",
     description: "Number of players currently online",
+    version: 6,
 
     run: async (client, interaction) => {
         const playerNumber = GetNumPlayerIndices();

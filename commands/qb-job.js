@@ -20,6 +20,7 @@
 module.exports = {
     name: "job",
     description: "Manage player's in-city job",
+    version: 6,
     default_permission: false,
     role: "admin",
 
@@ -95,23 +96,22 @@ module.exports = {
     ],
 
     run: async (client, interaction, args) => {
-        const [ subcommand, id, job, grade ] = args;
-        if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        const player = client.QBCore.Functions.GetPlayer(id);
+        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
+        const player = client.QBCore.Functions.GetPlayer(args.id);
         const prevJob = `${player.PlayerData.job.name} (${player.PlayerData.job.grade.level})`;
-        if (subcommand === "set") {
-            if (player.Functions.SetJob(job, grade)) {
-                client.utils.log.info(`[${interaction.member.displayName}] changed ${GetPlayerName(id)} (${id})'s job from ${prevJob} to ${job} (${grade})`);
-                return interaction.reply({ content: `${GetPlayerName(id)} (${id}) was moved from ${prevJob} to ${job} (${grade})`, ephemeral: false });
+        if (args.set) {
+            if (player.Functions.SetJob(args.job, args.grade)) {
+                client.utils.log.info(`[${interaction.member.displayName}] changed ${GetPlayerName(args.id)} (${args.id})'s job from ${prevJob} to ${args.job} (${args.grade})`);
+                return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) was moved from ${prevJob} to ${args.job} (${args.grade})`, ephemeral: false });
             } else {
                 return interaction.reply({ content: "Invalid job or grade", ephemeral: false });
             }
-        } else if (subcommand === "fire") {
+        } else if (args.fire) {
             player.Functions.SetJob("unemployed", "0");
-            client.utils.log.info(`[${interaction.member.displayName}] Fired ${GetPlayerName(id)} ${id} from their job as ${prevJob}`);
-            return interaction.reply({ content: `${GetPlayerName(id)} (${id}) has been fired from ${prevJob}`, ephemeral: false });
-        } else if (subcommand === "inspect") {
-            return interaction.reply({ content: `${GetPlayerName(id)} (${id}) has is a ${prevJob}`, ephemeral: false });
+            client.utils.log.info(`[${interaction.member.displayName}] Fired ${GetPlayerName(args.id)} ${args.id} from their job as ${prevJob}`);
+            return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) has been fired from ${prevJob}`, ephemeral: false });
+        } else if (args.inspect) {
+            return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) has is a ${prevJob}`, ephemeral: false });
         }
     },
 };

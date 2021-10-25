@@ -20,6 +20,7 @@
 module.exports = {
     name: "kickall",
     description: "Kick every player in the city",
+    version: 6,
     default_permission: false,
     role: "admin",
 
@@ -33,13 +34,12 @@ module.exports = {
     ],
 
     run: async (client, interaction, args) => {
-        const [ message ] = args;
         const numberOnline = GetNumPlayerIndices();
         if (numberOnline === 0) return interaction.reply({ content: "Nobody was online to kick.", ephemeral: false });
         getPlayers().forEach(async (player) => {
-            DropPlayer(player, message);
+            DropPlayer(player, args.message);
         });
-        client.utils.log.info(`[${interaction.member.displayName}] Kicked all ${numberOnline} player(s). Reason: ${reason}`);
+        client.utils.log.info(`[${interaction.member.displayName}] Kicked all ${numberOnline} player(s). Reason: ${args.message}`);
         return interaction.reply({ content: `All ${numberOnline} player(s) have been kicked.`, ephemeral: false });
     },
 };

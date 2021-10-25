@@ -26,14 +26,14 @@ module.exports = {
             if (!command) {
                 return interaction.reply({ content: "An error has occured ", ephemeral: true }).catch((error) => client.utils.log.handler("error", error));
             }
-            const args = [];
+            const args = {};
             for (const option of interaction.options.data) {
                 if (option.type === "SUB_COMMAND") {
-                    if (option.name) args.push(option.name);
+                    if (option.name) args[option.name] = true;
                     option.options?.forEach((x) => {
-                        if (x.value) args.push(x.value);
+                        args[x.name] = x.value;
                     });
-                } else if (option.value) { args.push(option.value); }
+                } else if (option.value) { args[option.name] = option.value; }
             }
             interaction.member = interaction.guild.members.cache.get(interaction.user.id);
             try {

@@ -20,6 +20,7 @@
 module.exports = {
     name: "kill",
     description: "kill a player in city",
+    version: 6,
     default_permission: false,
     role: "admin",
 
@@ -33,10 +34,9 @@ module.exports = {
     ],
 
     run: async (client, interaction, args) => {
-        const [ id ] = args;
-        if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        emitNet(`${GetCurrentResourceName()}:kill`, id);
-        client.utils.log.info(`[${interaction.member.displayName}] Killed ${GetPlayerName(id)} (${id})`);
-        return interaction.reply({ content: `${GetPlayerName(id)} (${id}) has been murdered.`, ephemeral: false });
+        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
+        emitNet(`${GetCurrentResourceName()}:kill`, args.id);
+        client.utils.log.info(`[${interaction.member.displayName}] Killed ${GetPlayerName(args.id)} (${args.id})`);
+        return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) has been murdered.`, ephemeral: false });
     },
 };

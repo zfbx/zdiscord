@@ -20,6 +20,7 @@
 module.exports = {
     name: "teleport",
     description: "teleport a player",
+    version: 6,
     default_permission: false,
     role: "mod",
 
@@ -103,17 +104,15 @@ module.exports = {
             "militarybase": [ -2105.88, 2871.16, 32.81 ],
             "chiliad": [ 453.73, 5572.2, 781.18 ],
         };
-        // if subcommand = preset: x = location & y = vehicle
-        const [ subcommand, id, x, y, z, vehicle ] = args;
-        if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        if (subcommand === "coords") {
-            teleport(id, x, y, z, vehicle || false);
-            client.utils.log.info(`[${interaction.member.displayName}] Teleported ${GetPlayerName(id)} (${id}) to ${x}, ${y}, ${z}`);
-            return interaction.reply({ content: `${GetPlayerName(id)} (${id}) was teleported to specified coords.`, ephemeral: false });
-        } else if (subcommand === "preset") {
-            teleport(id, locations[x][0], locations[x][1], locations[x][2], y || false);
-            client.utils.log.info(`[${interaction.member.displayName}] teleported ${id} to ${x}`);
-            return interaction.reply({ content: `${GetPlayerName(id)} (${id}) was teleported to ${x}`, ephemeral: false });
+        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
+        if (args.coords) {
+            teleport(args.id, args.x, args.y, args.z, args.vehicle || false);
+            client.utils.log.info(`[${interaction.member.displayName}] Teleported ${GetPlayerName(args.id)} (${args.id}) to ${args.x}, ${args.y}, ${args.z}`);
+            return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) was teleported to specified coords.`, ephemeral: false });
+        } else if (args.preset) {
+            teleport(args.id, locations[args.location][0], locations[args.location][1], locations[args.location][2], args.vehicle || false);
+            client.utils.log.info(`[${interaction.member.displayName}] teleported ${args.id} to ${args.location}`);
+            return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) was teleported to ${args.location}`, ephemeral: false });
         }
     },
 };

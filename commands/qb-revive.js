@@ -20,6 +20,7 @@
 module.exports = {
     name: "revive",
     description: "Raise a downed player to full health and stats",
+    version: 6,
     default_permission: false,
     role: "admin",
 
@@ -33,10 +34,9 @@ module.exports = {
     ],
 
     run: async (client, interaction, args) => {
-        const [ id ] = args;
-        if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        emitNet("hospital:client:Revive", id);
-        client.utils.log.info(`[${interaction.member.displayName}] revived ${GetPlayerName(id)} (${id})`);
-        return interaction.reply({ content: `${GetPlayerName(id)} (${id}) has been fully healed.`, ephemeral: false });
+        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
+        emitNet("hospital:client:Revive", args.id);
+        client.utils.log.info(`[${interaction.member.displayName}] revived ${GetPlayerName(args.id)} (${args.id})`);
+        return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) has been fully healed.`, ephemeral: false });
     },
 };

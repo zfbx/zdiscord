@@ -1,5 +1,9 @@
 ## Change log
 
+**6.0.0 - Refactor!**
+
+- command arguments have been refactored to pass as an object instead of an array (This is not backwards compatible which is why it's a version bump)
+
 **5.0.2 - New commands and docs!**
 
 - added screenshot command

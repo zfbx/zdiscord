@@ -22,6 +22,7 @@ const { MessageButton } = require("discord.js");
 module.exports = {
     name: "players",
     description: "Get list of current players in city",
+    version: 6,
     default_permission: false,
     role: "mod",
 

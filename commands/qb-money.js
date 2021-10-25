@@ -20,6 +20,7 @@
 module.exports = {
     name: "money",
     description: "Manage player's in-city money",
+    version: 6,
     default_permission: false,
     role: "admin",
 
@@ -130,12 +131,11 @@ module.exports = {
     ],
 
     run: async (client, interaction, args) => {
-        const [ subcommand, id, moneytype, amount ] = args;
-        if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        const player = client.QBCore.Functions.GetPlayer(id);
+        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
+        const player = client.QBCore.Functions.GetPlayer(args.id);
         const characterName = `${player.PlayerData.charinfo.firstname} ${player.PlayerData.charinfo.lastname}`;
         const reason = "Staff intervention";
-        if (subcommand === "inspect") {
+        if (args.inspect) {
             const embed = new client.Embed().setTitle(`${characterName}'s Money`);
             let desc = "";
             Object.entries(player.PlayerData.money).forEach(([type, value]) => {
@@ -144,26 +144,26 @@ module.exports = {
             embed.setDescription(desc);
             return interaction.reply({ embeds: [ embed ], ephemeral: false });
         }
-        if (amount < 0) return interaction.reply({ content: "Please only use positive amounts", ephemeral: true });
-        const prevMoney = player.Functions.GetMoney(moneytype);
-        if (subcommand === "add") {
-            if (player.Functions.AddMoney(moneytype, amount, reason)) {
-                client.utils.log.info(`[${interaction.member.displayName}] Added ${amount} to ${GetPlayerName(id)} (${id})'s ${moneytype} [Previously: ${prevMoney}]`);
-                return interaction.reply({ content: `${characterName} (${id})'s ${moneytype} has increased from ${prevMoney} to ${player.Functions.GetMoney(moneytype)}`, ephemeral: false });
+        if (args.amount < 0) return interaction.reply({ content: "Please only use positive amounts", ephemeral: true });
+        const prevMoney = player.Functions.GetMoney(args.moneytype);
+        if (args.add) {
+            if (player.Functions.AddMoney(args.moneytype, args.amount, reason)) {
+                client.utils.log.info(`[${interaction.member.displayName}] Added ${args.amount} to ${GetPlayerName(args.id)} (${args.id})'s ${args.moneytype} [Previously: ${prevMoney}]`);
+                return interaction.reply({ content: `${characterName} (${args.id})'s ${args.moneytype} has increased from ${prevMoney} to ${player.Functions.GetMoney(args.moneytype)}`, ephemeral: false });
             } else {
                 return interaction.reply({ content: "Something went wrong trying to add money to this player", ephemeral: false });
             }
-        } else if (subcommand === "remove") {
-            if (player.Functions.RemoveMoney(moneytype, amount, reason)) {
-                client.utils.log.info(`[${interaction.member.displayName}] Removed ${amount} from ${GetPlayerName(id)} (${id})'s ${moneytype} [Previously: ${prevMoney}]`);
-                return interaction.reply({ content: `${characterName} (${id})'s ${moneytype} has decreased from ${prevMoney} to ${player.Functions.GetMoney(moneytype)}`, ephemeral: false });
+        } else if (args.remove) {
+            if (player.Functions.RemoveMoney(args.moneytype, args.amount, reason)) {
+                client.utils.log.info(`[${interaction.member.displayName}] Removed ${args.amount} from ${GetPlayerName(args.id)} (${args.id})'s ${args.moneytype} [Previously: ${prevMoney}]`);
+                return interaction.reply({ content: `${characterName} (${args.id})'s ${args.moneytype} has decreased from ${prevMoney} to ${player.Functions.GetMoney(args.moneytype)}`, ephemeral: false });
             } else {
                 return interaction.reply({ content: "Something went wrong trying to remove money from this player", ephemeral: false });
             }
-        } else if (subcommand === "set") {
-            if (player.Functions.SetMoney(moneytype, amount, reason)) {
-                client.utils.log.info(`[${interaction.member.displayName}] Set ${GetPlayerName(id)} (${id})'s ${moneytype} to ${amount} [Previously: ${prevMoney}]`);
-                return interaction.reply({ content: `${characterName} (${id})'s ${moneytype} has been set to ${player.Functions.GetMoney(moneytype)} (Previously: ${prevMoney})`, ephemeral: false });
+        } else if (args.set) {
+            if (player.Functions.SetMoney(args.moneytype, args.amount, reason)) {
+                client.utils.log.info(`[${interaction.member.displayName}] Set ${GetPlayerName(args.id)} (${args.id})'s ${args.moneytype} to ${args.amount} [Previously: ${prevMoney}]`);
+                return interaction.reply({ content: `${characterName} (${args.id})'s ${args.moneytype} has been set to ${player.Functions.GetMoney(args.moneytype)} (Previously: ${prevMoney})`, ephemeral: false });
             } else {
                 return interaction.reply({ content: "Something went wrong trying to set this player's money", ephemeral: false });
             }

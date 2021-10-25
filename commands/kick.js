@@ -20,6 +20,7 @@
 module.exports = {
     name: "kick",
     description: "Kick a player from the city",
+    version: 6,
     default_permission: false,
     role: "mod",
 
@@ -39,11 +40,10 @@ module.exports = {
     ],
 
     run: async (client, interaction, args) => {
-        const [ id, message ] = args;
-        if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        const reason = client.utils.replaceGlobals(message || client.locale.kickedWithoutReason);
-        DropPlayer(id, reason);
-        client.utils.log.info(`[${interaction.member.displayName}] Kicked ${GetPlayerName(id)} (${id}). Reason: ${reason}`);
-        return interaction.reply({ content: `${GetPlayerName(id)} (${id}) has been kicked.`, ephemeral: false });
+        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
+        const reason = client.utils.replaceGlobals(args.message || client.locale.kickedWithoutReason);
+        DropPlayer(args.id, reason);
+        client.utils.log.info(`[${interaction.member.displayName}] Kicked ${GetPlayerName(args.id)} (${args.id}). Reason: ${reason}`);
+        return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) has been kicked.`, ephemeral: false });
     },
 };

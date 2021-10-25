@@ -20,6 +20,7 @@
 module.exports = {
     name: "identifiers",
     description: "Get all of a player's identifiers",
+    version: 6,
     default_permission: false,
     role: "admin",
 
@@ -33,19 +34,18 @@ module.exports = {
     ],
 
     run: async (client, interaction, args) => {
-        const [ id ] = args;
-        if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
+        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
         const embed = new client.Embed()
             .setColor(client.config.embedColor)
-            .setTitle(`${GetPlayerName(id)}'s identifiers`)
+            .setTitle(`${GetPlayerName(args.id)}'s identifiers`)
             .setFooter("Please respect privacy and avoid doxing players");
         let desc = "";
-        for (const [key, value] of Object.entries(client.utils.getPlayerIdentifiers(id))) {
+        for (const [key, value] of Object.entries(client.utils.getPlayerIdentifiers(args.id))) {
             if (key == "discord") desc += `**${key}:** <@${value}> (${value})\n`;
             else desc += `**${key}:** ${value}\n`;
         }
         embed.setDescription(desc);
-        client.utils.log.info(`[${interaction.member.displayName}] pulled identifiers on ${GetPlayerName(id)} (${id})`);
+        client.utils.log.info(`[${interaction.member.displayName}] pulled identifiers on ${GetPlayerName(args.id)} (${args.id})`);
         return interaction.reply({ embeds: [embed], ephemeral: true }).catch();
     },
 };

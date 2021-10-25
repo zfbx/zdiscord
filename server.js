@@ -61,6 +61,14 @@ if (config.enableCommands) {
             utils.log.warn(`${file} is an v4 or later command and is not supported, upgrade it or remove it`);
             continue;
         }
+        if (!command.version || command.version < 6) {
+            utils.log.warn(`${file} is an outdated command - check the github for updated commands`);
+            continue;
+        }
+        if (client.commands.has(command.name)) {
+            utils.log.warn(`${file} is using a name that's already been registered by another command [skipping]`);
+            continue;
+        }
         if (file.startsWith("qb-") && !client.QBCore) continue;
         client.commands.set(command.name, command);
         if (["MESSAGE", "USER"].includes(command.type)) delete command.description;

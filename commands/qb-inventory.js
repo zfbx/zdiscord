@@ -20,6 +20,7 @@
 module.exports = {
     name: "inventory",
     description: "Manage player's in-city items",
+    version: 6,
     default_permission: false,
     role: "admin",
 
@@ -90,33 +91,32 @@ module.exports = {
     ],
 
     run: async (client, interaction, args) => {
-        const [ subcommand, id, item, count ] = args;
-        const amount = count || 1;
-        if (!GetPlayerName(id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        const player = client.QBCore.Functions.GetPlayer(id);
-        if (subcommand === "give") {
+        const amount = args.count || 1;
+        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
+        const player = client.QBCore.Functions.GetPlayer(args.id);
+        if (args.give) {
             const badItems = [ "id_card", "harness", "markedbills", "labkey", "printerdocument"];
-            const itemData = client.QBCore.Shared.Items[item.toLowerCase()];
+            const itemData = client.QBCore.Shared.Items[args.item.toLowerCase()];
             if (!itemData) return interaction.reply({ content: "Item could not be found", ephemeral: false });
             if (badItems.includes(itemData["name"])) return interaction.reply({ content: "This is a unqiue item and can't be interacted with like this", ephemeral: false });
             if (amount > 1 && itemData.unique) return interaction.reply({ content: "These items don't stack, give 1 at a time.", ephemeral: false });
             if (player.Functions.AddItem(itemData["name"], amount, false)) {
-                client.utils.log.info(`[${interaction.member.displayName}] gave ${GetPlayerName(id)} (${id}) ${amount} ${item}`);
-                return interaction.reply({ content: `${GetPlayerName(id)} (${id}) was given ${amount} ${itemData.label}`, ephemeral: false });
+                client.utils.log.info(`[${interaction.member.displayName}] gave ${GetPlayerName(args.id)} (${args.id}) ${amount} ${args.item}`);
+                return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) was given ${amount} ${itemData.label}`, ephemeral: false });
             } else {
                 return interaction.reply({ content: "Something went wrong trying to give this item", ephemeral: false });
             }
-        } else if (subcommand === "take") {
-            const itemData = client.QBCore.Shared.Items[item.toLowerCase()];
+        } else if (args.take) {
+            const itemData = client.QBCore.Shared.Items[args.item.toLowerCase()];
             if (!itemData) return interaction.reply({ content: "Item could not be found", ephemeral: false });
-            if (player.Functions.RemoveItem(item, amount)) {
-                client.utils.log.info(`[${interaction.member.displayName}] removed item from ${GetPlayerName(id)}'s (${id}) inventory (${amount} ${item})`);
-                return interaction.reply({ content: `${amount} ${itemData.label} has been taken from ${GetPlayerName(id)} (${id})`, ephemeral: false });
+            if (player.Functions.RemoveItem(args.item, amount)) {
+                client.utils.log.info(`[${interaction.member.displayName}] removed item from ${GetPlayerName(args.id)}'s (${args.id}) inventory (${amount} ${args.item})`);
+                return interaction.reply({ content: `${amount} ${itemData.label} has been taken from ${GetPlayerName(args.id)} (${args.id})`, ephemeral: false });
             } else {
-                return interaction.reply({ content: `Failed to remove item from ${GetPlayerName(id)}'s (${id}) inventory`, ephemeral: false });
+                return interaction.reply({ content: `Failed to remove item from ${GetPlayerName(args.id)}'s (${args.id}) inventory`, ephemeral: false });
             }
-        } else if (subcommand === "inspect") {
-            const embed = new client.Embed().setTitle(`${GetPlayerName(id)}'s (${id}) Inventory`);
+        } else if (args.inspect) {
+            const embed = new client.Embed().setTitle(`${GetPlayerName(args.id)}'s (${args.id}) Inventory`);
             const items = player.PlayerData.items;
             let desc = "";
             if (typeof items === "object") {
