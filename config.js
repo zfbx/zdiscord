@@ -62,9 +62,10 @@ const AutoAcePermissions = {
     // "example2": [ "000000000000000000", "000000000000000000"],
 };
 
-/* If true, using the /screenshot command will save the files taken to a folder in zdiscord.
-   * If you use this, please keep in mind screenshots will take up more space over time
-   so make sure to move or delete them on a regular basis if the command gets used regularly. */
+/* By default (false) `/screenshot` will just take a screenshot and upload it directly
+    to the channel it was requested in only. BUT if you set this to true it will ALSO
+    save a copy of the image locally to the server. This is off by default as over time
+    the server will fill up with images people might not cleanup */
 const saveScreenshotsToServer = "false";
 
 
