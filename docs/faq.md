@@ -12,6 +12,7 @@ Here's a list of common problems people have run into and how to solve them. If 
 - [Bot status message updates slow](#bot-status-message-updates-slow)
 - [Buffer Deprecation Warning](#buffer-deprecation-warning)
 - [Could not find dependency /server:4800](#could-not-find-dependency-server4800)
+- [QBCore commands aren't showing](#qbcore-commands-not-showing)
 
 
 ### No Slash Commands?
@@ -68,3 +69,22 @@ This is fine.. it's just a warning that future versions may drop support for it.
 ### Could not find dependency /server:4800
 
 When trying to start zdiscord you get an error that says `Could not find dependency /server:4800 for resource zdiscord`. This means you aren't running [FiveM artifacts](https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/) version 4800 or later. updating to a version number higher than 4800 will fix this errror and allow the resource to start.
+
+
+### QBCore commands aren't loading
+
+If you're using an older version of QBCore that uses the old `QBCore:GetObject` event you will have to update the server.js replaing lines ~42-45 which look like:
+```js
+try {
+    client.QBCore = global.exports["qb-core"].GetCoreObject();
+    if (client.QBCore) utils.log.info("QBCore found! Supported QB commands will be loaded.");
+} catch { client.QBCore = false; }
+```
+With this:
+```js
+client.QBCore = false;
+TriggerEvent("QBCore:GetObject", (obj) => { client.QBCore = obj; });
+if (client.QBCore) utils.log.info("QBCore found! Supported QB commands will be loaded.");
+```
+
+**Note:** Not all commands are backwards compatibible with the previous version of QBCore as it would be very hard to support many versions of backwards compatibility so I recommend updating :)
