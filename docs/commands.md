@@ -75,6 +75,7 @@ Adding commands can be really simple if you're familiar with javascript but very
     module.exports = {
         name: "commandname",
         description: "description of command",
+        version: 6,
 
         run: async (client, interaction, args) => {
             return interaction.reply({ content: "The Message that will be sent to back when the command is run" });
@@ -107,7 +108,7 @@ Adding commands can be really simple if you're familiar with javascript but very
     ],
 
     run: async (client, interaction, args) => { // You should already have this from the first part
-        const [ id, message ] = args;
+        // args will be named after the name in options (`args.id`, `args.message`)
         // Do waht you want with id and message from here on
     ```
 
@@ -144,3 +145,19 @@ config.perms = {
 Then in the command files for the commands you want trial mods to be able to access change what was like `role: "mod",` to `role: "trialmod",`, save and restart the resource or server.
 
 **Note:** If you don't add the extra role levels to the trialmod list those roles wont be able to access the commands set with `role: "trialmod"`
+
+**Full example:**
+```js
+function loadDiscordPermissions() {
+    const mod = { id: config.modRole, type: 1, permission: true };
+    const admin = { id: config.adminRole, type: 1, permission: true };
+    const god = { id: config.godRole, type: 1, permission: true };
+    const god2 = { id: "000000000000000000", type: 1, permission: true }; // Added
+    const own = { id: "142831624868855808", type: 2, permission: true };
+    config.perms = {
+        "mod": [ mod, admin, god, god2, own ], // changed
+        "admin": [ admin, god, god2, own ], // changed
+        "god": [ god, god2, own ], // changed
+    };
+}
+```
