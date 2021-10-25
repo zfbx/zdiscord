@@ -73,7 +73,7 @@ module.exports = {
             // also doesn't give any feedback on it's success or failure -.-
             emit("qb-weathersync:server:setWeather", weather);
             client.utils.log.info(`[${interaction.member.displayName}] toggled weather to ${weather}`);
-            return interaction.reply({ content: "Whether was updated", ephemeral: false });
+            return interaction.reply({ content: "Weather was updated", ephemeral: false });
         }
     },
 };
