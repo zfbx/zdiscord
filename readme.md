@@ -2,7 +2,7 @@
 
 **Note: This version of zdiscord REQUIRES FiveM artifacts 4800 or newer, if you're running an earlier version you might want to checkout the [v4 eris branch](https://github.com/zfbx/zdiscord/tree/eris) instead**
 
-[Setup](#setup) | [Donate](#donate) | [License](#license) | [FAQ](https://zfbx.github.io/zdiscord/faq) | [Support](#support) | [Docs](#docs)
+[Setup](#setup) | [Donate](#donate) | [FAQ](https://zfbx.github.io/zdiscord/faq) | [Support](#support) | [Docs](https://zfbx.github.io/zdiscord)
 
 ## About
 
