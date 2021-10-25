@@ -269,3 +269,13 @@ const paginationEmbed = async (interaction, pages, buttonList, timeout = 120000)
     return curPage;
 };
 exports.paginationEmbed = paginationEmbed;
+
+
+/** Check if role or server id looks at least somewhat correct
+ * @param {string} id - role id
+ * @returns {boolean} - whether ID looks correct */
+const isValidID = (id) => {
+    const idregex = /^\d{17,21}$/;
+    return idregex.test(id);
+};
+exports.isValidID = isValidID;
