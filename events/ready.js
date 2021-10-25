@@ -23,6 +23,7 @@ module.exports = {
     run: async (client) => {
         if (config.enableCommands) {
             const guild = client.guilds.cache.get(client.config.guildid);
+            if (!guild) return client.utils.log.error("DISCORD SERVER NOT FOUND - Is your config for 'DiscordGuildId' set correctly?");
             await guild.commands.set(client.arrayOfCommands).catch((error) => client.utils.log.handler("error", error)).then((cmd) => {
                 const fullPermissions = cmd.reduce((accumulator, x) => {
                     const command = client.arrayOfCommands.find((y) => y.name === x.name).role;
