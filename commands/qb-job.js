@@ -53,6 +53,7 @@ module.exports = {
                     required: true,
                     type: "STRING",
                     choices: [
+                        { name: "Grade 0", value: "0" },
                         { name: "Grade 1", value: "1" },
                         { name: "Grade 2", value: "2" },
                         { name: "Grade 3", value: "3" },
