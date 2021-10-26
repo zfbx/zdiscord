@@ -24,6 +24,7 @@ Key: *[required] (optional)*
 `/message [id] [message]` - mod+<br>
 `/onlinecount`<br>
 `/players` - mod+<br>
+`/server`<br>
 `/screenshot [id]` - god<br>
 `/teleport coords [id] [x] [y] [z] (keepvehicle)` - mod+<br>
 `/teleport preset [id] [location] (keepvehicle)` - mod+<br>
