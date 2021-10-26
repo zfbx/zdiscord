@@ -29,13 +29,17 @@ loadDiscordPermissions();
 utils.log.assert((process.version == "v12.13.0"), `You are running unsupported artifacts, download a newer artifact or revert to version 4.0.0 of ${GetCurrentResourceName()}`);
 utils.log.assert((config.token == "CHANGE"), "This module requires a discord bot token to run. Check the config.js");
 utils.log.assert((config.guildid == "000000000000000000"), "This resource requires a discord guildid to work properly. Check the config.js");
-
-utils.log.assert((config.guildid == "000000000000000000"), "This resource requires a discord guildid to work properly. Check the config.js");
-utils.log.assert((config.guildid == "000000000000000000"), "This resource requires a discord guildid to work properly. Check the config.js");
 utils.log.assert(!(utils.isValidID(config.guildid)), "Your DiscordGuildId doesn't seem correct");
 utils.log.assert(!(utils.isValidID(config.modRole)), "Your DiscordModRoleId doesn't seem correct");
 utils.log.assert(!(utils.isValidID(config.adminRole)), "Your DiscordAdminRoleId doesn't seem correct");
 utils.log.assert(!(utils.isValidID(config.godRole)), "Your DiscordGodRoleId doesn't seem correct");
+utils.log.assert(!(utils.isValidID(config.staffChannel)), "Your DiscordStaffChannelId doesn't seem correct");
+// Set public values so client can see them
+SetConvarReplicated("zdiscord_servername", config.serverName);
+SetConvarReplicated("zdiscord_discordinvite", config.discordInvite);
+SetConvarReplicated("zdiscord_serverip", config.serverIp);
+SetConvarReplicated("zdiscord_userpresence", config.enableUserPresence.toString());
+
 
 const { Client, Collection, MessageEmbed } = require("discord.js");
 const locale = require("./locales/" + config.lang);
