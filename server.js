@@ -107,7 +107,7 @@ on("playerConnecting", async (name, setKickReason, deferrals) => {
     const player = source;
     deferrals.defer();
     await utils.sleep(0);
-    deferrals.update(client.utils.replaceGlobals(locale.checkingWhitelist.replace(/{{name}}/g, name)));
+    deferrals.update(client.utils.replaceGlobals(locale.checkingWhitelist.replace(/{name}/g, name)));
     await utils.sleep(0);
     const discordID = utils.getPlayerDiscordId(player);
     if (!discordID) return deferrals.done(client.utils.replaceGlobals(locale.discordNotOpen));

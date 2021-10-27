@@ -130,14 +130,14 @@ exports.uppercaseFirstLetter = (string) => {
 };
 
 
-/** Replaces common global variables: {{servername}} {{invite}} {{playercount}}
+/** Replaces common global variables: {servername} {invite} {playercount}
  * @param {string} string - string to be converted
- * @return {string} - String with {{ variables }} replaced */
+ * @return {string} - String with { variables } replaced */
 exports.replaceGlobals = (string) => {
     return string
-        .replace(/{{servername}}/g, config.serverName)
-        .replace(/{{invite}}/g, config.discordInvite)
-        .replace(/{{playercount}}/g, GetNumPlayerIndices());
+        .replace(/{servername}/g, config.serverName)
+        .replace(/{invite}/g, config.discordInvite)
+        .replace(/{playercount}/g, GetNumPlayerIndices());
 };
 
 

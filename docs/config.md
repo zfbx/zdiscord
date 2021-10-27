@@ -86,7 +86,7 @@ This is a single discord role ID that will be permitted to use **all** commands.
 If this is set to `"true"` the bot will pick a random message from the [BotStatusMessages](#BotStatusMessages) config and display it as it's status. (Example: "Playing FiveM")
 
 ### BotStatusMessages
-The bot will pick a random message from this array every 30 seconds to set as it's status if [EnableBotStatusMessages](#EnableBotStatusMessages) is set to `"true"`. you must have at least 1 of these if enabled. You can use `{{playercount}}`, `{{servername}}` or `{{invite}}` inside the status messages and when they're shown they will replace those values with either the current number of players online, the server name set under [YourFiveMServerName](#YourFiveMServerName) or invite set under [DiscordInviteLink](#DiscordInviteLink).
+The bot will pick a random message from this array every 30 seconds to set as it's status if [EnableBotStatusMessages](#EnableBotStatusMessages) is set to `"true"`. you must have at least 1 of these if enabled. You can use `{playercount}`, `{servername}` or `{invite}` inside the status messages and when they're shown they will replace those values with either the current number of players online, the server name set under [YourFiveMServerName](#YourFiveMServerName) or invite set under [DiscordInviteLink](#DiscordInviteLink).
 
 
 

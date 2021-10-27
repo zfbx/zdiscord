@@ -40,7 +40,7 @@
 
 - Convar hooks added for nearly every config option [Read More](https://github.com/zfbx/zdiscord/wiki/Convars)
 - Slimmed up locales by removing console log messages
-- Added {{prefix}} to the global variables
+- Added {prefix} to the global variables
 - New Add/Remove permissions command for QBCore
 
 

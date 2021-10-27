@@ -27,8 +27,8 @@ const DiscordGodRoleId = "000000000000000000";
 // DISCORD BOT STATUS
 const EnableBotStatusMessages = "true";
 const BotStatusMessages = [
-    "{{servername}}",
-    "{{playercount}} online",
+    "{servername}",
+    "{playercount} online",
 ];
 
 // ACE PERMISSIONS
