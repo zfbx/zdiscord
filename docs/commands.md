@@ -32,6 +32,9 @@ Key: *[required] (optional)*
 **QBCore Commmands:**
 
 `/ban [id] [time] [reason]` - admin+<br>
+`/gang kick [id]` - admin+<br>
+`/gang inspect [id]` - admin+<br>
+`/gang set [id] [gang] [grade]` - admin+<br>
 `/inventory give [id] [item] [count]` - admin+<br>
 `/inventory inspect [id]` - admin+<br>
 `/inventory take [id] [item] [count]` - admin+<br>
