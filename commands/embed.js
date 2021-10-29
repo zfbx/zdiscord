@@ -114,7 +114,7 @@ module.exports = {
                 if (/^(http[s]?:\/\/.*\.(?:png|jpg|gif|jpeg))/i.test(args.thumbnail)) embed.setThumbnail(args.thumbnail);
                 else return interaction.reply({ content: "Thumbnail link seems to be invalid", ephemeral: true });
             }
-            embed.setDescription(args.message.replace("<br>", "\n"));
+            embed.setDescription(args.message.replace(/<br>/ig, "\n"));
             channel.send({ embeds: [ embed ] });
         } else if (args.complex) {
             let embed = args.json;
