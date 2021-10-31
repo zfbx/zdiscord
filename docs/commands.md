@@ -24,6 +24,12 @@ Key: *[required] (optional)*
 `/message [id] [message]` - mod+<br>
 `/onlinecount`<br>
 `/players` - mod+<br>
+`/resource ensure [resource]` - god<br>
+`/resource inspect [resource]` - god<br>
+`/resource list` - god<br>
+`/resource refresh` - god<br>
+`/resource start [resource]` - god<br>
+`/resource stop [resource]` - god<br>
 `/server`<br>
 `/screenshot [id]` - god<br>
 `/teleport coords [id] [x] [y] [z] (keepvehicle)` - mod+<br>
