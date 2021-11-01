@@ -34,12 +34,13 @@ Key: *[required] (optional)*
 `/screenshot [id]` - god<br>
 `/teleport coords [id] [x] [y] [z] (keepVehicle)` - mod+<br>
 `/teleport preset [id] [location] (keepVehicle)` - mod+<br>
-`/teleportall coords [x] [y] [z]` - god<br>
-`/teleportall preset [location]` - god<br>
+`/teleport-all coords [x] [y] [z]` - god<br>
+`/teleport-all preset [location]` - god<br>
 
 **QBCore Commands:**
 
 `/ban [id] [time] [reason]` - admin+<br>
+`/clothing-menu [id]` - admin+<br>
 `/gang kick [id]` - admin+<br>
 `/gang inspect [id]` - admin+<br>
 `/gang set [id] [gang] [grade]` - admin+<br>
@@ -59,7 +60,7 @@ Key: *[required] (optional)*
 `/permissions add [id] [permission]` - god<br>
 `/permissions remove [id]` - god<br>
 `/revive [id]` - admin+<br>
-`/reviveall` - god<br>
+`/revive-all` - god<br>
 `/time [hour]` - admin+<br>
 `/weather blackout` - admin+<br>
 `/weather set [weather]` - admin+<br>
