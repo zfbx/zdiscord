@@ -231,7 +231,7 @@ const { MessageActionRow, MessageEmbed, MessageButton } = require("discord.js");
  * @param {Interaction} interaction - the message interaction to react to
  * @param {MessageEmbed[]} pages - array of embeds
  * @param {MessageButton[]} buttonList - Must be 2 button objects
- * @param {number} timeout - Optional length of time to allow responces
+ * @param {number} timeout - Optional length of time to allow responses
  * @returns {Interaction} current page
  */
 const paginationEmbed = async (interaction, pages, buttonList, timeout = 120000) => {
@@ -274,7 +274,6 @@ exports.paginationEmbed = paginationEmbed;
  * @param {string} id - role id
  * @returns {boolean} - whether ID looks correct */
 const isValidID = (id) => {
-    const idregex = /^\d{17,21}$/;
-    return idregex.test(id);
+    return /^\d{17,21}$/.test(id);
 };
 exports.isValidID = isValidID;

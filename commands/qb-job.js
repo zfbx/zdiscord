@@ -41,10 +41,9 @@ module.exports = {
                     description: "job to give",
                     required: true,
                     type: "STRING",
-                    /* choices: [ // If someone desired they could hardcode options to make it easier but there's a limit of 25 options allowed
-                        { name: "Doctor / Amulance", value: "ambulance" },
+                    /* choices: [ // If someone desired they could hard-code options to make it easier but there's a limit of 25 options allowed
+                        { name: "Doctor / Ambulance", value: "ambulance" },
                         { name: "Police", value: "police" },
-                        { name: "Real Estate", value: "realestate" },
                     ],*/
                 },
                 {

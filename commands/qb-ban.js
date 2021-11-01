@@ -47,7 +47,7 @@ module.exports = {
 
     run: async (client, interaction, args) => {
         if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        if (args.time < 0) return interaction.reply({ content: "time must be a possitive number", ephemeral: true });
+        if (args.time < 0) return interaction.reply({ content: "time must be a positive number", ephemeral: true });
         // const player = client.QBCore.Functions.GetPlayer(args.id);
         /* If this event is fixed the code following can be removed.
         emit("qb-admin:server:ban", player, time, reason);

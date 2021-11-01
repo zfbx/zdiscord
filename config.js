@@ -86,7 +86,7 @@ module.exports = {
     queuePrios: ConnectingQueuePriorities,
     staffChannel: GetConvar("discord_staff_channel_id", DiscordStaffChannelId),
     enableUserPresence: getConBool("discord_enable_user_presence", EnableUserPresenceUpdates),
-    logWebooks: LoggingWebhooks,
+    logWebhooks: LoggingWebhooks,
 };
 
 /** Returns convar or default value fixed to a true/false boolean
@@ -102,8 +102,8 @@ function getConBool(con, def) {
 }
 
 /** returns array of items or default array provided
- * @param {string} con - string of comma seperated values
- * @param {string|Array} def - string of comma seperated values
+ * @param {string} con - string of comma separated values
+ * @param {string|Array} def - string of comma separated values
  * @returns {object} - array of discord ids */
 function getConList(con, def) {
     const ret = GetConvar(con, def);

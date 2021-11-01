@@ -6,7 +6,7 @@
 
 ## About
 
-A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and utilties using [discord.js](https://discord.js.org/). The goal is for this this resource to be easy to setup and expand upon while giving your staff team an easy method of support and moderation of players in game without actually launching FiveM. This resource also heavily support [QBCore](https://github.com/qbcore-framework) in most of it's functionality but it's not required
+A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and utilities using [discord.js](https://discord.js.org/). The goal is for this this resource to be easy to setup and expand upon while giving your staff team an easy method of support and moderation of players in game without actually launching FiveM. This resource also heavily support [QBCore](https://github.com/qbcore-framework) in most of it's functionality but it's not required
 
 
 

@@ -63,17 +63,17 @@ You may see a warning like:
 [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.
 ```
 
-This is fine.. it's just a warning that future versions may drop support for it. I don't see FiveM updating node again for quite some time so it's nothing to concern yourself with at the moment. This issue comes from a sub-dependency (node-fetch and whatwg) thinking FiveM is a browser so falling back to use `Buffer()`. I hope future updates of those resources will fix it, currently there's nothing I can do about it without forking entire collections of node modules and changing them. And I don't want the responsibility of keeping them updated esspecially when they're fairly active repositories.
+This is fine.. it's just a warning that future versions may drop support for it. I don't see FiveM updating node again for quite some time so it's nothing to concern yourself with at the moment. This issue comes from a sub-dependency (node-fetch and whatwg) thinking FiveM is a browser so falling back to use `Buffer()`. I hope future updates of those resources will fix it, currently there's nothing I can do about it without forking entire collections of node modules and changing them. And I don't want the responsibility of keeping them updated especially when they're fairly active repositories.
 
 
 ### Could not find dependency /server:4800
 
-When trying to start zdiscord you get an error that says `Could not find dependency /server:4800 for resource zdiscord`. This means you aren't running [FiveM artifacts](https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/) version 4800 or later. updating to a version number higher than 4800 will fix this errror and allow the resource to start.
+When trying to start zdiscord you get an error that says `Could not find dependency /server:4800 for resource zdiscord`. This means you aren't running [FiveM artifacts](https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/) version 4800 or later. updating to a version number higher than 4800 will fix this error and allow the resource to start.
 
 
 ### QBCore commands aren't loading
 
-If you're using an older version of QBCore that uses the old `QBCore:GetObject` event you will have to update the server.js replaing lines ~42-45 which look like:
+If you're using an older version of QBCore that uses the old `QBCore:GetObject` event you will have to update the server.js replacing lines ~42-45 which look like:
 ```js
 try {
     client.QBCore = global.exports["qb-core"].GetCoreObject();
@@ -87,4 +87,4 @@ TriggerEvent("QBCore:GetObject", (obj) => { client.QBCore = obj; });
 if (client.QBCore) utils.log.info("QBCore found! Supported QB commands will be loaded.");
 ```
 
-**Note:** Not all commands are backwards compatibible with the previous version of QBCore as it would be very hard to support many versions of backwards compatibility so I recommend updating :)
+**Note:** Not all commands are backwards compatible with the previous version of QBCore as it would be very hard to support many versions of backwards compatibility so I recommend updating :)

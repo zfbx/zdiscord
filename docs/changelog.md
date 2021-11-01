@@ -30,7 +30,7 @@
 
 **4.0.0 - permissions! bye yarn!.. and esx.**
 
-- Dependencies are now embeded libs making the project slimer on install and not requiring yarn.
+- Dependencies are now embedded libs making the project slimmer on install and not requiring yarn.
 - ESX support was dropped, it wasn't getting used and I don't have an esx server for testing.
 - translations were slimmed down to fivem messages only.
 - `add/removepermissions` merged into `perms` command

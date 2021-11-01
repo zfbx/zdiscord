@@ -24,7 +24,7 @@ module.exports = {
         if (interaction.isCommand()) {
             const command = client.commands.get(interaction.commandName);
             if (!command) {
-                return interaction.reply({ content: "An error has occured ", ephemeral: true }).catch((error) => client.utils.log.handler("error", error));
+                return interaction.reply({ content: "An error has occurred ", ephemeral: true }).catch((error) => client.utils.log.handler("error", error));
             }
             const args = {};
             for (const option of interaction.options.data) {

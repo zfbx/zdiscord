@@ -98,7 +98,7 @@ module.exports = {
             const badItems = [ "id_card", "harness", "markedbills", "labkey", "printerdocument"];
             const itemData = client.QBCore.Shared.Items[args.item.toLowerCase()];
             if (!itemData) return interaction.reply({ content: "Item could not be found", ephemeral: false });
-            if (badItems.includes(itemData["name"])) return interaction.reply({ content: "This is a unqiue item and can't be interacted with like this", ephemeral: false });
+            if (badItems.includes(itemData["name"])) return interaction.reply({ content: "This is a unique item and can't be interacted with like this", ephemeral: false });
             if (amount > 1 && itemData.unique) return interaction.reply({ content: "These items don't stack, give 1 at a time.", ephemeral: false });
             if (player.Functions.AddItem(itemData["name"], amount, false)) {
                 client.utils.log.info(`[${interaction.member.displayName}] gave ${GetPlayerName(args.id)} (${args.id}) ${amount} ${args.item}`);

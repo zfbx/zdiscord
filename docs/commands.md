@@ -32,10 +32,12 @@ Key: *[required] (optional)*
 `/resource stop [resource]` - god<br>
 `/server`<br>
 `/screenshot [id]` - god<br>
-`/teleport coords [id] [x] [y] [z] (keepvehicle)` - mod+<br>
-`/teleport preset [id] [location] (keepvehicle)` - mod+<br>
+`/teleport coords [id] [x] [y] [z] (keepVehicle)` - mod+<br>
+`/teleport preset [id] [location] (keepVehicle)` - mod+<br>
+`/teleportall coords [x] [y] [z]` - god<br>
+`/teleportall preset [location]` - god<br>
 
-**QBCore Commmands:**
+**QBCore Commands:**
 
 `/ban [id] [time] [reason]` - admin+<br>
 `/gang kick [id]` - admin+<br>
@@ -49,6 +51,7 @@ Key: *[required] (optional)*
 `/job fire [id]` - admin+<br>
 `/job inspect [id]` - admin+<br>
 `/job set [id] [job] [grade]` - admin+<br>
+`/logout [id]` - admin+<br>
 `/money add [id] [type] [amount]` - admin+<br>
 `/money inspect [id]` - admin+<br>
 `/money remove [id] [type] [amount]` - admin+<br>
@@ -56,6 +59,7 @@ Key: *[required] (optional)*
 `/permissions add [id] [permission]` - god<br>
 `/permissions remove [id]` - god<br>
 `/revive [id]` - admin+<br>
+`/reviveall` - god<br>
 `/time [hour]` - admin+<br>
 `/weather blackout` - admin+<br>
 `/weather set [weather]` - admin+<br>
@@ -63,7 +67,7 @@ Key: *[required] (optional)*
 ### Change permissions
 
 I tried to make all the permissions as fair and even as I could with my experience with servers and staffing, if you disagree with them it's quite easy to change.<br>
-There's currently only 3 permission tiers (mod, admin, god). Permissions are granted by a hierachy so "mod" will also mean "admin" and "god" can access them but a command with "god" will only be usable by someone with the "god" role.
+There's currently only 3 permission tiers (mod, admin, god). Permissions are granted by a hierarchy so "mod" will also mean "admin" and "god" can access them but a command with "god" will only be usable by someone with the "god" role.
 
 1. Go to the `/commands/command-name.js` you want to modify and open it in a text/code editor.
 2. Fine the line that looks like `role: "mod",` near the top (usually around line 26)
@@ -72,7 +76,7 @@ There's currently only 3 permission tiers (mod, admin, god). Permissions are gra
 
 To remove permissions from a command all together where anyone can use them delete both the `default_permission:` and `role:` lines from the command
 
-*Please note that permissions are synced across whole base commands so if you wanted `/money inspect` to be mod+ and `/money add` to be admin+ you'd need to seperate them into seperate commands to achieve that.*
+*Please note that permissions are synced across whole base commands so if you wanted `/money inspect` to be mod+ and `/money add` to be admin+ you'd need to separate them into separate commands to achieve that.*
 
 ### Add commands
 
@@ -121,7 +125,7 @@ Adding commands can be really simple if you're familiar with javascript but very
 
     run: async (client, interaction, args) => { // You should already have this from the first part
         // args will be named after the name in options (`args.id`, `args.message`)
-        // Do waht you want with id and message from here on
+        // Do what you want with id and message from here on
     ```
 
 5. If you need further guidance these links should help:<br>
@@ -129,7 +133,7 @@ Adding commands can be really simple if you're familiar with javascript but very
     [discord.js docs](https://discord.js.org/#/docs/main/stable/general/welcome) - Has almost everything you need to know<br>
     [discord.com command docs](https://discord.com/developers/docs/interactions/application-commands) - specific details about how things work<br>
     [FiveM server functions for JS](https://docs.fivem.net/docs/scripting-reference/runtimes/javascript/server-functions/) - Everything you can do with FiveM from a command<br>
-    **This resource itself** - Honestly there's so many features and practices being used actively here in commands and utils that you can take note from or in many cases just copy and paste and use so have at it and don't be affraid to break things to help learn more.. as long as you're not working on a live server while you're breaking things ;)
+    **This resource itself** - Honestly there's so many features and practices being used actively here in commands and utils that you can take note from or in many cases just copy and paste and use so have at it and don't be afraid to break things to help learn more.. as long as you're not working on a live server while you're breaking things ;)
 
 
 ### Add permission levels

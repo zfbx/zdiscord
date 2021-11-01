@@ -152,7 +152,7 @@ on("playerDropped", (reason) => {
     }
 });
 
-/** Generates permissions for commands to inhert from */
+/** Generates permissions for commands to inherit from */
 function loadDiscordPermissions() {
     const mod = { id: config.modRole, type: 1, permission: true };
     const admin = { id: config.adminRole, type: 1, permission: true };

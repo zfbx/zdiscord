@@ -90,7 +90,7 @@ Provide more context by answering these questions if possible:
 
 Include details about your setup:
 
-* **When was your zdiscord last updated?** 
+* **When was your zdiscord last updated?**
 * **What OS is the server running on**?
 * **Which *extra* resources do you have installed?**
 
@@ -117,7 +117,7 @@ Enhancement suggestions are tracked as [GitHub issues](https://guides.github.com
 
 * **Use a clear and descriptive title** for the issue to identify the suggestion.
 * **Provide a step-by-step description of the suggested enhancement** in as many details as possible.
-* **Provide specific examples to demonstrate the steps**. Include copy/pasteable snippets which you use in those examples, as [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
+* **Provide specific examples to demonstrate the steps**. Include copy/paste-able snippets which you use in those examples, as [Markdown code blocks](https://help.github.com/articles/markdown-basics/#multiple-lines).
 * **Describe the current behavior** and **explain which behavior you expected to see instead** and why.
 * **Include screenshots and animated GIFs** which help you demonstrate the steps or point out the part of zdiscord which the suggestion is related to.
 * **Explain why this enhancement would be useful.**
@@ -167,7 +167,7 @@ While the prerequisites above must be satisfied prior to having your pull reques
 
 * Limit the first line to 72 characters or less.
 * Reference issues and pull requests liberally after the first line.
-* Consider starting the commit message with an applicable emoji (not manditory):
+* Consider starting the commit message with an applicable emoji (not mandatory):
     * :art: `:art:` when improving the format/structure of the code
     * :racehorse: `:racehorse:` when improving performance
     * :memo: `:memo:` when writing docs
@@ -207,10 +207,10 @@ All lua code should be done using all the best practices of proper lua using the
 - Don't repeat yourself.. if you're using the same operations in many different places convert them into a function with flexible variables
 - For distance checking loops set longer waits if you're outside of a range
 - Job specific loops should only run for players with that job, don't waste cycles
-- When possible don't trust the client, esspecially with transactions
+- When possible don't trust the client, especially with transactions
 - Balance security and optimizations
 - [Consider this Lua Performance guide](https://springrts.com/wiki/Lua_Performance)
-- Use local varriables everywhere possible
+- Use local variables everywhere possible
 - Make use of config options where it makes sense making features optional or customizable
 - Instead of `table.insert(myTable, "Value")` use `myTable[#myTable + 1] = "Value"`
 - Instead of `table.insert(ages, "bob", 30)` use `ages["bob"] = 30`

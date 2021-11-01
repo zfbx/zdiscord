@@ -55,7 +55,7 @@ This setting determines whether the bot should check if someone is in the discor
 
 ### DiscordWhitelistRoleIds
 **[ Convar: `discord_whitelist_roles` ]**<br>
-This is a comma seperated list (`"role1id, role2id, role3id"`) of role IDs that will be able to connect to the server if [EnableWhitelistChecking](#EnableWhitelistChecking) is set to "true". To get a role Id you enable developer mode in your discord client then either right click a role name from someone's popup profile or right click the role name in the role settings and "copy id".
+This is a comma separated list (`"role1id, role2id, role3id"`) of role IDs that will be able to connect to the server if [EnableWhitelistChecking](#EnableWhitelistChecking) is set to "true". To get a role Id you enable developer mode in your discord client then either right click a role name from someone's popup profile or right click the role name in the role settings and "copy id".
 
 
 
@@ -103,7 +103,7 @@ If [EnableAutoAcePermissions](#EnableAutoAcePermissions) is set to `"true"` the 
 
 By default the discord mod, admin and god roles are given `group.mod`, `group.admin` or `group.god` respectively.
 
-Set a single role id with `"example": "000000000000000000",`. You can also have multiple discord roles checked for an Ace permission by using an array instead of a single roleid string like: `"example2": [ "000000000000000000", "000000000000000000"],`
+Set a single role id with `"example": "000000000000000000",`. You can also have multiple discord roles checked for an Ace permission by using an array instead of a single roleId string like: `"example2": [ "000000000000000000", "000000000000000000"],`
 
 **NOTE: This will only work if `add_ace resource.zdiscord command allow` is set in the server.cfg**
 
@@ -117,7 +117,7 @@ If you want discord `/screenshot`s to be saved locally to the server set this to
 
 
 ---
-## Potenatial future feature configs
+## Potential future feature configs
 
 These may or may not be in any way functional or non-existent entirely, they're only here to make upgrading in the future easier if and when I add them.
 
