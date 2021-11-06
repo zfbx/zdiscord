@@ -19,6 +19,7 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 - vn - Vietnamese - By xenfovn
 - ar - Arabic - By RadhwaneDZ
 - tr - Turkish - By alp1x
+- nl - Dutch = By ChatDisabled
 
 ## License
 
