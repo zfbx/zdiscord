@@ -53,7 +53,7 @@ module.exports = {
         {
             type: "SUB_COMMAND",
             name: "take",
-            description: "fire player from their current job",
+            description: "take an item away from a player",
             options: [
                 {
                     name: "id",
