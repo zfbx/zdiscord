@@ -21,9 +21,16 @@ module.exports = {
     name: "messageCreate",
     // msg = https://discord.js.org/#/docs/main/stable/class/Message
     run: async (client, msg) => {
-        /**
-         * Currently this does nothing but in the future this could be used to grab messages
-         * from a certain channel and forward them to staff in city for communication between mods
-         */
+        if (!msg.content || !client.QBCore || msg.author.bot) return;
+        if (client.config.EnableStaffChatForwarding && msg.channel.id == client.config.DiscordStaffChannelId) {
+            getPlayers().forEach(async function(player, index, array) {
+                if (IsPlayerAceAllowed(player, "zdiscord.staffchat") && !staffChatDisabled[player]) {
+                    emitNet("chat:addMessage", player, {
+                        template: `<div class=chat-message server'><strong>[staff] ${msg.member.displayName}:</strong> ${msg.content}</div>`,
+                    });
+                }
+            });
+            return console.log(`[STAFF] ${msg.member.displayName}: ${msg.content}`);
+        }
     },
 };

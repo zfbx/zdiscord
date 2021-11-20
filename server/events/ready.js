@@ -21,8 +21,8 @@ module.exports = {
     name: "ready",
     once: true,
     run: async (client) => {
-        if (config.enableCommands) {
-            const guild = client.guilds.cache.get(client.config.guildid);
+        if (config.EnableDiscordSlashCommands) {
+            const guild = client.guilds.cache.get(client.config.DiscordGuildId);
             if (!guild) return client.utils.log.error("DISCORD SERVER NOT FOUND - Is your config for 'DiscordGuildId' set correctly?");
             await guild.commands.set(client.arrayOfCommands).catch((error) => client.utils.log.handler("error", error)).then((cmd) => {
                 const fullPermissions = cmd.reduce((accumulator, x) => {
@@ -37,7 +37,7 @@ module.exports = {
                 guild.commands.permissions.set({ fullPermissions }).catch((error) => client.utils.log.handler("error", error));
             });
         }
-        if (config.enableStatus && config.statusMessages) statusUpdater(client);
+        if (config.EnableBotStatusMessages && config.BotStatusMessages) statusUpdater(client);
         client.utils.log.info(`Logged in as ${client.user.tag}`);
     },
 };
@@ -45,7 +45,7 @@ module.exports = {
 async function statusUpdater(client) {
     setInterval(function() {
         try {
-            const msg = client.utils.replaceGlobals(config.statusMessages[Math.floor(Math.random() * config.statusMessages.length)]);
+            const msg = client.utils.replaceGlobals(config.BotStatusMessages[Math.floor(Math.random() * config.BotStatusMessages.length)]);
             client.user.setActivity({ name: msg, type: "PLAYING" });
         } catch (e) {
             // Just gonna void these errors..

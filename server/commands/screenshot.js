@@ -53,7 +53,7 @@ module.exports = {
             .setImage(`attachment://${name}`)
             .setFooter(`Taken At ${client.utils.log.timestamp()}`);
         await interaction.editReply({ content: null, embeds: [ embed ], files: [ { attachment: buffer, name: name } ] }).catch(console.error);
-        if (client.config.saveScreenshots) {
+        if (client.config.SaveScreenshotsToServer) {
             await fs.mkdir(`${client.root}/screenshots`, { recursive: true }).catch();
             await fs.writeFile(`${client.root}/screenshots/${name}`, data, { encoding: "base64", flag:"w+" }).catch(client.utils.log.error);
         }
