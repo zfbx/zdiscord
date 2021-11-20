@@ -3,18 +3,10 @@
  * Copyright (C) 2021 Tony/zfbx
  * source: <https://github.com/zfbx/zdiscord>
  *
- * zdiscord is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * zdiscord is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with zdiscord. If not, see <https://www.gnu.org/licenses/>.
+ * This work is licensed under the Creative Commons
+ * Attribution-NonCommercial-ShareAlike 4.0 International License.
+ * To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/4.0/
+ * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
 const { Client, Collection, MessageEmbed } = require("discord.js");
@@ -36,15 +28,6 @@ class Bot extends Client {
         this.Embed = MessageEmbed;
         this.commands = new Collection();
         this.arrayOfCommands = [];
-
-        utils.log.assert((process.version == "v12.13.0"), "You are running unsupported artifacts, download a newer artifact or revert to version 4.0.0 of zdiscord");
-        utils.log.assert((config.DiscordBotToken == "CHANGE"), "This module requires a discord bot token to run. Check the config.js");
-        utils.log.assert((config.DiscordGuildId == "000000000000000000"), "This resource requires a discord guildid to work properly. Check the config.js");
-        utils.log.assert(!(utils.isValidID(config.DiscordGuildId)), "Your DiscordGuildId doesn't seem correct");
-        utils.log.assert(!(utils.isValidID(config.DiscordModRoleId)), "Your DiscordModRoleId doesn't seem correct");
-        utils.log.assert(!(utils.isValidID(config.DiscordAdminRoleId)), "Your DiscordAdminRoleId doesn't seem correct");
-        utils.log.assert(!(utils.isValidID(config.DiscordGodRoleId)), "Your DiscordGodRoleId doesn't seem correct");
-        utils.log.assert(config.EnableStaffChatForwarding && !(utils.isValidID(config.DiscordStaffChannelId)), "Your DiscordStaffChannelId doesn't seem correct");
     }
 
     loadCommands() {
@@ -54,10 +37,6 @@ class Bot extends Client {
             if (!command?.name) continue;
             if (command.args || command.alias) {
                 utils.log.warn(`${file} is an v4 or later command and is not supported, upgrade it or remove it`);
-                continue;
-            }
-            if (!command.version || command.version < 6) {
-                utils.log.warn(`${file} is an outdated command - check the github for updated commands`);
                 continue;
             }
             if (this.commands.has(command.name)) {
@@ -81,6 +60,16 @@ class Bot extends Client {
     }
 
     start() {
+
+        this.utils.log.assert((process.version == "v12.13.0"), "You are running unsupported artifacts, download a newer artifact or revert to version 4.0.0 of zdiscord");
+        this.utils.log.assert((this.config.DiscordBotToken == "CHANGE"), "This module requires a discord bot token to run. Check the config.js");
+        this.utils.log.assert((this.config.DiscordGuildId == "000000000000000000"), "This resource requires a discord guildid to work properly. Check the config.js");
+        this.utils.log.assert(!(this.utils.isValidID(this.config.DiscordGuildId)), "Your DiscordGuildId doesn't seem correct");
+        this.utils.log.assert(!(this.utils.isValidID(this.config.DiscordModRoleId)), "Your DiscordModRoleId doesn't seem correct");
+        this.utils.log.assert(!(this.utils.isValidID(this.config.DiscordAdminRoleId)), "Your DiscordAdminRoleId doesn't seem correct");
+        this.utils.log.assert(!(this.utils.isValidID(this.config.DiscordGodRoleId)), "Your DiscordGodRoleId doesn't seem correct");
+        this.utils.log.assert(this.config.EnableStaffChatForwarding && !(this.utils.isValidID(this.config.DiscordStaffChannelId)), "Your DiscordStaffChannelId doesn't seem correct");
+
         try {
             this.QBCore = global.exports["qb-core"].GetCoreObject();
             if (this.QBCore) utils.log.info("QBCore found! Supported QB commands will be loaded.");

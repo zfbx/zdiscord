@@ -1,5 +1,5 @@
 /*
-    zdiscord - by Tony/zfbx - https://github.com/zfbx/zdiscord - License: GPLv3
+    zdiscord - by Tony/zfbx - https://github.com/zfbx/zdiscord - License: CC BY-NC-SA 4.0
     Docs for this file available at https://zfbx.github.io/zdiscord/config or in docs/config.md
 */
 
