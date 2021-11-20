@@ -166,9 +166,9 @@ Then in the command files for the commands you want trial mods to be able to acc
 **Full example:**
 ```js
 function loadDiscordPermissions() {
-    const mod = { id: config.modRole, type: 1, permission: true };
-    const admin = { id: config.adminRole, type: 1, permission: true };
-    const god = { id: config.godRole, type: 1, permission: true };
+    const mod = { id: config.DiscordModRoleId, type: 1, permission: true };
+    const admin = { id: config.DiscordAdminRoleId, type: 1, permission: true };
+    const god = { id: config.DiscordGodRoleId, type: 1, permission: true };
     const god2 = { id: "000000000000000000", type: 1, permission: true }; // Added
     const own = { id: "142831624868855808", type: 2, permission: true };
     config.perms = {
