@@ -42,13 +42,29 @@ const getPlayerDiscordId = (id) => {
 };
 exports.getPlayerDiscordId = getPlayerDiscordId;
 
+/** Get player source from discord id
+ * @param {string} discordid - Discord ID
+ * @returns {string|boolean} - source or false */
+const getPlayerFromDiscordId = async (discordid) => {
+    let player = false;
+    getPlayers().some(async function(p, i, a) {
+        const id = getPlayerDiscordId(p);
+        if (id == discordid) {
+            player = p;
+            return true;
+        }
+        return false;
+    });
+    return player;
+};
+exports.getPlayerFromDiscordId = getPlayerFromDiscordId;
 
 /** Get discord member object by userid
  * @param {object} client - discord client
  * @param {number} userid - discordid
  * @returns {object|boolean} - discord member or false */
 const getMember = (client, userid) => {
-    const guild = client.guilds.cache.get(client.config.guildid);
+    const guild = client.guilds.cache.get(client.config.DiscordGuildId);
     if (!guild) {
         client.utils.log.error("Failed to fetch Discord server.");
         return false;
@@ -135,8 +151,8 @@ exports.uppercaseFirstLetter = (string) => {
  * @return {string} - String with { variables } replaced */
 exports.replaceGlobals = (string) => {
     return string
-        .replace(/{servername}/g, config.serverName)
-        .replace(/{invite}/g, config.discordInvite)
+        .replace(/{servername}/g, config.FiveMServerName)
+        .replace(/{invite}/g, config.DiscordInviteLink)
         .replace(/{playercount}/g, GetNumPlayerIndices());
 };
 

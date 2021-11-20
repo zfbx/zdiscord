@@ -1,4 +1,4 @@
-# zdiscord (v5)
+# zdiscord (v7)
 
 **Note: This version of zdiscord REQUIRES FiveM artifacts 4800 or newer, if you're running an earlier version you might want to checkout the [v4 eris branch](https://github.com/zfbx/zdiscord/tree/eris) instead**
 

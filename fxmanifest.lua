@@ -23,12 +23,12 @@ games { "gta5" }
 author "zfbx"
 description "Discord bot allowlist and more"
 repository "https://github.com/zfbx/zdiscord"
-version "6.0.0"
+version "7.0.0"
 license "GPLv3"
 lua54 'yes'
 
-server_script "server.js"
-client_script "client.lua"
+server_script "server/server.js"
+client_script "client/client.lua"
 
 dependencies {
     '/server:4800', -- Node16+

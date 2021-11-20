@@ -31,5 +31,3 @@ RegisterNetEvent(GetCurrentResourceName()..':teleport', function(x, y, z, withVe
         SetEntityCoords(PlayerPedId(), x, y, z);
     end
 end)
-
--- Add staff reply command? (reply to the same channel that a message was sent to the player from or default to a reports channel?)
