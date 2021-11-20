@@ -24,13 +24,17 @@
 
 const fetch = require("node-fetch");
 const root = GetResourcePath(GetCurrentResourceName());
-const config = require(`${root}/config.js`);
+const config = require(`${root}/config`);
 const locale = require(`${root}/locales/${config.LanguageLocaleCode}`);
-const utils = require(`${root}/server/utils.js`);
+const utils = require(`${root}/server/utils`);
+const Bot = require(`${root}/server/bot`);
 loadDiscordPermissions();
 
 let bot = false;
-if (config.EnableDiscordBot) bot = require(`${root}/server/bot.js`);
+if (config.EnableDiscordBot) {
+    bot = new Bot(config, utils, locale);
+    bot.start();
+}
 
 SetConvarReplicated("zdiscord_servername", config.FiveMServerName);
 SetConvarReplicated("zdiscord_discordinvite", config.DiscordInviteLink);
