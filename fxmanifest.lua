@@ -23,6 +23,6 @@ server_script "server/server.js"
 client_script "client/client.lua"
 
 dependencies {
-    '/server:4800', -- Node16+
+    '/server:4890', -- Node16+
     'yarn',
 }

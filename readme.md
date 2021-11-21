@@ -26,7 +26,7 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 ## Setup
 
 ### Requirements
-- FiveM artifacts build 4800 or higher
+- FiveM artifacts build 4890 or higher
 - [cfx-server-data](https://github.com/citizenfx/cfx-server-data) in your resources (yarn (`[system]/[builders]/yarn/`) at least)
 - Optional: [screenshot-basic](https://github.com/citizenfx/screenshot-basic) if you want the /screenshot command to work
 
