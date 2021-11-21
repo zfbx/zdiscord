@@ -285,3 +285,20 @@ const isValidID = (id) => {
     return /^\d{17,21}$/.test(id);
 };
 exports.isValidID = isValidID;
+
+
+/** send staff message to all staff in game with it enabled
+ * @param {object} client - Name the message is from
+ * @param {string} name - Name the message is from
+ * @param {string} msg - message to send */
+const sendStaffChatMessage = (client, name, msg) => {
+    if (!msg) return;
+    getPlayers().forEach(async function(player, index, array) {
+        if (IsPlayerAceAllowed(player, "zdiscord.staffchat") && !client.config.staffChatDisabled[player]) {
+            emitNet("chat:addMessage", player, {
+                template: `<div class=chat-message server'><strong>[staff] ${name}:</strong> ${msg}</div>`,
+            });
+        }
+    });
+};
+exports.sendStaffChatMessage = sendStaffChatMessage;

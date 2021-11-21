@@ -92,7 +92,6 @@ Adding commands can be really simple if you're familiar with javascript but very
     module.exports = {
         name: "commandname",
         description: "description of command",
-        version: 6,
 
         run: async (client, interaction, args) => {
             return interaction.reply({ content: "The Message that will be sent to back when the command is run" });

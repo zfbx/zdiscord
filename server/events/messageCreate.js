@@ -15,13 +15,7 @@ module.exports = {
     run: async (client, msg) => {
         if (!msg.content || !client.QBCore || msg.author.bot) return;
         if (client.config.EnableStaffChatForwarding && msg.channel.id == client.config.DiscordStaffChannelId) {
-            getPlayers().forEach(async function(player, index, array) {
-                if (IsPlayerAceAllowed(player, "zdiscord.staffchat") && !staffChatDisabled[player]) {
-                    emitNet("chat:addMessage", player, {
-                        template: `<div class=chat-message server'><strong>[staff] ${msg.member.displayName}:</strong> ${msg.content}</div>`,
-                    });
-                }
-            });
+            client.utils.sendStaffChatMessage(client, msg.member.displayName, msg.content);
             return console.log(`[STAFF] ${msg.member.displayName}: ${msg.content}`);
         }
     },

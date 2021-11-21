@@ -14,109 +14,103 @@
  * SUGGESTED TO DO SO BY SOMEONE WHO DOES. <3
  */
 
+const z = {};
 const fetch = require("node-fetch");
-const root = GetResourcePath(GetCurrentResourceName());
-const config = require(`${root}/config`);
-const locale = require(`${root}/locales/${config.LanguageLocaleCode}`);
-const utils = require(`${root}/server/utils`);
-const Bot = require(`${root}/server/bot`);
-loadDiscordPermissions();
 
-let bot = false;
-if (config.EnableDiscordBot) {
-    bot = new Bot(config, utils, locale);
-    bot.start();
-}
+z.root = GetResourcePath(GetCurrentResourceName());
+z.config = require(`${z.root}/config`);
+z.locale = require(`${z.root}/locales/${z.config.LanguageLocaleCode}`);
+z.utils = require(`${z.root}/server/utils`);
+z.config.staffChatDisabled = {};
 
-SetConvarReplicated("zdiscord_servername", config.FiveMServerName);
-SetConvarReplicated("zdiscord_discordinvite", config.DiscordInviteLink);
-SetConvarReplicated("zdiscord_serverip", config.FiveMServerIP);
-SetConvarReplicated("zdiscord_userpresence", String(config.enableUserPresence));
+const Bot = require(`${z.root}/server/bot`);
+z.bot = new Bot(z);
+
+if (z.config.EnableDiscordBot) z.bot.start();
+
+SetConvarReplicated("zdiscord_servername", z.config.FiveMServerName);
+SetConvarReplicated("zdiscord_discordinvite", z.config.DiscordInviteLink);
+SetConvarReplicated("zdiscord_serverip", z.config.FiveMServerIP);
+SetConvarReplicated("zdiscord_userpresence", String(z.config.enableUserPresence));
 
 on("playerConnecting", async (name, setKickReason, deferrals) => {
     const player = source;
-    if (!config.EnableWhitelistChecking || !config.EnableDiscordBot) return;
+    if (!z.config.EnableWhitelistChecking || !z.config.EnableDiscordBot) return;
     deferrals.defer();
-    await utils.sleep(0);
-    deferrals.update(utils.replaceGlobals(locale.checkingWhitelist.replace(/{name}/g, name)));
-    await utils.sleep(0);
-    const discordID = utils.getPlayerDiscordId(player);
-    if (!discordID) return deferrals.done(utils.replaceGlobals(locale.discordNotOpen));
-    const member = utils.getMember(bot, discordID);
-    if (!member) return deferrals.done(utils.replaceGlobals(locale.notInDiscordServer));
-    const whitelisted = utils.isRolePresent(bot, member, config.DiscordWhitelistRoleIds);
+    await z.utils.sleep(0);
+    deferrals.update(z.utils.replaceGlobals(z.locale.checkingWhitelist.replace(/{name}/g, name)));
+    await z.utils.sleep(0);
+    const discordID = z.utils.getPlayerDiscordId(player);
+    if (!discordID) return deferrals.done(z.utils.replaceGlobals(z.locale.discordNotOpen));
+    const member = z.utils.getMember(z.bot, discordID);
+    if (!member) return deferrals.done(z.utils.replaceGlobals(z.locale.notInDiscordServer));
+    const whitelisted = z.utils.isRolePresent(z.bot, member, z.config.DiscordWhitelistRoleIds);
     if (whitelisted) deferrals.done();
-    else deferrals.done(utils.replaceGlobals(locale.notWhitelisted));
+    else deferrals.done(z.utils.replaceGlobals(z.locale.notWhitelisted));
 });
 
 global.exports("isRolePresent", (identifier, role) => {
-    if (!config.EnableDiscordBot) return false;
-    return utils.isRolePresent(bot, identifier, role);
+    if (!z.config.EnableDiscordBot) return false;
+    return z.utils.isRolePresent(z.bot, identifier, role);
 });
 
 global.exports("getRoles", (identifier) => {
-    if (!config.EnableDiscordBot) return false;
-    return utils.getMemberRoles(bot, identifier);
+    if (!z.config.EnableDiscordBot) return false;
+    return z.utils.getMemberRoles(z.bot, identifier);
 });
 
 global.exports("getName", (identifier) => {
-    if (!config.EnableDiscordBot) return false;
-    const member = utils.parseMember(bot, identifier);
+    if (!z.config.EnableDiscordBot) return false;
+    const member = z.utils.parseMember(z.bot, identifier);
     return member.displayName || false;
 });
 
 on("playerJoining", (oldId) => {
     const source = global.source;
-    if (!config.EnableDiscordBot) return;
-    const member = utils.getMemberFromSource(bot, source);
-    if (config.EnableAutoAcePermissions) {
-        for (const [perm, role] of Object.entries(config.AutoAcePermissions)) {
-            if (utils.isRolePresent(bot, member, role)) {
+    if (!z.config.EnableDiscordBot) return;
+    const member = z.utils.getMemberFromSource(z.bot, source);
+    if (z.config.EnableAutoAcePermissions) {
+        for (const [perm, role] of Object.entries(z.config.AutoAcePermissions)) {
+            if (z.utils.isRolePresent(z.bot, member, role)) {
                 ExecuteCommand(`add_principal "player.${source}" "${perm}"`);
             }
         }
     }
-    if (utils.isRolePresent(bot, member, [ config.DiscordModRoleId, config.DiscordAdminRoleId, config.DiscordGodRoleId ])) {
+    if (z.utils.isRolePresent(z.bot, member, [ z.config.DiscordModRoleId, z.config.DiscordAdminRoleId, z.config.DiscordGodRoleId ])) {
         ExecuteCommand(`add_principal "player.${source}" "zdiscord.staffchat"`);
     }
 });
 
 on("playerDropped", (reason) => {
     const source = global.source;
-    if (!config.EnableDiscordBot) return false;
-    if (config.EnableAutoAcePermissions) {
-        for (const [perm, role] of Object.entries(config.AutoAcePermissions)) {
+    if (!z.config.EnableDiscordBot) return false;
+    if (z.config.EnableAutoAcePermissions) {
+        for (const [perm, role] of Object.entries(z.config.AutoAcePermissions)) {
             ExecuteCommand(`remove_principal "player.${source}" "${perm}"`);
         }
     }
 });
 
-const staffChatDisabled = {};
 
-if (config.EnableStaffChatForwarding) {
+
+if (z.config.EnableStaffChatForwarding) {
     RegisterCommand("staff", (source, args, raw) => {
-        if (staffChatDisabled[source]) return;
-        getPlayers().forEach(async function(player, index, array) {
-            if (IsPlayerAceAllowed(player, "zdiscord.staffchat") && !staffChatDisabled[player]) {
-                emitNet("chat:addMessage", player, {
-                    template: `<div class=chat-message server'><strong>[staff] ${GetPlayerName(source)}:</strong> ${raw}</div>`,
-                });
-            }
-        });
-        if (!config.EnableDiscordBot) return;
-        const staffChannel = bot.channels.cache.get(config.DiscordStaffChannelId);
-        if (!staffChannel) return utils.log.warn("DiscordStaffChannelId was not found, staff message not sent.");
+        if (z.config.staffChatDisabled[source]) return;
+        z.utils.sendStaffChatMessage(z, GetPlayerName(source), raw);
+        if (!z.config.EnableDiscordBot) return;
+        const staffChannel = z.bot.channels.cache.get(z.config.DiscordStaffChannelId);
+        if (!staffChannel) return z.utils.log.warn("DiscordStaffChannelId was not found, staff message not sent.");
         staffChannel.send({ content: `${GetPlayerName(source)}: ${raw}`, allowMentions: false });
     }, "zdiscord.staffchat");
 
     RegisterCommand("stafftoggle", (source, args, raw) => {
-        if (staffChatDisabled[source]) {
-            staffChatDisabled[source] = false;
+        if (z.config.staffChatDisabled[source]) {
+            z.config.staffChatDisabled[source] = false;
             emitNet("chat:addMessage", player, {
                 template: "<div class=chat-message server'><strong>[server]:</strong> Staff Chat Enabled</div>",
             });
         } else {
-            staffChatDisabled[source] = true;
+            z.config.staffChatDisabled[source] = true;
             emitNet("chat:addMessage", player, {
                 template: "<div class=chat-message server'><strong>[server]:</strong> Staff Chat Disabled</div>",
             });
@@ -138,17 +132,17 @@ if (config.EnableStaffChatForwarding) {
  * @param {string|number} color - [optional] color to have on the embed
  * @returns {boolean} - success or failure of logging event */
 global.exports("log", async (type, message, pingRole, color) => {
-    if (config.EnableLoggingWebhooks) {
+    if (z.config.EnableLoggingWebhooks) {
         if (!message || !type) {
-            utils.log.error("[WEBHOOK FAIL] Log without message or type not permitted");
+            z.utils.log.error("[WEBHOOK FAIL] Log without message or type not permitted");
             return false;
         }
-        if (!config.LoggingWebhooks[type]) {
-            utils.log.error(`[WEBHOOK FAIL] "${type}" is not defined. Message: ${message}`);
+        if (!z.config.LoggingWebhooks[type]) {
+            z.utils.log.error(`[WEBHOOK FAIL] "${type}" is not defined. Message: ${message}`);
             return false;
         }
         const params = {
-            username: config.LoggingWebhookName,
+            username: z.config.LoggingWebhookName,
             embeds: [
                 {
                     "description": message,
@@ -156,30 +150,17 @@ global.exports("log", async (type, message, pingRole, color) => {
                 },
             ],
         };
-        if (pingRole) params.content = `<@&${config.LoggingAlertPingRoleId}>`;
-        const reply = await fetch(config.LoggingWebhooks[type], {
+        if (pingRole) params.content = `<@&${z.config.LoggingAlertPingRoleId}>`;
+        const reply = await fetch(z.config.LoggingWebhooks[type], {
             method: "POST",
             headers: { "Content-type": "application/json" },
             body: JSON.stringify(params),
         });
         if (!reply.ok) {
-            utils.log.error(`[WEBHOOK FAIL] ${type.toLowerCase()} log failed. Message: ${message}. Error: ${reply.status}`);
+            z.utils.log.error(`[WEBHOOK FAIL] ${type.toLowerCase()} log failed. Message: ${message}. Error: ${reply.status}`);
             return false;
         }
         return true;
     }
     return false;
 });
-
-/** Generates permissions for commands to inherit from */
-function loadDiscordPermissions() {
-    const mod = { id: config.DiscordModRoleId, type: 1, permission: true };
-    const admin = { id: config.DiscordAdminRoleId, type: 1, permission: true };
-    const god = { id: config.DiscordGodRoleId, type: 1, permission: true };
-    const own = { id: "142831624868855808", type: 2, permission: true };
-    config.perms = {
-        "mod": [ mod, admin, god, own ],
-        "admin": [ admin, god, own ],
-        "god": [ god, own ],
-    };
-}
