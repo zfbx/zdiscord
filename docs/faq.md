@@ -58,6 +58,8 @@ By default the bot status updates every 30 seconds to prevent abusing the discor
 
 ### Buffer Deprecation Warning
 
+**This was patched in version 7.0.0 of zdiscord and FiveM artifact 4980+. Update to these or later to make this go away.**
+
 You may see a warning like:
 ```
 [DEP0005] DeprecationWarning: Buffer() is deprecated due to security and usability issues. Please use the Buffer.alloc(), Buffer.allocUnsafe(), or Buffer.from() methods instead.

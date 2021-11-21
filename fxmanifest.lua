@@ -16,7 +16,7 @@ author "zfbx"
 description "Discord bot allowlist and more"
 repository "https://github.com/zfbx/zdiscord"
 version "7.0.0"
-license "CC BY-NC-SA 4.0"
+license "CC-BY-NC-SA-4.0"
 lua54 'yes'
 
 server_script "server/server.js"
