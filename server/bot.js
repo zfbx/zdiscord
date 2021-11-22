@@ -10,7 +10,6 @@
  */
 
 const { Client, Collection, MessageEmbed } = require("discord.js");
-const root = GetResourcePath(GetCurrentResourceName());
 const { readdirSync } = require("fs");
 
 
