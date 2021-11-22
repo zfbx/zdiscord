@@ -84,10 +84,9 @@
   "resolved" "https://registry.npmjs.org/discord-api-types/-/discord-api-types-0.24.0.tgz"
   "version" "0.24.0"
 
-"discord.js@^13.3.1":
-  "integrity" "sha512-zn4G8tL5+tMV00+0aSsVYNYcIfMSdT2g0nudKny+Ikd+XKv7m6bqI7n3Vji0GIRqXDr5ArPaw+iYFM2I1Iw3vg=="
-  "resolved" "https://registry.npmjs.org/discord.js/-/discord.js-13.3.1.tgz"
-  "version" "13.3.1"
+"discord.js@github:zfbx/discord.js":
+  "resolved" "git+ssh://git@github.com/zfbx/discord.js.git#2c56b697c5515024600e59e09c42702170404ead"
+  "version" "13.4.0-dev"
   dependencies:
     "@discordjs/builders" "^0.8.1"
     "@discordjs/collection" "^0.3.2"
