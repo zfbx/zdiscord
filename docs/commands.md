@@ -138,11 +138,11 @@ Adding commands can be really simple if you're familiar with javascript but very
 
 ### Add permission levels
 
-By defaults there is mod, admin and god but if you wanted to add another level, for like trial mods, it's actually quite easy to do. In `server.js`, at the bottom there's a section called `loadDiscordPermissions()`.<br>
+By defaults there is mod, admin and god but if you wanted to add another level, for like trial mods, it's actually quite easy to do. In `bot.js`, at the bottom there's a section called `loadDiscordPermissions()`.<br>
 It has 2 main parts, The role levels, which look like `const mod = { id:..`<br>
 And the role table
 ```js
-config.perms = {
+this.config.perms = {
     "mod": [ mod, admin, god, own ],
     "admin": [ admin, god, own ], ...
 ```
@@ -153,7 +153,7 @@ const trialmod = { id: "000000000000000", type: 1, permission: true };
 ```
 then you would add it to the role table with all the other roles you want to inherit permissions from trialmod:
 ```js
-config.perms = {
+this.config.perms = {
     "trialmod": [ trialmod, mod, admin, god, own ],
     "mod": [ mod, admin, god, own ], ...
 ```
@@ -164,13 +164,13 @@ Then in the command files for the commands you want trial mods to be able to acc
 
 **Full example:**
 ```js
-function loadDiscordPermissions() {
-    const mod = { id: config.DiscordModRoleId, type: 1, permission: true };
-    const admin = { id: config.DiscordAdminRoleId, type: 1, permission: true };
-    const god = { id: config.DiscordGodRoleId, type: 1, permission: true };
+loadDiscordPermissions() {
+    const mod = { id: this.config.DiscordModRoleId, type: 1, permission: true };
+    const admin = { id: this.config.DiscordAdminRoleId, type: 1, permission: true };
+    const god = { id: this.config.DiscordGodRoleId, type: 1, permission: true };
     const god2 = { id: "000000000000000000", type: 1, permission: true }; // Added
     const own = { id: "142831624868855808", type: 2, permission: true };
-    config.perms = {
+    this.config.perms = {
         "mod": [ mod, admin, god, god2, own ], // changed
         "admin": [ admin, god, god2, own ], // changed
         "god": [ god, god2, own ], // changed
