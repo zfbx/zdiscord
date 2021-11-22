@@ -141,10 +141,10 @@ exports.uppercaseFirstLetter = (string) => {
 /** Replaces common global variables: {servername} {invite} {playercount}
  * @param {string} string - string to be converted
  * @return {string} - String with { variables } replaced */
-exports.replaceGlobals = (string) => {
+exports.replaceGlobals = (z, string) => {
     return string
-        .replace(/{servername}/g, config.FiveMServerName)
-        .replace(/{invite}/g, config.DiscordInviteLink)
+        .replace(/{servername}/g, z.config.FiveMServerName)
+        .replace(/{invite}/g, z.config.DiscordInviteLink)
         .replace(/{playercount}/g, GetNumPlayerIndices());
 };
 
@@ -294,9 +294,9 @@ exports.isValidID = isValidID;
 const sendStaffChatMessage = (client, name, msg) => {
     if (!msg) return;
     getPlayers().forEach(async function(player, index, array) {
-        if (IsPlayerAceAllowed(player, "zdiscord.staffchat") && !client.config.staffChatDisabled[player]) {
+        if (IsPlayerAceAllowed(player, "zdiscord.staffchat")) {
             emitNet("chat:addMessage", player, {
-                template: `<div class=chat-message server'><strong>[staff] ${name}:</strong> ${msg}</div>`,
+                template: `<div class=chat-message server'><strong>[${client.locale.staffchat}] ${name}:</strong> ${msg}</div>`,
             });
         }
     });
