@@ -10,8 +10,9 @@ const locale = {
     notInDiscordServer: "{servername} Discord adresinizde bulunmuyorsunuz, katılmak için: {invite}",
     notWhitelisted: "{servername} için whitelist rolünüz bulunmamakta.",
     kickedWithoutReason: "Yetkili tarafından sunucudan atıldın.",
-    announcement: "Duyuru",
-    directMessage: "Yetkili",
+    announcement: "DUYURU",
+    directMessage: "PERSONEL",
+    staffchat: "PERSONELSOHBET",
 };
 
 module.exports = locale;

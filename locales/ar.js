@@ -12,6 +12,7 @@ const locale = {
     kickedWithoutReason: "لقد تم طردك من قبل المراقب.",
     announcement: "اعلان",
     directMessage: "الادارة",
+    staffchat: "شات الادارة",
 };
 
 module.exports = locale;

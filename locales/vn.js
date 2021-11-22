@@ -12,6 +12,7 @@ const locale = {
     kickedWithoutReason: "Bạn Đã Bị Đuổi Bởi Quản Trị Viên.",
     announcement: "Thông Báo",
     directMessage: "Quản Trị Viên",
+    staffchat: "STAFFCHAT",
 };
 
 module.exports = locale;

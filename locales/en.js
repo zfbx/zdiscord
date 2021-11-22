@@ -13,6 +13,7 @@ const locale = {
     kickedWithoutReason: "You've been kicked by staff.",
     announcement: "ANNOUNCEMENT",
     directMessage: "STAFF",
+    staffchat: "STAFFCHAT",
 };
 
 module.exports = locale;
