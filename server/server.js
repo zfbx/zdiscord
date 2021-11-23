@@ -10,7 +10,6 @@
  */
 
 const z = {};
-const fetch = require("node-fetch");
 
 z.root = GetResourcePath(GetCurrentResourceName());
 z.config = require(`${z.root}/config`);
@@ -18,11 +17,12 @@ z.locale = require(`${z.root}/locales/${z.config.LanguageLocaleCode}`);
 z.utils = require(`${z.root}/server/utils`);
 
 const Bot = require(`${z.root}/server/bot`);
-z.bot = new Bot(z);
-if (z.config.EnableDiscordBot) z.bot.start();
-
 const Queue = require(`${z.root}/server/queue`);
+const Log = require(`${z.root}/server/log`);
+
+z.bot = new Bot(z);
 z.queue = new Queue(z);
+z.log = new Log(z);
 
 SetConvarReplicated("zdiscord_servername", z.config.FiveMServerName);
 SetConvarReplicated("zdiscord_discordinvite", z.config.DiscordInviteLink);
@@ -38,41 +38,38 @@ on("playerConnecting", async (name, setKickReason, deferrals) => {
     await z.utils.sleep(0);
     const discordID = z.utils.getPlayerDiscordId(player);
     if (!discordID) return deferrals.done(z.utils.replaceGlobals(z, z.locale.discordNotOpen));
-    const member = z.utils.getMember(z.bot, discordID);
+    const member = z.bot.getMember(discordID);
     if (!member) return deferrals.done(z.utils.replaceGlobals(z, z.locale.notInDiscordServer));
-    const whitelisted = z.utils.isRolePresent(z.bot, member, z.config.DiscordWhitelistRoleIds);
+    const whitelisted = z.bot.isRolePresent(member, z.config.DiscordWhitelistRoleIds);
     if (whitelisted) deferrals.done();
     else deferrals.done(z.utils.replaceGlobals(z, z.locale.notWhitelisted));
 });
 
 global.exports("isRolePresent", (identifier, role) => {
-    if (!z.config.EnableDiscordBot) return false;
-    return z.utils.isRolePresent(z.bot, identifier, role);
+    return z.bot.isRolePresent(identifier, role);
 });
 
 global.exports("getRoles", (identifier) => {
-    if (!z.config.EnableDiscordBot) return false;
-    return z.utils.getMemberRoles(z.bot, identifier);
+    return z.bot.getMemberRoles(identifier);
 });
 
 global.exports("getName", (identifier) => {
-    if (!z.config.EnableDiscordBot) return false;
-    const member = z.utils.parseMember(z.bot, identifier);
+    const member = z.bot.parseMember(identifier);
     return member.displayName || false;
 });
 
 on("playerJoining", (oldId) => {
     const source = global.source;
     if (!z.config.EnableDiscordBot) return;
-    const member = z.utils.getMemberFromSource(z.bot, source);
+    const member = z.bot.getMemberFromSource(source);
     if (z.config.EnableAutoAcePermissions) {
         for (const [perm, role] of Object.entries(z.config.AutoAcePermissions)) {
-            if (z.utils.isRolePresent(z.bot, member, role)) {
+            if (z.bot.isRolePresent(member, role)) {
                 ExecuteCommand(`add_principal "player.${source}" "${perm}"`);
             }
         }
     }
-    if (z.utils.isRolePresent(z.bot, member, [ z.config.DiscordModRoleId, z.config.DiscordAdminRoleId, z.config.DiscordGodRoleId ])) {
+    if (z.bot.isRolePresent(member, [ z.config.DiscordModRoleId, z.config.DiscordAdminRoleId, z.config.DiscordGodRoleId ])) {
         ExecuteCommand(`add_principal "player.${source}" group.zdiscordstaff`);
     }
 });
@@ -106,8 +103,8 @@ if (z.config.EnableStaffChatForwarding) {
                 template: "<div class=chat-message server'><strong>[server]:</strong> Staff Chat Disabled</div>",
             });
         } else {
-            const member = z.utils.getMemberFromSource(z.bot, source);
-            if (z.utils.isRolePresent(z.bot, member, [ z.config.DiscordModRoleId, z.config.DiscordAdminRoleId, z.config.DiscordGodRoleId ])) {
+            const member = z.bot.getMemberFromSource(source);
+            if (z.bot.isRolePresent(member, [ z.config.DiscordModRoleId, z.config.DiscordAdminRoleId, z.config.DiscordGodRoleId ])) {
                 ExecuteCommand(`add_principal "player.${source}" group.zdiscordstaff`);
                 emitNet("chat:addMessage", source, {
                     template: "<div class=chat-message server'><strong>[server]:</strong> Staff Chat Enabled</div>",
@@ -124,44 +121,7 @@ if (z.config.EnableStaffChatForwarding) {
     });
 }
 
-/** Sends a log through to a webhook by name configured in config
- * @param {string} type - type of log/event to pick which webhook to send
- * @param {string} message - Message to log
- * @param {boolean} pingRole - Whether message should ping configured role
- * @param {string|number} color - [optional] color to have on the embed
- * @returns {boolean} - success or failure of logging event */
-global.exports("log", async (type, message, pingRole, color) => {
-    if (z.config.EnableLoggingWebhooks) {
-        if (!message || !type) {
-            z.utils.log.error("[WEBHOOK FAIL] Log without message or type not permitted");
-            return false;
-        }
-        if (!z.config.LoggingWebhooks[type]) {
-            z.utils.log.error(`[WEBHOOK FAIL] "${type}" is not defined. Message: ${message}`);
-            return false;
-        }
-        const params = {
-            username: z.config.LoggingWebhookName,
-            embeds: [
-                {
-                    "description": message,
-                    "color": "#1e90ff",
-                },
-            ],
-        };
-        if (pingRole) params.content = `<@&${z.config.LoggingAlertPingRoleId}>`;
-        const reply = await fetch(z.config.LoggingWebhooks[type], {
-            method: "POST",
-            headers: { "Content-type": "application/json" },
-            body: JSON.stringify(params),
-        });
-        if (!reply.ok) {
-            z.utils.log.error(`[WEBHOOK FAIL] ${type.toLowerCase()} log failed. Message: ${message}. Error: ${reply.status}`);
-            return false;
-        }
-        return true;
-    }
-    return false;
-});
 
-// add_principal "player.1" "zdiscord.staffchat" allow
+global.exports("log", async (type, message, pingRole, color) => {
+    return z.log.send(type, message, pingRole, color);
+});

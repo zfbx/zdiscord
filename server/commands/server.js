@@ -16,7 +16,7 @@ module.exports = {
     // role: "mod",
 
     run: async (client, interaction) => {
-        if (client.utils.isRolePresent(client, interaction.member, [client.config.DiscordModRoleId, client.config.DiscordAdminRoleId, client.config.DiscordGodRoleId])) {
+        if (client.isRolePresent(interaction.member, [client.config.DiscordModRoleId, client.config.DiscordAdminRoleId, client.config.DiscordGodRoleId])) {
             const embed = new client.Embed()
                 .setThumbnail(interaction.guild.iconURL({ format: "png", size: 512 }))
                 .addField("FiveM Server:", `**Version:** ${GetConvar("version", "Unknown")}

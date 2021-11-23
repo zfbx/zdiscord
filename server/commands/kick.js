@@ -32,7 +32,7 @@ module.exports = {
 
     run: async (client, interaction, args) => {
         if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        const reason = client.utils.replaceGlobals(client, args.message || client.locale.kickedWithoutReason);
+        const reason = client.utils.replaceGlobals(client, args.message || client.z.locale.kickedWithoutReason);
         DropPlayer(args.id, reason);
         client.utils.log.info(`[${interaction.member.displayName}] Kicked ${GetPlayerName(args.id)} (${args.id}). Reason: ${reason}`);
         return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) has been kicked.`, ephemeral: false });

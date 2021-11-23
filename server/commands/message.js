@@ -33,7 +33,7 @@ module.exports = {
     run: async (client, interaction, args) => {
         if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
         emitNet("chat:addMessage", args.id, {
-            template: `<div class=chat-message server'><strong>${client.locale.directMessage}:</strong> ${args.message}</div>`,
+            template: `<div class=chat-message server'><strong>${client.z.locale.directMessage}:</strong> ${args.message}</div>`,
         });
         client.utils.log.info(`[${interaction.member.displayName}] sent a DM to ${GetPlayerName(args.id)} (${args.id}): ${args.message}`);
         return interaction.reply({ content: `Message sent to ${GetPlayerName(args.id)} (${args.id}).`, ephemeral: false });

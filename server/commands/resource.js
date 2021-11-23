@@ -128,7 +128,7 @@ module.exports = {
             });
             const backBtn = new MessageButton().setCustomId("previousbtn").setEmoji("🔺").setStyle("SECONDARY");
             const forwardBtn = new MessageButton().setCustomId("nextbtn").setEmoji("🔻").setStyle("SECONDARY");
-            client.utils.paginationEmbed(interaction, pages, [backBtn, forwardBtn]);
+            client.paginationEmbed(interaction, pages, [backBtn, forwardBtn]);
         }
     },
 };
