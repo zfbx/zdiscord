@@ -1,6 +1,8 @@
-# zdiscord (v5)
+# zdiscord (v7)
 
-**Note: This version of zdiscord REQUIRES FiveM artifacts 4800 or newer, if you're running an earlier version you might want to checkout the [v4 eris branch](https://github.com/zfbx/zdiscord/tree/eris) instead**
+**Note: zdiscord v7 and high REQUIRE FiveM artifacts build 4890 or newer**<br>
+zdiscord v5-6 REQUIRES artifacts 4800 or newer.<br>
+Older artifacts will require use of the [v4 eris branch](https://github.com/zfbx/zdiscord/tree/eris) instead.
 
 [Setup](#setup) | [Donate](#donate) | [FAQ](https://zfbx.github.io/zdiscord/faq) | [Support](#support) | [Docs](https://zfbx.github.io/zdiscord)
 
@@ -20,11 +22,13 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 - Can be configured with [convars](https://zfbx.github.io/zdiscord/convars)
 - Automatic Ace Permission granting system
 - [Helpful exports](https://zfbx.github.io/zdiscord/exports)
+- bi-directional staff chat
+- AND MORE!
 
 ## Setup
 
 ### Requirements
-- FiveM artifacts build 4800 or higher
+- FiveM artifacts build 4890 or higher
 - [cfx-server-data](https://github.com/citizenfx/cfx-server-data) in your resources (yarn (`[system]/[builders]/yarn/`) at least)
 - Optional: [screenshot-basic](https://github.com/citizenfx/screenshot-basic) if you want the /screenshot command to work
 
@@ -43,7 +47,11 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 
 6. In your `server.cfg` do the following:<br>
     6a. Add `ensure zdiscord` (after qb-core and/or [convars](https://zfbx.github.io/zdiscord/convars) you may have)<br>
-    6b. Add `add_ace resource.zdiscord command allow` anywhere in the .cfg file
+    6b. Add the following anywhere in your .cfg:
+    ```
+    add_ace resource.zdiscord command allow
+    add_ace group.zdiscordstaff zdiscord.staffchat allow
+    ```
 
 7. Adjust the `config.js` variables to how you'd like them. (Optionally use [Convars](https://zfbx.github.io/zdiscord/convars))
 
@@ -75,20 +83,12 @@ Any contribution is greatly appreciated but you're amazing regardless ♥
 
 ## License
 
-**Note: as of version 5.0.0 zdiscord, it is licensed under GPL version 3**
 
-    Copyright (C) 2021 Tony/zfbx <https://github.com/zfbx>
+**Note: as of version 7.0.0 zdiscord, it is licensed under CC-BY-NC-SA-4.0**
 
-    This program (zdiscord) is free software: you can redistribute it
-    and/or modify it under the terms of the GNU General Public License
-    as published by the Free Software Foundation, either version 3 of
-    the License, or (at your option) any later version.
+<p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/"><a property="dct:title" rel="cc:attributionURL" href="https://github.com/zfbx/zdiscord">zdiscord</a> © 2021 by <a rel="cc:attributionURL dct:creator" property="cc:attributionName" href="https://github.com/zfbx">zfbx</a> is licensed under <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;">Attribution-NonCommercial-ShareAlike 4.0 International<img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/sa.svg?ref=chooser-v1"></a></p>
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+**TL;DR**
+- BY: Credit must be given to me, the creator. (Tony/zfbx)
+- NC: Only noncommercial use of your work is permitted. (You can use in your own FiveM server which may make money itself BUT can't in any way sell zdiscord itself in any way for any commercial advantage or monetary compensation)
+- SA: Adaptations must be shared under the same terms.

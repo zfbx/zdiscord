@@ -11,7 +11,35 @@ If you don't want to set config options within `config.js` you can set them thro
 
 
 
-## Essentials
+# General Configuration Settings
+
+### LanguageLocaleCode
+**[ Default: "en" | Convar: `discord_lang` ]**<br>
+This determines which locale (translation) file is loaded from `/locales` so if the file that fits the language you want used is in that folder then use the 2 character name of the file. As of writing this ar, de, en, pl, tr and vn are available options.
+
+
+## Public Values
+
+### FiveMServerName
+**[ Replicated | Convar: `discord_server_name` ]**<br>
+This is what you want your FiveM server to be called, this value is used in various places as an auto-fill like bot status and commands as well as translations when people are connecting to your server.
+
+### DiscordInviteLink
+**[ Replicated | Convar: `discord_invite` ]**<br>
+A link to your discord server that will be given to users on connection problems to the FiveM server, used for discord presence links and some command replies.
+
+### FiveMServerIP
+**[ Replicated | Convar: `discord_server_ip` ]**<br>
+
+
+# Discord Bot Settings
+
+### EnableDiscordBot
+**[ Convar: `discord_enable_bot`]**<br>
+This option deterrmins whether the bot actually connects to discord at all. if this is set to false the bot portions will not work at all. but log webhooks, presence updates and connection queue will continue though without priority
+
+
+## Discord Bot
 
 ### DiscordBotToken
 **[ Convar: `discord_token`]**<br>
@@ -22,25 +50,16 @@ This is where you put your discord bot token generated from [Discord Application
 **[ Convar: `discord_guild_id` ]**<br>
 This is for your Discord Server id (Also called a Guild Id). You can get that by enabling developer mode in your discord client then right clicking your discord server icon and "copy id". This is an important value, the bot will only listen to events done within this server.
 
-### LanguageLocaleCode
-**[ Default: "en" | Convar: `discord_lang` ]**<br>
-This determines which locale (translation) file is loaded from `/locales` so if the file that fits the language you want used is in that folder then use the 2 character name of the file. As of writing this ar, de, en, pl, tr and vn are available options.
 
+## Staff Chat
 
+### EnableStaffChatForwarding
+**[ Convar: `discord_enable_staff_chat`]**<br>
+This set to "true" will enable the feature of forwarding chat from in game to discord and back in the channel configured in the next setting.
 
-## Public
-
-### YourFiveMServerName
-**[ Replicated | Convar: `discord_server_name` ]**<br>
-This is what you want your FiveM server to be called, this value is used in various places as an auto-fill like bot status and commands as well as translations when people are connecting to your server.
-
-### DiscordInviteLink
-**[ Replicated | Convar: `discord_invite` ]**<br>
-A link to your discord server that will be given to users on connection problems to the FiveM server, used for discord presence links and some command replies.
-
-### YourFiveMServerIP
-**[ Replicated | Convar: `discord_server_ip` ]**<br>
-
+### DiscordStaffChannelId
+**[ Convar: `discord_staff_channel_id` ]**<br>
+This is the channel staff chat will be sent and be taken from to send to staff in game. this can only be 1 channel and some things might not look the same in game as they do in discord like emoji or @mentions but that's normal.
 
 
 ## Whitelisting / Allowlisting
@@ -58,8 +77,7 @@ This setting determines whether the bot should check if someone is in the discor
 This is a comma separated list (`"role1id, role2id, role3id"`) of role IDs that will be able to connect to the server if [EnableWhitelistChecking](#EnableWhitelistChecking) is set to "true". To get a role Id you enable developer mode in your discord client then either right click a role name from someone's popup profile or right click the role name in the role settings and "copy id".
 
 
-
-## Slash commands / Discord permissions
+## Slash Commands / Discord Permissions
 
 ### EnableDiscordSlashCommands
 **[ Convar: `discord_enable_commands` ]**<br>
@@ -78,16 +96,14 @@ This is a single discord role ID that will be permitted to use commands set to r
 This is a single discord role ID that will be permitted to use **all** commands. Including `"admin"` and `"mod"`. Otherwise refer to [DiscordModRoleId](#DiscordModRoleId)'s notes.
 
 
-
-## Discord bot cosmetics
+## Discord Bot Status
 
 ### EnableBotStatusMessages
 **[ Convar: `discord_enable_status` ]**<br>
 If this is set to `"true"` the bot will pick a random message from the [BotStatusMessages](#BotStatusMessages) config and display it as it's status. (Example: "Playing FiveM")
 
 ### BotStatusMessages
-The bot will pick a random message from this array every 30 seconds to set as it's status if [EnableBotStatusMessages](#EnableBotStatusMessages) is set to `"true"`. you must have at least 1 of these if enabled. You can use `{playercount}`, `{servername}` or `{invite}` inside the status messages and when they're shown they will replace those values with either the current number of players online, the server name set under [YourFiveMServerName](#YourFiveMServerName) or invite set under [DiscordInviteLink](#DiscordInviteLink).
-
+The bot will pick a random message from this array every 30 seconds to set as it's status if [EnableBotStatusMessages](#EnableBotStatusMessages) is set to `"true"`. you must have at least 1 of these if enabled. You can use `{playercount}`, `{servername}` or `{invite}` inside the status messages and when they're shown they will replace those values with either the current number of players online, the server name set under [FiveMServerName](#FiveMServerName) or invite set under [DiscordInviteLink](#DiscordInviteLink).
 
 
 ## Ace Permissions
@@ -108,7 +124,6 @@ Set a single role id with `"example": "000000000000000000",`. You can also have 
 **NOTE: This will only work if `add_ace resource.zdiscord command allow` is set in the server.cfg**
 
 
-
 ## Other
 
 ### saveScreenshotsToServer
@@ -116,20 +131,23 @@ Set a single role id with `"example": "000000000000000000",`. You can also have 
 If you want discord `/screenshot`s to be saved locally to the server set this to `"true"` however if you just want the screenshots to be sent to discord when the command is used leave this as `"false"`. Please note if you change this to true, it's up to you to monitor your screenshots folder as images can be quite large and use a lot of space if they don't get cleaned up regularly.
 
 
----
-## Potential future feature configs
 
-These may or may not be in any way functional or non-existent entirely, they're only here to make upgrading in the future easier if and when I add them.
+# Webhook Logging Settings
 
-### EnableConnectingQueue (not released)
-**[ Convar: `discord_enable_connecting_queue` ]**<br>
+### EnableLoggingWebhooks
+**[ Convar: `discord_enable_logging_webhooks` ]**<br>
+This setting enables the abilty to use the log export. if this is set to false the export will return false and not send the event.
 
-### ConnectingQueuePriorities (not released)
+### LoggingWebhookName
+**[ Convar: `discord_logging_name` ]**<br>
+This is the name to display in discord when the logs come through. Webhooks work slightly different from the normal bot and can have their own names or pictures set without issue, these "bots" however can't read messages or show up in the user list, it's just a one way message
 
-### DiscordStaffChannelId (not released)
-**[ Convar: `discord_staff_channel_id` ]**<br>
+### LoggingAlertPingId
+**[ Convar: `discord_logging_ping_id` ]**<br>
+This discord id will be pingged in the event a log is sent with `true` for pingRole. This can be used to give attention to an important log that a dedicated staff team might want to know about or deal with for example a monetary transaction over a certain amount might be suspicious and warrent a ping to this user or role. There can only be one id for this.<br>
+**IMPORTANT NOTE:** If you want to ping a user just put the ID, if you want to **ping a role** put a `&` in front of the role id**
 
-### EnableUserPresenceUpdates (not released)
-**[ Replicated | Convar: `discord_enable_user_presence` ]**<br>
+### LoggingWebhooks
+This is the array of webhooks you setup to be used with the log system. it uses `"key": "value",` where `key` is the name (case sensitive) of the webhook for you to be able to call from the logging export as the first value
 
-### LoggingWebhooks (not released)
+

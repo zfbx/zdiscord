@@ -9,20 +9,17 @@
  - or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 --]]
 
-fx_version "cerulean"
-games { "gta5" }
+RegisterNetEvent(GetCurrentResourceName()..':kill', function()
+    SetEntityHealth(PlayerPedId(), 0)
+end)
 
-author "zfbx"
-description "Discord bot allowlist and more"
-repository "https://github.com/zfbx/zdiscord"
-version "7.0.0"
-license "CC-BY-NC-SA-4.0"
-lua54 'yes'
-
-server_script "server/server.js"
-client_script "client/client.lua"
-
-dependencies {
-    '/server:4890', -- Node16+
-    'yarn',
-}
+RegisterNetEvent(GetCurrentResourceName()..':teleport', function(x, y, z, withVehicle)
+    x = tonumber(x)
+    y = tonumber(y)
+    z = tonumber(z)
+    if (withVehicle) then
+        SetPedCoordsKeepVehicle(PlayerPedId(), x, y, z)
+    else
+        SetEntityCoords(PlayerPedId(), x, y, z);
+    end
+end)

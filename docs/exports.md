@@ -6,6 +6,7 @@ If you have other resources that you wish to be able to use information availabl
 - [isRolePresent](#isrolepresent)
 - [getRoles](#getroles)
 - [getName](#getname)
+- [log](#log)
 
 ### isRolePresent
 Returns a true/false boolean if a role is present for a role id or array of role-ids
@@ -73,4 +74,20 @@ local name = exports.zdiscord:getName(source);
 
 -- Discord ID
 local name = exports.zdiscord:getName("142831624868855808");
+```
+
+
+### log
+send a message to a configured Log webhook
+
+```js
+// JAVASCRIPT EXAMPLE
+// event, message, pingRole, color (optional)
+global.exports.zdiscord.log("modlog", "UserA Banned UserB for Reason", true, "#FF0000");
+
+```
+```lua
+-- LUA EXAMPLE
+-- event, message, pingRole, color (optional)
+exports.zdiscord:log("modlog", "UserA Banned UserB for Reason", true, "#FF0000");
 ```
