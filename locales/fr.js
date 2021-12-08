@@ -1,4 +1,4 @@
-/* en - English Translation by zfbx ♥
+/* fr - French Translation by tiweb442
  Translation strings used by the bot
  Strings wrapped in { } will be auto-replaced with updated values
  Globals: {servername}, {invite}, (all from config) and {playercount} (current connected players)
