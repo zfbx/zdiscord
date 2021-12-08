@@ -22,6 +22,8 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 - Can be configured with [convars](https://zfbx.github.io/zdiscord/convars)
 - Automatic Ace Permission granting system
 - [Helpful exports](https://zfbx.github.io/zdiscord/exports)
+- bi-directional staff chat
+- AND MORE!
 
 ## Setup
 
