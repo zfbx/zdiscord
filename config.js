@@ -50,9 +50,6 @@ const BotStatusMessages = [
 // ACE PERMISSIONS
 const EnableAutoAcePermissions = false;
 const AutoAcePermissions = {
-    "group.god": DiscordGodRoleId,
-    "group.admin": DiscordAdminRoleId,
-    "group.mod": DiscordModRoleId,
     // "example": "000000000000000000",
     // "example2": [ "000000000000000000", "000000000000000000"],
 };
@@ -67,38 +64,14 @@ const SaveScreenshotsToServer = false;
 
 const EnableLoggingWebhooks = false;
 const LoggingWebhookName = "zLogs";
-const LoggingAlertPingRoleId = "000000000000000000";
+// put "&" in front of the id if you're to ping a role
+const LoggingAlertPingId = "&000000000000000000";
 // example: "bank": "https://discord.com/webhook/...",
 const LoggingWebhooks = {
-    "example": "",
+    "example": "https://discord.com/api/webhooks/000000000/sEcRRet-ToK3n_5tUfF_tH8t_YUo-S40u1d-n07-sHar3",
+    "test": "https://discord.com/api/webhooks/912921715854704670/1jJ0UJ2MTdDjqcYPa-UNA2rK_kzGZlcHPyfjyFnyh0BH1paP4TPlj-kGavyGuuPb-8wc",
+    "test2": "https://discord.com/api/webhooks/912921913427386420/yW8qoGNDtlxCrCsKK9vJLyVLwMCc0BukcTe7wPSgaBPxSgph_wVnvNjjJ4ew6TZhAPyy",
 };
-
-
-/** *************************
- * CONNECTION QUEUE SETTINGS (( WIP ))
- ***************************/
-
-// WIP
-const EnableConnectingQueue = false;
-
-// WIP
-// This setting will only take effect if EnableDiscordBot is "true"
-const ConnectingQueuePriorities = {
-    1: DiscordGodRoleId,
-    2: DiscordAdminRoleId,
-    3: DiscordModRoleId,
-    // 10: "000000000000000000",
-    // 20: [ "000000000000000000", "000000000000000000"],
-};
-
-
-/** **********************
- * USER PRESENCE SETTINGS (( WIP ))
- *************************/
-
-// WIP
-const EnableUserPresenceUpdates = false;
-
 
 
 /** !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -126,12 +99,9 @@ module.exports = {
     EnableAutoAcePermissions: getConBool("discord_enable_ace_perms", EnableAutoAcePermissions),
     AutoAcePermissions: AutoAcePermissions,
     SaveScreenshotsToServer: getConBool("discord_save_screenshots", SaveScreenshotsToServer),
-    EnableConnectingQueue: getConBool("discord_enable_connecting_queue", EnableConnectingQueue),
-    ConnectingQueuePriorities: ConnectingQueuePriorities,
     DiscordStaffChannelId: GetConvar("discord_staff_channel_id", DiscordStaffChannelId),
-    EnableUserPresenceUpdates: getConBool("discord_enable_user_presence", EnableUserPresenceUpdates),
     LoggingWebhooks: LoggingWebhooks,
-    LoggingAlertPingRoleId: GetConvar("discord_logging_alert_role", LoggingAlertPingRoleId),
+    LoggingAlertPingId: GetConvar("discord_logging_ping_id", LoggingAlertPingId),
     LoggingWebhookName: GetConvar("discord_logging_name", LoggingWebhookName),
 };
 

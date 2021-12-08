@@ -142,9 +142,10 @@ This setting enables the abilty to use the log export. if this is set to false t
 **[ Convar: `discord_logging_name` ]**<br>
 This is the name to display in discord when the logs come through. Webhooks work slightly different from the normal bot and can have their own names or pictures set without issue, these "bots" however can't read messages or show up in the user list, it's just a one way message
 
-### LoggingAlertPingRoleId
-**[ Convar: `discord_logging_alert_role` ]**<br>
-This discord id will be pingged in the event a log is sent with `true` for pingRole. This can be used to give attention to an important log that a dedicated staff team might want to know about or deal with for example a monetary transaction over a certain amount might be suspicious and warrent a ping to this role. There can only be one role for this.
+### LoggingAlertPingId
+**[ Convar: `discord_logging_ping_id` ]**<br>
+This discord id will be pingged in the event a log is sent with `true` for pingRole. This can be used to give attention to an important log that a dedicated staff team might want to know about or deal with for example a monetary transaction over a certain amount might be suspicious and warrent a ping to this user or role. There can only be one id for this.<br>
+**IMPORTANT NOTE:** If you want to ping a user just put the ID, if you want to **ping a role** put a `&` in front of the role id**
 
 ### LoggingWebhooks
 This is the array of webhooks you setup to be used with the log system. it uses `"key": "value",` where `key` is the name (case sensitive) of the webhook for you to be able to call from the logging export as the first value

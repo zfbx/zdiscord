@@ -11,18 +11,32 @@
 
 const z = {};
 
+const { readdirSync } = require("fs");
 z.root = GetResourcePath(GetCurrentResourceName());
 z.config = require(`${z.root}/config`);
 z.locale = require(`${z.root}/locales/${z.config.LanguageLocaleCode}`);
 z.utils = require(`${z.root}/server/utils`);
 
-const Bot = require(`${z.root}/server/bot`);
-const Queue = require(`${z.root}/server/queue`);
-const Log = require(`${z.root}/server/log`);
+try {
+    z.QBCore = global.exports["qb-core"].GetCoreObject();
+    if (z.QBCore) z.utils.log.info("QBCore found! Supported QB commands will be loaded.");
+} catch { z.QBCore = false; }
 
+const Bot = require(`${z.root}/server/bot`);
 z.bot = new Bot(z);
-z.queue = new Queue(z);
-z.log = new Log(z);
+
+const addons = readdirSync(`${z.root}/server/addons`).filter(file => file.endsWith(".js"));
+for (const file of addons) {
+    try {
+        const Addon = require(`${z.root}/server/addons/${file}`);
+        z[file.slice(0, -3)] = new Addon(z);
+        z.utils.log.info(`[ADDON] ${file} addon found and loaded`);
+    } catch (e) {
+        z.utils.log.error(`[ADDON] ${file} errored and could not be loaded`);
+        z.utils.log.error(e);
+    }
+}
+
 
 SetConvarReplicated("zdiscord_servername", z.config.FiveMServerName);
 SetConvarReplicated("zdiscord_discordinvite", z.config.DiscordInviteLink);
@@ -45,27 +59,15 @@ on("playerConnecting", async (name, setKickReason, deferrals) => {
     else deferrals.done(z.utils.replaceGlobals(z, z.locale.notWhitelisted));
 });
 
-global.exports("isRolePresent", (identifier, role) => {
-    return z.bot.isRolePresent(identifier, role);
-});
-
-global.exports("getRoles", (identifier) => {
-    return z.bot.getMemberRoles(identifier);
-});
-
-global.exports("getName", (identifier) => {
-    const member = z.bot.parseMember(identifier);
-    return member.displayName || false;
-});
 
 on("playerJoining", (oldId) => {
     const source = global.source;
     if (!z.config.EnableDiscordBot) return;
     const member = z.bot.getMemberFromSource(source);
     if (z.config.EnableAutoAcePermissions) {
-        for (const [perm, role] of Object.entries(z.config.AutoAcePermissions)) {
+        for (const [group, role] of Object.entries(z.config.AutoAcePermissions)) {
             if (z.bot.isRolePresent(member, role)) {
-                ExecuteCommand(`add_principal "player.${source}" "${perm}"`);
+                ExecuteCommand(`add_principal "player.${source}" "${group}"`);
             }
         }
     }
@@ -78,13 +80,11 @@ on("playerDropped", (reason) => {
     const source = global.source;
     if (!z.config.EnableDiscordBot) return false;
     if (z.config.EnableAutoAcePermissions) {
-        for (const [perm, role] of Object.entries(z.config.AutoAcePermissions)) {
-            ExecuteCommand(`remove_principal "player.${source}" "${perm}"`);
+        for (const [group, role] of Object.entries(z.config.AutoAcePermissions)) {
+            ExecuteCommand(`remove_principal "player.${source}" "${group}"`);
         }
     }
 });
-
-
 
 if (z.config.EnableStaffChatForwarding) {
     RegisterCommand("staff", (source, args, raw) => {
@@ -121,7 +121,17 @@ if (z.config.EnableStaffChatForwarding) {
     });
 }
 
+// EXPORTS
 
-global.exports("log", async (type, message, pingRole, color) => {
-    return z.log.send(type, message, pingRole, color);
+global.exports("isRolePresent", (identifier, role) => {
+    return z.bot.isRolePresent(identifier, role);
+});
+
+global.exports("getRoles", (identifier) => {
+    return z.bot.getMemberRoles(identifier);
+});
+
+global.exports("getName", (identifier) => {
+    const member = z.bot.parseMember(identifier);
+    return member.displayName || false;
 });

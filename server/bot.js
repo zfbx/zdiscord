@@ -12,7 +12,6 @@
 const { Client, Collection, MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const { readdirSync } = require("fs");
 
-
 class Bot extends Client {
 
     constructor(z) {
@@ -24,6 +23,7 @@ class Bot extends Client {
         this.enabled = z.config.EnableDiscordBot;
         this.z = z;
         this.config = z.config;
+        this.QBCore = z.QBCore;
         this.utils = z.utils;
         this.Embed = MessageEmbed;
         this.commands = new Collection();
@@ -43,11 +43,6 @@ class Bot extends Client {
         this.utils.log.assert(this.config.EnableStaffChatForwarding && !(this.utils.isValidID(this.config.DiscordStaffChannelId)), "Your DiscordStaffChannelId doesn't seem correct");
 
         this.loadDiscordPermissions();
-
-        try {
-            this.QBCore = global.exports["qb-core"].GetCoreObject();
-            if (this.QBCore) utils.log.info("QBCore found! Supported QB commands will be loaded.");
-        } catch { this.QBCore = false; }
 
         if (this.config.EnableDiscordSlashCommands) this.loadCommands();
         this.loadEvents();

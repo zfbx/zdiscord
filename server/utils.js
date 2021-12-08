@@ -117,6 +117,7 @@ const log = {
      * @param {object} settings - Optional overrides of style and label */
     error: (content, { color = "\x1b[1;31m", tag = "ERR" } = {}) => {
         log.write(content, { color, tag, error: true });
+        return false;
     },
 
     /** Write directly to the console with your own tag and style
@@ -125,6 +126,7 @@ const log = {
     write: (content, { color = "\x1b[37m", tag = "LOG", error = false } = {}) => {
         const stream = error ? process.stderr : process.stdout;
         stream.write(`\x1b[1;36m[${GetCurrentResourceName()}]\x1b[0m[${log.timestamp()}]${color}[${tag}]: ${log.clean(content)}\x1b[0m\n`);
+        return false;
     },
 
     /** Sanitize content for console logging
@@ -174,15 +176,15 @@ exports.isValidID = isValidID;
 
 
 /** send staff message to all staff in game with it enabled
- * @param {object} client - Name the message is from
+ * @param {object} z - z
  * @param {string} name - Name the message is from
  * @param {string} msg - message to send */
-const sendStaffChatMessage = (client, name, msg) => {
+const sendStaffChatMessage = (z, name, msg) => {
     if (!msg) return;
     getPlayers().forEach(async function(player, index, array) {
         if (IsPlayerAceAllowed(player, "zdiscord.staffchat")) {
             emitNet("chat:addMessage", player, {
-                template: `<div class=chat-message server'><strong>[${client.z.locale.staffchat}] ${name}:</strong> ${msg}</div>`,
+                template: `<div class=chat-message server'><strong>[${z.locale.staffchat}] ${name}:</strong> ${msg}</div>`,
             });
         }
     });
