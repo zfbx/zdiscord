@@ -69,8 +69,6 @@ const LoggingAlertPingId = "&000000000000000000";
 // example: "bank": "https://discord.com/webhook/...",
 const LoggingWebhooks = {
     "example": "https://discord.com/api/webhooks/000000000/sEcRRet-ToK3n_5tUfF_tH8t_YUo-S40u1d-n07-sHar3",
-    "test": "https://discord.com/api/webhooks/912921715854704670/1jJ0UJ2MTdDjqcYPa-UNA2rK_kzGZlcHPyfjyFnyh0BH1paP4TPlj-kGavyGuuPb-8wc",
-    "test2": "https://discord.com/api/webhooks/912921913427386420/yW8qoGNDtlxCrCsKK9vJLyVLwMCc0BukcTe7wPSgaBPxSgph_wVnvNjjJ4ew6TZhAPyy",
 };
 
 
