@@ -10,7 +10,7 @@ const locale = {
     fatalError: "Ha habido un problema al consultar tu estado en la Whitelist, intenta más tarde o contacta a soporte en Discord.",
     notInDiscordServer: "No te encuentras en el Discord de {servername}, puedes unirte aquí: {invite}",
     notWhitelisted: "No tienes el rol requerido en {servername} para ingresar a este servidor, te encuentras en la whitelist?",
-    kickedWithoutReason: "Has sido expulado por el Staff.",
+    kickedWithoutReason: "Has sido expulsado por el Staff.",
     announcement: "ANUNCIO",
     directMessage: "STAFF",
     staffchat: "STAFFCHAT",
