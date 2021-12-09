@@ -196,6 +196,7 @@ exports.sendStaffChatMessage = sendStaffChatMessage;
  * @param {string} msg - message to send
  * @param {object} options - options:  array color[r, g, b], bool multiline */
 const chatMessage = (destination, label, msg, options) => {
+    if (!options) { options = {}; }
     TriggerClientEvent("chat:addMessage", destination, {
         color: (options.color || [ 255, 255, 255 ]),
         multiline: options.multiline || false,
