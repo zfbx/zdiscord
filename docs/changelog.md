@@ -1,5 +1,16 @@
 ## Change log
 
+**7.0.2 - New languages and hot fixes [2021-12-9]**
+
+- added Bulgarian from @WrecksBG
+- added Spanish from @Xect0r
+- Fix /message error
+
+**7.0.1 - New language and QoL [2021-12-8]**
+
+- added French from @tiweb442
+- add sendMessage chat util
+
 **7.0.0 - Staff chat, new config AND WEBHOOK LOGGING [2021-12-8]**
 
 - added bi-directional staff chat (messages from discord staff channel <-> fiveM staff chat messages)
