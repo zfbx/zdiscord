@@ -13,6 +13,8 @@ Here's a list of common problems people have run into and how to solve them. If 
 - [Buffer Deprecation Warning](#buffer-deprecation-warning)
 - [Could not find dependency /server:4890](#could-not-find-dependency-server4890)
 - [QBCore commands aren't showing](#qbcore-commands-not-showing)
+- [New chat messages / announcements aren't popping up when recieved](#new-chat-messages--announcements-arent-popping-up-when-recieved)
+- [How to use custom chat](#how-to-use-custom-chat)
 
 
 ### No Slash Commands?
@@ -90,3 +92,12 @@ if (client.QBCore) utils.log.info("QBCore found! Supported QB commands will be l
 ```
 
 **Note:** Not all commands are backwards compatible with the previous version of QBCore as it would be very hard to support many versions of backwards compatibility so I recommend updating :)
+
+
+### New chat messages / announcements aren't popping up when recieved
+
+cfx chat by default has modes you can toggle between with a keybind (default: L) and if you change it to "WHEN ACTIVE" it'll show when new messages arrive
+
+### How to use custom chat
+
+You really shouldn't use a custom chat but rather theme the default but IF you did.. you can change the functionality of the chat in zdiscord by modifying the function `chatMessage` in `utils.js` as all messages in game are forwarded through therre

@@ -25,9 +25,7 @@ module.exports = {
     ],
 
     run: async (client, interaction, args) => {
-        emitNet("chat:addMessage", -1, {
-            template: `<div class=chat-message server'><strong>${client.z.locale.announcement}:</strong> ${args.message}</div>`,
-        });
+        client.utils.chatMessage(-1, client.z.locale.announcement, args.message, { color: [ 255, 0, 0 ] });
         client.utils.log.info(`[${interaction.member.displayName}] Announcement: ${args.message}`);
         interaction.reply({ content: "Announcement Sent", ephemeral: false });
     },

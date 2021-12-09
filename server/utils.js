@@ -183,10 +183,23 @@ const sendStaffChatMessage = (z, name, msg) => {
     if (!msg) return;
     getPlayers().forEach(async function(player, index, array) {
         if (IsPlayerAceAllowed(player, "zdiscord.staffchat")) {
-            emitNet("chat:addMessage", player, {
-                template: `<div class=chat-message server'><strong>[${z.locale.staffchat}] ${name}:</strong> ${msg}</div>`,
-            });
+            chatMessage(player, `[${z.locale.staffchat}] ${name}`, msg, { multiline: false, color: [ 255, 100, 0 ] });
         }
     });
 };
 exports.sendStaffChatMessage = sendStaffChatMessage;
+
+
+/** send chat message
+ * @param {number} destination - source id or -1 for all
+ * @param {string} label - Name the message is from
+ * @param {string} msg - message to send
+ * @param {object} options - options:  array color[r, g, b], bool multiline */
+const chatMessage = (destination, label, msg, options) => {
+    TriggerClientEvent("chat:addMessage", destination, {
+        color: (options.color || [ 255, 255, 255 ]),
+        multiline: options.multiline || false,
+        args: [ label, msg ],
+    });
+};
+exports.chatMessage = chatMessage;

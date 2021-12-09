@@ -99,16 +99,12 @@ if (z.config.EnableStaffChatForwarding) {
     RegisterCommand("stafftoggle", (source, args, raw) => {
         if (IsPlayerAceAllowed(source, "zdiscord.staffchat")) {
             ExecuteCommand(`remove_principal "player.${source}" group.zdiscordstaff`);
-            emitNet("chat:addMessage", source, {
-                template: "<div class=chat-message server'><strong>[server]:</strong> Staff Chat Disabled</div>",
-            });
+            z.utils.chatMessage(source, z.locale.staffchat, "Staff chat disabled.", { color: [ 255, 255, 0 ] });
         } else {
             const member = z.bot.getMemberFromSource(source);
             if (z.bot.isRolePresent(member, [ z.config.DiscordModRoleId, z.config.DiscordAdminRoleId, z.config.DiscordGodRoleId ])) {
                 ExecuteCommand(`add_principal "player.${source}" group.zdiscordstaff`);
-                emitNet("chat:addMessage", source, {
-                    template: "<div class=chat-message server'><strong>[server]:</strong> Staff Chat Enabled</div>",
-                });
+                z.utils.chatMessage(source, z.locale.staffchat, "Staff chat enabled.", { color: [ 255, 255, 0 ] });
             }
         }
     }, "zdiscord.staffchat");

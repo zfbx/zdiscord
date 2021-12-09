@@ -53,10 +53,7 @@ module.exports = {
             bantime,
             interaction.member.id,
         ]);
-        emitNet("chat:addMessage", -1, {
-            template: "<div class=chat-message server'><strong>ANNOUNCEMENT | {0} has been banned:</strong> {1}</div>",
-            args: [ GetPlayerName(args.id), args.reason ],
-        });
+        client.utils.chatMessage(-1, client.z.locale.announcement, `${GetPlayerName(args.id)} has been banned for breaking the rules.`, { color: [ 155, 0, 0 ] });
         emit("qb-log:server:CreateLog", "bans", "Player Banned", "red", `${GetPlayerName(args.id)} was banned by ${interaction.member.displayName} for ${args.reason}`, true);
         if (bantime >= 2147483647) {
             DropPlayer(args.id, `You have been banned:\n${args.reason}\n\nYour ban is permanent.\n🔸 Check our Discord for more information: ${client.QBCore.Config.Server.discord}`);
