@@ -24,6 +24,7 @@ class Bot extends Client {
         this.z = z;
         this.config = z.config;
         this.QBCore = z.QBCore;
+        this.log = z.utils.log;
         this.utils = z.utils;
         this.Embed = MessageEmbed;
         this.commands = new Collection();
@@ -47,11 +48,11 @@ class Bot extends Client {
         if (this.config.EnableDiscordSlashCommands) this.loadCommands();
         this.loadEvents();
 
-        // this.on("debug", (debug) => this.utils.log.handler("log", debug));
-        this.on("warn", (warning) => this.utils.log.handler("warn", warning));
-        this.on("error", (error) => this.utils.log.handler("error", error));
+        // this.on("debug", (debug) => this.log.handler("log", debug));
+        this.on("warn", (warning) => this.log.handler("warn", warning));
+        this.on("error", (error) => this.log.handler("error", error));
 
-        this.login(this.config.DiscordBotToken).catch((e) => this.utils.log.handler("error", e));
+        this.login(this.config.DiscordBotToken).catch((e) => this.log.handler("error", e));
     }
 
     loadCommands() {
@@ -60,11 +61,11 @@ class Bot extends Client {
             const command = require(`${this.z.root}/server/commands/${file}`);
             if (!command?.name) continue;
             if (command.args || command.alias) {
-                utils.log.warn(`${file} is an v4 or later command and is not supported, upgrade it or remove it`);
+                this.log.warn(`${file} is an v4 or later command and is not supported, upgrade it or remove it`);
                 continue;
             }
             if (this.commands.has(command.name)) {
-                utils.log.warn(`${file} is using a name that's already been registered by another command [skipping]`);
+                this.log.warn(`${file} is using a name that's already been registered by another command [skipping]`);
                 continue;
             }
             if (file.startsWith("qb-") && !this.QBCore) continue;
