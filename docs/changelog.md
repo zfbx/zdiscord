@@ -1,5 +1,10 @@
 ## Change log
 
+**7.0.3 - Fixes + New config for addl staffchat roles [2021-12-10]**
+
+- fixed a few logging typos
+- added new config `AdditionalStaffChatRoleIds` (read config docs for more info)
+
 **7.0.2 - New languages and hot fixes [2021-12-9]**
 
 - added Bulgarian from @WrecksBG

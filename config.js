@@ -29,6 +29,9 @@ const DiscordGuildId = "000000000000000000";
 // STAFF CHAT
 const EnableStaffChatForwarding = false;
 const DiscordStaffChannelId = "000000000000000000";
+const AdditionalStaffChatRoleIds = [
+    // "000000000000000",
+];
 
 // WHITELISTING / ALLOWLISTING
 const EnableWhitelistChecking = true;
@@ -101,6 +104,12 @@ module.exports = {
     LoggingWebhooks: LoggingWebhooks,
     LoggingAlertPingId: GetConvar("discord_logging_ping_id", LoggingAlertPingId),
     LoggingWebhookName: GetConvar("discord_logging_name", LoggingWebhookName),
+    StaffChatRoleIds: [
+        GetConvar("discord_mod_role", DiscordModRoleId),
+        GetConvar("discord_admin_role", DiscordAdminRoleId),
+        GetConvar("discord_god_role", DiscordGodRoleId),
+        ...AdditionalStaffChatRoleIds,
+    ],
 };
 
 /** Returns convar or default value fixed to a true/false boolean

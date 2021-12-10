@@ -71,7 +71,7 @@ on("playerJoining", (oldId) => {
             }
         }
     }
-    if (z.bot.isRolePresent(member, [ z.config.DiscordModRoleId, z.config.DiscordAdminRoleId, z.config.DiscordGodRoleId ])) {
+    if (z.bot.isRolePresent(member, z.config.StaffChatRoleIds)) {
         ExecuteCommand(`add_principal "player.${source}" group.zdiscordstaff`);
     }
 });
@@ -93,7 +93,9 @@ if (z.config.EnableStaffChatForwarding) {
         if (!z.config.EnableDiscordBot) return;
         const staffChannel = z.bot.channels.cache.get(z.config.DiscordStaffChannelId);
         if (!staffChannel) return z.utils.log.warn("DiscordStaffChannelId was not found, staff message not sent.");
-        staffChannel.send({ content: `${GetPlayerName(source)}: ${raw.substring(6)}`, allowMentions: false });
+        staffChannel.send({ content: `${GetPlayerName(source)}: ${raw.substring(6)}`, allowMentions: false }).catch((e) => {
+            z.utils.log.error("I don't seem to have the required permissions to forward the staffchat to the configured staffchannel");
+        });
     }, "zdiscord.staffchat");
 
     RegisterCommand("stafftoggle", (source, args, raw) => {
@@ -102,7 +104,7 @@ if (z.config.EnableStaffChatForwarding) {
             z.utils.chatMessage(source, z.locale.staffchat, "Staff chat disabled.", { color: [ 255, 255, 0 ] });
         } else {
             const member = z.bot.getMemberFromSource(source);
-            if (z.bot.isRolePresent(member, [ z.config.DiscordModRoleId, z.config.DiscordAdminRoleId, z.config.DiscordGodRoleId ])) {
+            if (z.bot.isRolePresent(member, z.config.StaffChatRoleIds)) {
                 ExecuteCommand(`add_principal "player.${source}" group.zdiscordstaff`);
                 z.utils.chatMessage(source, z.locale.staffchat, "Staff chat enabled.", { color: [ 255, 255, 0 ] });
             }

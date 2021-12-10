@@ -61,6 +61,9 @@ This set to "true" will enable the feature of forwarding chat from in game to di
 **[ Convar: `discord_staff_channel_id` ]**<br>
 This is the channel staff chat will be sent and be taken from to send to staff in game. this can only be 1 channel and some things might not look the same in game as they do in discord like emoji or @mentions but that's normal.
 
+### AdditionalStaffChatRoleIds
+if you have extra roles you'd like to access staff chat other than the default mod, admin and god roles configured below you can add other roles here and they'll have access to see and toggle staff chat. Just make sure they can also see the DiscordStaffChannelId channel ;)
+
 
 ## Whitelisting / Allowlisting
 
