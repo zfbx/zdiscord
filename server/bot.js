@@ -51,7 +51,7 @@ class Bot extends Client {
         this.on("warn", (warning) => this.utils.log.handler("warn", warning));
         this.on("error", (error) => this.utils.log.handler("error", error));
 
-        this.login(this.config.DiscordBotToken).catch((e) => client.utils.log.handler("error", e));
+        this.login(this.config.DiscordBotToken).catch((e) => this.utils.log.handler("error", e));
     }
 
     loadCommands() {
