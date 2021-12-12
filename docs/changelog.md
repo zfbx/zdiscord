@@ -1,5 +1,7 @@
 ## Change log
 
+- added Italian from anonymous
+
 **7.0.3 - Fixes + New config for addl staffchat roles [2021-12-10]**
 
 - fixed a few logging typos
