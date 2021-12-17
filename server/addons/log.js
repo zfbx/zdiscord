@@ -50,7 +50,7 @@ class Log {
         if (!message || !type) return this.z.utils.log.write("Log without message or type not permitted", { tag: "WEBHOOK", error: true });
 
         const hook = this.hooks[type.toLocaleLowerCase()];
-        if (!hook) return this.z.utils.log.wrrite(`Webhook "${type}" is not defined. Message: ${message}`, { tag: "WEBHOOK", error: true });
+        if (!hook) return this.z.utils.log.write(`Webhook "${type}" is not defined. Message: ${message}`, { tag: "WEBHOOK", error: true });
 
         const embed = new MessageEmbed().setDescription(message).setColor(options.color || "#1e90ff");
         const data = {
