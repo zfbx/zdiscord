@@ -62,6 +62,8 @@ Key: *[required] (optional)*
 `/revive [id]` - admin+<br>
 `/revive-all` - god<br>
 `/time [hour]` - admin+<br>
+`/vehicle give [id] [spawncode] (plate)` - god<br>
+`/vehicle lookup [plate]` - god<br>
 `/weather blackout` - admin+<br>
 `/weather set [weather]` - admin+<br>
 
