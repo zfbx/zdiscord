@@ -44,7 +44,7 @@ module.exports = {
         emit("qb-admin:server:ban", player, time, reason);
         */
         const bantime = args.time < 2147483647 ? (args.time + Math.floor(Date.now() / 1000)) : 2147483647;
-        global.exports.oxmysql.execute("INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)", [
+        global.exports.oxmysql.insert_async("INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)", [
             GetPlayerName(args.id),
             client.QBCore.Functions.GetIdentifier(args.id, "license"),
             client.QBCore.Functions.GetIdentifier(args.id, "discord"),
