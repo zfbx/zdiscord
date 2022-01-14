@@ -133,3 +133,7 @@ global.exports("getName", (identifier) => {
     const member = z.bot.parseMember(identifier);
     return member.displayName || false;
 });
+
+global.exports("getDiscordId", (identifier) => {
+    return z.utils.getPlayerDiscordId(identifier);
+});

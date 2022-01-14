@@ -4,6 +4,7 @@ If you have other resources that you wish to be able to use information availabl
 
 #### Table of Contents
 - [isRolePresent](#isrolepresent)
+- [getDiscordId](#getDiscordId)
 - [getRoles](#getroles)
 - [getName](#getname)
 - [log](#log)
@@ -33,6 +34,20 @@ local bool = exports.zdiscord:isRolePresent("142831624868855808", {
     "897991948097433682"
 });
 ```
+
+
+### getDiscordId
+Returns a player's discord id
+
+```js
+// JAVASCRIPT EXAMPLE
+const id = global.exports.zdiscord.getDiscordId(global.source);
+```
+```lua
+-- LUA EXAMPLE
+local id = exports.zdiscord:getDiscordId(source);
+```
+
 
 
 ### getRoles
