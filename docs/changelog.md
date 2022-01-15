@@ -1,6 +1,15 @@
 ## Change log
 
+**7.1.0 - Addon improvements [2022-01-14]**
+
 - added Italian from anonymous
+- bug fixes
+- add Czech from Anostraca
+- add vehicle commands
+- updated oxmysql compatibility
+- add Norwegian from VikingTheDev
+- optional addon for live player count added
+- Updated dependencies removing outdated and improving stablility
 
 **7.0.3 - Fixes + New config for addl staffchat roles [2021-12-10]**
 
