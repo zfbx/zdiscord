@@ -36,7 +36,7 @@ class LivePlayerCount {
         try {
             const guild = this.z.bot.guilds.resolve(this.z.config.DiscordGuildId);
             const channel = guild.channels.cache.get(this.voiceChannelId);
-            channel.setName(`Players Online: ${GetNumPlayerIndices()}`);
+            channel.setName(`Players Online: ${GetNumPlayerIndices()}`).catch();
         } catch {
             // Just incase something unforseen happens
         }
