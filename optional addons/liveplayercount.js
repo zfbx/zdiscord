@@ -10,12 +10,12 @@
  *
  * This addon enables you to have a voice channel that updates constantly with the current number of players online
  * copy this into your `server/addons` folder and edit the voiceChannelId to the channel id you want to use then start your server
+ *
+ * DO NOT TRY TO CHANGE THE UPDATE RATE ANY LOWER - doing so will cause your IP to get restricted from the discord api
  */
 
 class LivePlayerCount {
     constructor(z) {
-        // Seconds between updated (don't set less than 5)
-        this.timerDelay = 30;
         // Id for the voice channel name to update
         this.voiceChannelId = "000000000000000000";
 
@@ -29,7 +29,7 @@ class LivePlayerCount {
     async start() {
         setInterval(() => {
             this.syncChannel();
-        }, 1000 * this.timerDelay);
+        }, 1000 * 60 * 5);
     }
 
     async syncChannel() {
