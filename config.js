@@ -15,6 +15,9 @@ const FiveMServerName = "My FiveM Server";
 const DiscordInviteLink = "https://discord.gg/fivem";
 const FiveMServerIP = "127.0.0.1";
 
+// This spams the console, only enable for testing if needed
+const DebugLogs = false;
+
 
 /** ********************
  * DISCORD BOT SETTINGS
@@ -83,6 +86,7 @@ module.exports = {
     EnableDiscordBot: getConBool("discord_enable_bot", EnableDiscordBot),
     EnableStaffChatForwarding: getConBool("discord_enable_staff_chat", EnableStaffChatForwarding),
     EnableLoggingWebhooks: getConBool("discord_enable_logging_webhooks", EnableLoggingWebhooks),
+    DebugLogs: getConBool("discord_debug", DebugLogs),
     DiscordBotToken: GetConvar("discord_token", DiscordBotToken),
     DiscordGuildId: GetConvar("discord_guild_id", DiscordGuildId),
     LanguageLocaleCode: GetConvar("discord_lang", LanguageLocaleCode),

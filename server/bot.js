@@ -48,7 +48,7 @@ class Bot extends Client {
         if (this.config.EnableDiscordSlashCommands) this.loadCommands();
         this.loadEvents();
 
-        // this.on("debug", (debug) => this.log.handler("log", debug));
+        if (this.config.DebugLogs) this.on("debug", (debug) => this.log.handler("log", debug));
         this.on("warn", (warning) => this.log.handler("warn", warning));
         this.on("error", (error) => this.log.handler("error", error));
 

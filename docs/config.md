@@ -32,6 +32,10 @@ A link to your discord server that will be given to users on connection problems
 **[ Replicated | Convar: `discord_server_ip` ]**<br>
 
 
+### DebugLogs
+Turns on debug logging from discord.js for checking for errors
+**[ Replicated | Convar: `discord_debug` ]**<br>
+
 # Discord Bot Settings
 
 ### EnableDiscordBot
