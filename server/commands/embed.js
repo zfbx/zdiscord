@@ -92,7 +92,7 @@ module.exports = {
         if (args.simple) {
             const embed = new client.Embed();
             if (args.title) embed.setTitle(args.title);
-            if (args.footer) embed.setFooter(args.footer);
+            if (args.footer) embed.setFooter({ text: args.footer });
             if (args.image) {
                 if (/^(http[s]?:\/\/.*\.(?:png|jpg|gif|jpeg))/i.test(args.image)) embed.setImage(args.image);
                 else return interaction.reply({ content: "Image link seems to be invalid", ephemeral: true });

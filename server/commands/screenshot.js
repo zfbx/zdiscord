@@ -40,7 +40,7 @@ module.exports = {
         const embed = new client.Embed()
             .setTitle(`${GetPlayerName(args.id)}'s Screen`)
             .setImage(`attachment://${name}`)
-            .setFooter(`Taken At ${client.utils.log.timestamp()}`);
+            .setFooter({ text: `Taken At ${client.utils.log.timestamp()}` });
         await interaction.editReply({ content: null, embeds: [ embed ], files: [ { attachment: buffer, name: name } ] }).catch(console.error);
         if (client.config.SaveScreenshotsToServer) {
             await fs.mkdir(`${client.root}/screenshots`, { recursive: true }).catch();

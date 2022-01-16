@@ -99,7 +99,7 @@ class Bot extends Client {
         const row = new MessageActionRow().addComponents(buttonList);
         if (interaction.deferred == false) await interaction.deferReply();
         const curPage = await interaction.editReply({
-            embeds: [pages[page].setFooter(`Page ${page + 1} / ${pages.length}`)],
+            embeds: [pages[page].setFooter({ text: `Page ${page + 1} / ${pages.length}` })],
             components: [row], fetchReply: true,
         });
         const filter = (i) => i.customId === buttonList[0].customId || i.customId === buttonList[1].customId;
@@ -116,13 +116,13 @@ class Bot extends Client {
                 break;
             }
             await i.deferUpdate();
-            await i.editReply({ embeds: [pages[page].setFooter(`Page ${page + 1} / ${pages.length}`)], components: [row] });
+            await i.editReply({ embeds: [pages[page].setFooter({ text: `Page ${page + 1} / ${pages.length}` })], components: [row] });
             collector.resetTimer();
         });
         collector.on("end", () => {
             if (!curPage.deleted) {
                 const disabledRow = new MessageActionRow().addComponents(buttonList[0].setDisabled(true), buttonList[1].setDisabled(true));
-                curPage.edit({ embeds: [pages[page].setFooter(`Page ${page + 1} / ${pages.length}`)], components: [disabledRow] });
+                curPage.edit({ embeds: [pages[page].setFooter({ text: `Page ${page + 1} / ${pages.length}` })], components: [disabledRow] });
             }
         });
         return curPage;

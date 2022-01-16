@@ -29,7 +29,7 @@ module.exports = {
         const embed = new client.Embed()
             .setColor(client.config.embedColor)
             .setTitle(`${GetPlayerName(args.id)}'s identifiers`)
-            .setFooter("Please respect privacy and avoid doxing players");
+            .setFooter({ text: "Please respect privacy and avoid doxing players" });
         let desc = "";
         for (const [key, value] of Object.entries(client.utils.getPlayerIdentifiers(args.id))) {
             if (key == "discord") desc += `**${key}:** <@${value}> (${value})\n`;

@@ -34,7 +34,7 @@ module.exports = {
                     **Channels:** ${interaction.guild.channels.cache.filter((chan) => chan.type === "GUILD_TEXT").size}
                     **Members:** ${interaction.guild.memberCount}${getWhitelisted(client, interaction)}
                     **Owner:** <@${interaction.guild.ownerId}> (${interaction.guild.ownerId})`, true)
-                .setFooter(`${GetCurrentResourceName()} by zfbx`);
+                .setFooter({ text: `${GetCurrentResourceName()} by zfbx` });
             return interaction.reply({ embeds: [ embed ] });
         } else {
             const embed = new client.Embed()
@@ -42,7 +42,7 @@ module.exports = {
                 .addField(client.config.FiveMServerName, `**Server IP:** ${client.config.FiveMServerIP}
                     **Uptime:** ${(GetGameTimer() / 1000 / 60).toFixed(2)} minutes
                     **Players:** ${GetNumPlayerIndices()}/${GetConvar("sv_maxClients", "Unknown")}`, false)
-                .setFooter(`${GetCurrentResourceName()} by zfbx`);
+                .setFooter({ text: `${GetCurrentResourceName()} by zfbx` });
             return interaction.reply({ embeds: [ embed ] });
         }
     },
