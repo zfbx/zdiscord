@@ -1,5 +1,12 @@
 ## Change log
 
+**7.2.0 - Addon improvements [2022-01-16]**
+
+- patched some errors from previous version
+- added example events for hooking from discord
+- updated api usage to be stable with newest branch of discord.js
+- added config for logging debug messages from discord.js
+
 **7.1.0 - Addon improvements [2022-01-14]**
 
 - added Italian from anonymous
