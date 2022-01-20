@@ -25,7 +25,8 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 - bg - Bulgarian - By WrecksBG
 - it - Italian - By Anonymous
 - cs - Czech - by Anostraca
-- no - Norwegian = by VikingTheDev
+- no - Norwegian - by VikingTheDev
+- sv - Swedish - by ayabolli
 
 ## License
 
