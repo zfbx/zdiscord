@@ -78,7 +78,7 @@ module.exports = {
             const exists = await getVehicleByPlate(plate);
             if (exists.length > 0) return interaction.reply({ content: "The plate provided is already in use by another vehicle", ephemeral: true });
 
-            const save = await global.exports.oxmysql.insert("INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state, garage) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
+            const save = await global.exports.oxmysql.insert_async("INSERT INTO player_vehicles (license, citizenid, vehicle, hash, mods, plate, state, garage) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", [
                 player.PlayerData.license, player.PlayerData.citizenid, vehicle.model, vehicle.hash, "{}", plate, 1, "pillboxgarage",
             ]);
             if (!save) return interaction.reply({ content: "Something went wrong saving the vehicle", ephemeral: true });
