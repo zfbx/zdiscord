@@ -96,7 +96,7 @@ if (z.config.EnableStaffChatForwarding) {
         staffChannel.send({ content: `${GetPlayerName(source)}: ${raw.substring(6)}`, allowMentions: false }).catch((e) => {
             z.utils.log.error("I don't seem to have the required permissions to forward the staffchat to the configured staffchannel");
         });
-    }, "zdiscord.staffchat");
+    }, false);
 
     RegisterCommand("stafftoggle", (source, args, raw) => {
         if (IsPlayerAceAllowed(source, "zdiscord.staffchat")) {
@@ -109,7 +109,7 @@ if (z.config.EnableStaffChatForwarding) {
                 z.utils.chatMessage(source, z.locale.staffchat, "Staff chat enabled.", { color: [ 255, 255, 0 ] });
             }
         }
-    }, "zdiscord.staffchat");
+    }, false);
 
     setImmediate(() => {
         emit("chat:addSuggestion", "/staff", "Send message to other staff (Staff only)", [
