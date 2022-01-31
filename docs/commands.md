@@ -9,10 +9,10 @@ zdiscord comes preloaded with a fairly sizable set of default command with their
 - [Add commands](#add-commands)
 - [Add permission levels](#add-permission-levels)
 
-### Included Commands
+### Included Commands (52)
 Key: *[required] (optional)*
 
-**Standalone Commands:**
+**Standalone Commands:** (25)
 
 `/announcement [message]` - mod+<br>
 `/embed complex [channel] [json]` - god<br>
@@ -36,8 +36,11 @@ Key: *[required] (optional)*
 `/teleport preset [id] [location] (keepVehicle)` - mod+<br>
 `/teleport-all coords [x] [y] [z]` - god<br>
 `/teleport-all preset [location]` - god<br>
+`/whitelist toggle [true/false]` - god<br>
+`/whitelist addrole [true/false]` - god<br>
+`/whitelist removerole [true/false]` - god<br>
 
-**QBCore Commands:**
+**QBCore Commands:** (27)
 
 `/ban [id] [time] [reason]` - admin+<br>
 `/clothing-menu [id]` - admin+<br>
