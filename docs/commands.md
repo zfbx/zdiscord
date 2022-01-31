@@ -37,8 +37,8 @@ Key: *[required] (optional)*
 `/teleport-all coords [x] [y] [z]` - god<br>
 `/teleport-all preset [location]` - god<br>
 `/whitelist toggle [true/false]` - god<br>
-`/whitelist addrole [true/false]` - god<br>
-`/whitelist removerole [true/false]` - god<br>
+`/whitelist addrole [role]` - god<br>
+`/whitelist removerole [role]` - god<br>
 
 **QBCore Commands:** (27)
 
