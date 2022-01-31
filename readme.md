@@ -47,9 +47,7 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
     6a. Add `ensure zdiscord` (after qb-core and/or [convars](https://zfbx.github.io/zdiscord/convars) you may have)<br>
     6b. Add the following anywhere in your .cfg:
     ```
-    add_ace resource.zdiscord command.refresh allow
-    add_ace resource.zdiscord command.add_principal allow
-    add_ace resource.zdiscord command.remove_principal allow
+    add_ace resource.zdiscord command allow
     add_ace group.zdiscordstaff zdiscord.staffchat allow
     ```
 
