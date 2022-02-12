@@ -19,7 +19,7 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 - Moderation tools (kick, ban, inspect, etc)
 - [QBCore](https://github.com/qbcore-framework) [commands](https://zfbx.github.io/zdiscord/commands) included!
 - Easy to expand and customize with modular [commands](https://zfbx.github.io/zdiscord/commands#add-commands)!
-- Can be configured with [convars](https://zfbx.github.io/zdiscord/convars)
+- Can be configured with [convars](https://zfbx.github.io/zdiscord/config)
 - Automatic Ace Permission granting system
 - [Helpful exports](https://zfbx.github.io/zdiscord/exports)
 - bi-directional staff chat
