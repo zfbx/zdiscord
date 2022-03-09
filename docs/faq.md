@@ -52,6 +52,24 @@ This resource requires FiveM's yarn module from [cfx-server-data](https://github
 
 For QBCore support you either have to `ensure qb-core` before this resource or have qb-core as a dependency in the fxmanifest.lua which will essentially start qb-core automatically before it but the former suggestion is more recommended since some dependency requirements can act up.
 
+### QBCore commands aren't loading
+
+If you're using an older version of QBCore that uses the old `QBCore:GetObject` event you will have to update the server.js replacing lines ~20-23 which look like:
+```js
+try {
+    z.QBCore = global.exports["qb-core"].GetCoreObject();
+    if (z.QBCore) z.utils.log.info("QBCore found! Supported QB commands will be loaded.");
+} catch { z.QBCore = false; }
+```
+With this:
+```js
+z.QBCore = false;
+TriggerEvent("QBCore:GetObject", (obj) => { z.QBCore = obj; });
+if (z.QBCore) z.utils.log.info("QBCore found! Supported QB commands will be loaded.");
+```
+
+**Note:** Not all commands are backwards compatible with the previous version of QBCore as it would be very hard to support many versions of backwards compatibility so I recommend updating to a more recent version of qbcore :) *(Plus if you're using qbus it's probably a leak and you shouldn't be anyways)*
+
 
 ### Bot status message updates slow
 
@@ -73,25 +91,6 @@ This is fine.. it's just a warning that future versions may drop support for it.
 ### Could not find dependency /server:4890
 
 When trying to start zdiscord you get an error that says `Could not find dependency /server:4890 for resource zdiscord`. This means you aren't running [FiveM artifacts](https://runtime.fivem.net/artifacts/fivem/build_server_windows/master/) version 4890 or later. updating to a version number higher than 4890 will fix this error and allow the resource to start.
-
-
-### QBCore commands aren't loading
-
-If you're using an older version of QBCore that uses the old `QBCore:GetObject` event you will have to update the server.js replacing lines ~42-45 which look like:
-```js
-try {
-    client.QBCore = global.exports["qb-core"].GetCoreObject();
-    if (client.QBCore) utils.log.info("QBCore found! Supported QB commands will be loaded.");
-} catch { client.QBCore = false; }
-```
-With this:
-```js
-client.QBCore = false;
-TriggerEvent("QBCore:GetObject", (obj) => { client.QBCore = obj; });
-if (client.QBCore) utils.log.info("QBCore found! Supported QB commands will be loaded.");
-```
-
-**Note:** Not all commands are backwards compatible with the previous version of QBCore as it would be very hard to support many versions of backwards compatibility so I recommend updating :)
 
 
 ### New chat messages / announcements aren't popping up when recieved
