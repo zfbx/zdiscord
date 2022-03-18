@@ -42,7 +42,7 @@ class TimedMessage {
             const channel = guild.channels.cache.get(this.channelId);
             const embed = new MessageEmbed();
             embed.setTitle("Server Status")
-                .color("#f2449e")
+                .setColor("#f2449e")
                 .setDescription(`**Uptime:** ${(GetGameTimer() / 1000 / 60).toFixed(2)} minutes
                 **Server IP:** ${this.z.config.FiveMServerIP}
                 **Online Players:** ${GetNumPlayerIndices()}/${GetConvar("sv_maxClients", "64")}
