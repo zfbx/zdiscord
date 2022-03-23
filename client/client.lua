@@ -23,3 +23,13 @@ RegisterNetEvent(GetCurrentResourceName()..':teleport', function(x, y, z, withVe
         SetEntityCoords(PlayerPedId(), x, y, z);
     end
 end)
+
+function serverOnly()
+    print("[ERROR] The triggered event can only be run on the server.")
+end
+
+exports('isRolePresent', serverOnly)
+exports('getDiscordId', serverOnly)
+exports('getRoles', serverOnly)
+exports('getName', serverOnly)
+exports('log', serverOnly)
