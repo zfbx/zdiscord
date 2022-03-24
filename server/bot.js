@@ -120,10 +120,8 @@ class Bot extends Client {
             collector.resetTimer();
         });
         collector.on("end", () => {
-            if (!curPage.deleted) {
-                const disabledRow = new MessageActionRow().addComponents(buttonList[0].setDisabled(true), buttonList[1].setDisabled(true));
-                curPage.edit({ embeds: [pages[page].setFooter({ text: `Page ${page + 1} / ${pages.length}` })], components: [disabledRow] });
-            }
+            const disabledRow = new MessageActionRow().addComponents(buttonList[0].setDisabled(true), buttonList[1].setDisabled(true));
+            curPage.edit({ embeds: [pages[page].setFooter({ text: `Page ${page + 1} / ${pages.length}` })], components: [disabledRow] }).catch(console.error);
         });
         return curPage;
     }
