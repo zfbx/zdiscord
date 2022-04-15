@@ -1,5 +1,13 @@
 ## Change log
 
+**7.2.1 - Fixes and support [2022-04-15]**
+- update links
+- added swedish from ayatollah
+- support message added <3
+- docs updates
+- few bug fixes
+
+
 **7.2.0 - Addon improvements [2022-01-16]**
 
 - patched some errors from previous version
