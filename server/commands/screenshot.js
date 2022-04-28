@@ -15,7 +15,6 @@ const Buffer = require("buffer").Buffer;
 module.exports = {
     name: "screenshot",
     description: "Screenshot player's POV",
-    default_permission: false,
     role: "god",
 
     options: [

@@ -12,7 +12,6 @@
 module.exports = {
     name: "kickall",
     description: "Kick every player in the city",
-    default_permission: false,
     role: "admin",
 
     options: [

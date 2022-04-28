@@ -12,7 +12,6 @@
 module.exports = {
     name: "clothing-menu",
     description: "Give a player the clothing menu",
-    default_permission: false,
     role: "admin",
 
     options: [

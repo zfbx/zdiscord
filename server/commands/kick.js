@@ -12,7 +12,6 @@
 module.exports = {
     name: "kick",
     description: "Kick a player from the city",
-    default_permission: false,
     role: "mod",
 
     options: [

@@ -12,7 +12,6 @@
 module.exports = {
     name: "weather",
     description: "Manage city weather",
-    default_permission: false,
     role: "admin",
 
     options: [

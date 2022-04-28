@@ -12,7 +12,6 @@
 module.exports = {
     name: "revive",
     description: "Raise a downed player to full health and stats",
-    default_permission: false,
     role: "admin",
 
     options: [

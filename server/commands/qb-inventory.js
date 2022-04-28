@@ -12,7 +12,6 @@
 module.exports = {
     name: "inventory",
     description: "Manage player's in-city items",
-    default_permission: false,
     role: "admin",
 
     options: [

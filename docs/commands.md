@@ -80,8 +80,6 @@ There's currently only 3 permission tiers (mod, admin, god). Permissions are gra
 3. Change what is in the quotes `" "` to the permission you want to access the command. ie. `role: "admin",`
 4. save and restart the resource or server.
 
-To remove permissions from a command all together where anyone can use them delete both the `default_permission:` and `role:` lines from the command
-
 *Please note that permissions are synced across whole base commands so if you wanted `/money inspect` to be mod+ and `/money add` to be admin+ you'd need to separate them into separate commands to achieve that.*
 
 ### Add commands
@@ -106,7 +104,6 @@ Adding commands can be really simple if you're familiar with javascript but very
 3. If you wanted to make it so only admin or god could run your command you'd add the following 2 lines under your description line:
 
     ```js
-    default_permission: false,
     role: "admin",
     ```
 
@@ -141,44 +138,3 @@ Adding commands can be really simple if you're familiar with javascript but very
     **This resource itself** - Honestly there's so many features and practices being used actively here in commands and utils that you can take note from or in many cases just copy and paste and use so have at it and don't be afraid to break things to help learn more.. as long as you're not working on a live server while you're breaking things ;)
 
 
-### Add permission levels
-
-By defaults there is mod, admin and god but if you wanted to add another level, for like trial mods, it's actually quite easy to do. In `bot.js`, at the bottom there's a section called `loadDiscordPermissions()`.<br>
-It has 2 main parts, The role levels, which look like `const mod = { id:..`<br>
-And the role table
-```js
-this.config.perms = {
-    "mod": [ mod, admin, god, own ],
-    "admin": [ admin, god, own ], ...
-```
-you first would add a role level like:
-```js
-// You would replace "000000000000000" with the trialmod role id from discord
-const trialmod = { id: "000000000000000", type: 1, permission: true };
-```
-then you would add it to the role table with all the other roles you want to inherit permissions from trialmod:
-```js
-this.config.perms = {
-    "trialmod": [ trialmod, mod, admin, god, own ],
-    "mod": [ mod, admin, god, own ], ...
-```
-
-Then in the command files for the commands you want trial mods to be able to access change what was like `role: "mod",` to `role: "trialmod",`, save and restart the resource or server.
-
-**Note:** If you don't add the extra role levels to the trialmod list those roles wont be able to access the commands set with `role: "trialmod"`
-
-**Full example:**
-```js
-loadDiscordPermissions() {
-    const mod = { id: this.config.DiscordModRoleId, type: 1, permission: true };
-    const admin = { id: this.config.DiscordAdminRoleId, type: 1, permission: true };
-    const god = { id: this.config.DiscordGodRoleId, type: 1, permission: true };
-    const god2 = { id: "000000000000000000", type: 1, permission: true }; // Added
-    const own = { id: "142831624868855808", type: 2, permission: true };
-    this.config.perms = {
-        "mod": [ mod, admin, god, god2, own ], // changed
-        "admin": [ admin, god, god2, own ], // changed
-        "god": [ god, god2, own ], // changed
-    };
-}
-```

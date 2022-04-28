@@ -12,7 +12,6 @@
 module.exports = {
     name: "money",
     description: "Manage player's in-city money",
-    default_permission: false,
     role: "admin",
 
     options: [

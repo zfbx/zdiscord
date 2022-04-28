@@ -16,22 +16,11 @@ module.exports = {
         if (client.config.EnableDiscordSlashCommands) {
             const guild = client.guilds.cache.get(client.config.DiscordGuildId);
             if (!guild) return client.utils.log.error("DISCORD SERVER NOT FOUND - Is your config for 'DiscordGuildId' set correctly?");
-            await guild.commands.set(client.arrayOfCommands).catch((error) => client.utils.log.handler("error", error)).then((cmd) => {
-                const fullPermissions = cmd.reduce((accumulator, x) => {
-                    const command = client.arrayOfCommands.find((y) => y.name === x.name).role;
-                    if (!command) return accumulator;
-                    const permissions = client.config.perms[command];
-                    return [
-                        ...accumulator,
-                        { id: x.id, permissions },
-                    ];
-                }, []);
-                guild.commands.permissions.set({ fullPermissions }).catch((error) => client.utils.log.handler("error", error));
-            });
+            await guild.commands.set(client.arrayOfCommands).catch((error) => client.utils.log.handler("error", error));
         }
         if (client.config.EnableBotStatusMessages && client.config.BotStatusMessages) statusUpdater(client);
         client.utils.log.info(`Logged in as ${client.user.tag}`);
-        client.utils.log.info(`Enjoying zdiscord? Consider supporting it at patreon.com/zfbx or paypal.me/zfbx <3`);
+        client.utils.log.info("Enjoying zdiscord? Consider supporting it at patreon.com/zfbx or paypal.me/zfbx <3");
         emit("zdiscord:ready");
     },
 };

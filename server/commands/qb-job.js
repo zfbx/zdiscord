@@ -12,7 +12,6 @@
 module.exports = {
     name: "job",
     description: "Manage player's in-city job",
-    default_permission: false,
     role: "admin",
 
     options: [

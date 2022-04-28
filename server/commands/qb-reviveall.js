@@ -12,7 +12,6 @@
 module.exports = {
     name: "revive-all",
     description: "Raise all downed players to full health and stats",
-    default_permission: false,
     role: "god",
 
     run: async (client, interaction, args) => {

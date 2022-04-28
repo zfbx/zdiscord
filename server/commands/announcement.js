@@ -12,7 +12,6 @@
 module.exports = {
     name: "announcement",
     description: "Send in city announcement",
-    default_permission: false,
     role: "mod",
 
     options: [

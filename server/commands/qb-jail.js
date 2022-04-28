@@ -12,7 +12,6 @@
 module.exports = {
     name: "jail",
     description: "Manage a player's jail sentence",
-    default_permission: false,
     role: "mod",
 
     options: [

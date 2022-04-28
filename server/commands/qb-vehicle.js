@@ -20,7 +20,6 @@ const vehicleStates = {
 module.exports = {
     name: "vehicle",
     description: "Give user a vehicle with a fixed plate",
-    default_permission: false,
     role: "god",
 
     options: [

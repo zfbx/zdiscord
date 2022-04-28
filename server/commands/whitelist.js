@@ -12,7 +12,6 @@
 module.exports = {
     name: "whitelist",
     description: "Manage whitelist",
-    default_permission: false,
     role: "god",
 
     options: [

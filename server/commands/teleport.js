@@ -12,7 +12,6 @@
 module.exports = {
     name: "teleport",
     description: "teleport a player",
-    default_permission: false,
     role: "mod",
 
     options: [

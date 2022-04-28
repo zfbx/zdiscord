@@ -12,7 +12,6 @@
 module.exports = {
     name: "onlinecheck",
     type: "USER",
-    default_permission: false,
     role: "mod",
 
     run: async (client, interaction, args) => {

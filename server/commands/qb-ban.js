@@ -12,7 +12,6 @@
 module.exports = {
     name: "ban",
     description: "ban a player",
-    default_permission: false,
     role: "admin",
 
     options: [

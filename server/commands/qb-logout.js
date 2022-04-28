@@ -12,7 +12,6 @@
 module.exports = {
     name: "logout",
     description: "send a player back to the character selection screen",
-    default_permission: false,
     role: "admin",
 
     options: [

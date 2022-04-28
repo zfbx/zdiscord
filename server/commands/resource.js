@@ -14,7 +14,6 @@ const { MessageButton } = require("discord.js");
 module.exports = {
     name: "resource",
     description: "Manage server resources / scripts",
-    default_permission: false,
     role: "god",
 
     options: [

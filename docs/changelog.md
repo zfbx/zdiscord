@@ -1,5 +1,8 @@
 ## Change log
 
+**7.3.0 - Emergency fix for discord api [2022-04-28]**
+- Discord broke everything without warning this fixes that
+
 **7.2.1 - Fixes and support [2022-04-15]**
 - update links
 - added swedish from ayatollah

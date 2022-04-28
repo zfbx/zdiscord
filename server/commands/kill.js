@@ -12,7 +12,6 @@
 module.exports = {
     name: "kill",
     description: "kill a player in city",
-    default_permission: false,
     role: "admin",
 
     options: [

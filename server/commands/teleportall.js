@@ -12,7 +12,6 @@
 module.exports = {
     name: "teleport-all",
     description: "teleport everyone",
-    default_permission: false,
     role: "god",
 
     options: [

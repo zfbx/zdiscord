@@ -1,6 +1,6 @@
 {
   "name": "zdiscord",
-  "version": "7.2.1",
+  "version": "7.3.0",
   "description": "Advanced Discord Bot Allowlist that's simple to use",
   "main": "server.js",
   "scripts": {

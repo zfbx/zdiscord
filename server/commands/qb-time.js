@@ -12,7 +12,6 @@
 module.exports = {
     name: "time",
     description: "set city time",
-    default_permission: false,
     role: "admin",
 
     options: [

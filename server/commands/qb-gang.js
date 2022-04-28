@@ -12,7 +12,6 @@
 module.exports = {
     name: "gang",
     description: "Manage player's in-city gang",
-    default_permission: false,
     role: "admin",
 
     options: [

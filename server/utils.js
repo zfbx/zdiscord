@@ -125,7 +125,7 @@ const log = {
      * @param {object} settings - Optional overrides of style and label */
     write: (content, { color = "\x1b[37m", tag = "LOG", error = false } = {}) => {
         const stream = error ? process.stderr : process.stdout;
-        stream.write(`\x1b[1;36m[${GetCurrentResourceName()}]\x1b[0m[${log.timestamp()}]${color}[${tag}]: ${log.clean(content)}\x1b[0m\n`);
+        stream.write(`\x1b[1;36m[zdiscord]\x1b[0m[${log.timestamp()}]${color}[${tag}]: ${log.clean(content)}\x1b[0m\n`);
         return false;
     },
 
@@ -143,7 +143,7 @@ const log = {
      * @param {string|object} err - error to process */
     handler: (type, err) => {
         const e = err.toString();
-        if (e.includes("[DISALLOWED_INTENTS]")) log.error(`YOU DIDN'T ENABLE INTENTS - go back to the ${GetCurrentResourceName()} readme.md and read the section under "setup"`);
+        if (e.includes("[DISALLOWED_INTENTS]")) log.error("YOU DIDN'T ENABLE INTENTS - go back to the zdiscord readme.md and read the section under \"setup\"");
         else if (e.includes("[TOKEN_INVALID]")) log.error("YOUR DISCORD API TOKEN IS INVALID OR REVOKED - GENERATE A NEW ONE AND UPDATE THE CONFIG");
         else if (e.includes("Missing Access")) log.error("NO COMMAND CREATION PERMISSIONS - You must reinvite the bot to your server with the invite link provided in setup");
         else if (e.includes("[HeartbeatTimer]")) return;

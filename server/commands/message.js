@@ -12,7 +12,6 @@
 module.exports = {
     name: "message",
     description: "direct a message to a specific player",
-    default_permission: false,
     role: "mod",
 
     options: [

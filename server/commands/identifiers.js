@@ -12,7 +12,6 @@
 module.exports = {
     name: "identifiers",
     description: "Get all of a player's identifiers",
-    default_permission: false,
     role: "admin",
 
     options: [

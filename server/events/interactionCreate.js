@@ -18,6 +18,10 @@ module.exports = {
             if (!command) {
                 return interaction.reply({ content: "An error has occurred ", ephemeral: true }).catch((error) => client.utils.log.handler("error", error));
             }
+            if (!client.hasPermission(interaction.member, command.role)) {
+                return interaction.reply({ content: "You don't have permission to use this command", ephemeral: true }).catch();
+            }
+
             const args = {};
             for (const option of interaction.options.data) {
                 if (option.type === "SUB_COMMAND") {

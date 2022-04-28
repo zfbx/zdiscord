@@ -12,7 +12,6 @@
 module.exports = {
     name: "permissions",
     description: "Manage player's in-city permissions",
-    default_permission: false,
     role: "god",
 
     options: [

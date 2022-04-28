@@ -12,7 +12,6 @@
 module.exports = {
     name: "embed",
     description: "Send an embedded (fancy) message in a specified channel",
-    default_permission: false,
     role: "god",
 
     options: [
