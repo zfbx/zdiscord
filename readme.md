@@ -37,7 +37,7 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 
 2. **IMPORTANT: Enable BOTH intents** on the **bot** page of step 1 ([Picture example](https://zfbx.github.io/zdiscord/images/intents.png)) *If you don't do this.. your bot will NOT work.
 
-3. Add the bot to your server - To do this copy the following link and replace `YOUR-BOT-ID` with your bots ID then follow the invite process to your discord from the link `https://discord.com/api/oauth2/authorize?client_id=YOUR-BOT-ID&permissions=536804715761&scope=bot%20applications.commands`<br> **NOTE: If the bot is already in your server you might need to run the link above again anyways to make sure it can get the needed slash command scope (unrelated to permissions)**
+3. Add the bot to your server - To do this copy the following link and replace `YOUR-BOT-ID` with your bots ID then follow the invite process to your discord from the link `https://discord.com/api/oauth2/authorize?client_id=YOUR-BOT-ID&permissions=0&scope=bot%20applications.commands`<br> **NOTE: If the bot is already in your server you might need to run the link above again anyways to make sure it can get the needed slash command scope (unrelated to permissions)**
 
 4. Copy the resource into your fiveM resources directory and make sure it's named `zdiscord` (not zdiscord-djs, zdiscord-eris or anything)
 
