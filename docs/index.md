@@ -27,6 +27,7 @@ A Discord bot that runs in FiveM for the purpose of whitelisting, moderation and
 - cs - Czech - by Anostraca
 - no - Norwegian - by VikingTheDev
 - sv - Swedish - by ayabolli
+- id - Indonesian - by xPutraGm
 
 ## License
 
