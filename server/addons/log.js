@@ -24,12 +24,7 @@ class Log {
                 const [key, value] = entry;
                 const k = key.toLocaleLowerCase();
                 if (this.hooks[k]) return client.z.utils.log.write(`Webhook for ${k} has already been registered. Remove the duplicate key`, { tag: "WEBHOOK", error: true });
-                const id = value.split("/").at(-2);
-                const token = value.split("/").at(-1);
-                if (id.length < 16 || id.length > 28 || token.length < 50 || token.length > 80) {
-                    return this.z.utils.log.write(`Webhook for ${k} seems to be incorrect, check it's value.`, { tag: "WEBHOOK", error: true });
-                }
-                this.hooks[k] = new WebhookClient({ id: id, token: token, url: value });
+                this.hooks[k] = new WebhookClient({ url: value.replace(/discordapp/g, "discord") });
                 count++;
             });
             this.z.utils.log.info(`${count} webhooks loaded.`, { tag: "WEBHOOK" });
