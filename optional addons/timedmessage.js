@@ -21,7 +21,7 @@ class TimedMessage {
         // Minutes
         this.timerDelay = 5;
         // Channel id to send server status updates
-        this.channelId = "YOUR CHANNEL ID HERE";
+        this.channelId = "YOUR_CHANNEL_ID_HERE";
         // store message id so we can edit it later
         this.messageId = null;
 
@@ -42,21 +42,20 @@ class TimedMessage {
         try {
             const channel = await this.z.bot.channels.fetch(this.channelId);
             const embed = new MessageEmbed()
-                .setTitle("SERVER NAME (zDiscord)")
+                .setTitle(this.z.config.FiveMServerName)
                 .setDescription(`**Uptime:** ${(GetGameTimer() / 1000 / 60).toFixed(2)} minutes
                 **Direct Connect:** F8 > ${this.z.config.FiveMServerIP}
-                **Online Players:** ${GetNumPlayerIndices()}/${GetConvar("sv_maxClients", "64")}
+                **Online Players:** ${GetNumPlayerIndices()}/${GetConvar("sv_maxClients", "48")}
                 **Discord:** [Discord](${this.z.config.DiscordInviteLink})`)
                 .setColor("#00ff00")
                 .setTimestamp()
                 // footer
-                .setFooter(`Powered by zDiscord`, "https://imgur.com/Mi2IhTz")
+                .setFooter({name: `Powered by zdiscord`, iconURL: "https://cdn.mythbot.org/img/dev_szn3uywo.png"})
                 // print("posting message") // post message print debug (uncomment to debug)
             if (this.messageId) { // if we have a message id, edit the message
                 // print("editing message") // edit message print debug (uncomment to debug)
                 const message = await channel.messages.fetch(this.messageId);
                 message.edit({ embeds: [embed] });
-
             } else { // if we don't have a message id, send a new message
                 // print("sending message") // send message print debug (uncomment to debug)
                 const message = await channel.send({ embeds: [embed] });
