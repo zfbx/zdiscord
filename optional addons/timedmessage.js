@@ -42,7 +42,7 @@ class TimedMessage {
         try {
             const channel = await this.z.bot.channels.fetch(this.channelId);
             const embed = new MessageEmbed()
-                .setTitle(this.z.config.FiveMServerName)
+                .setTitle(`${this.z.config.FiveMServerName}`)
                 .setDescription(`**Uptime:** ${(GetGameTimer() / 1000 / 60).toFixed(2)} minutes
                 **Direct Connect:** F8 > ${this.z.config.FiveMServerIP}
                 **Online Players:** ${GetNumPlayerIndices()}/${GetConvar("sv_maxClients", "48")}
