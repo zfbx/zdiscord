@@ -21,7 +21,9 @@ class TimedMessage {
         // Minutes
         this.timerDelay = 5;
         // Channel id to send server status updates
-        this.channelId = "00000000000000000";
+        this.channelId = "YOUR_CHANNEL_ID_HERE";
+        // store message id so we can edit it later
+        this.messageId = null;
 
         this.z = z;
         on("zdiscord:ready", async () => {
@@ -38,18 +40,30 @@ class TimedMessage {
 
     async post() {
         try {
-            const guild = this.z.bot.guilds.cache.get(this.z.config.DiscordGuildId);
-            const channel = guild.channels.cache.get(this.channelId);
-            const embed = new MessageEmbed();
-            embed.setTitle("Server Status")
-                .setColor("#f2449e")
+            const channel = await this.z.bot.channels.fetch(this.channelId);
+            const embed = new MessageEmbed()
+                .setTitle(`${this.z.config.FiveMServerName}`)
                 .setDescription(`**Uptime:** ${(GetGameTimer() / 1000 / 60).toFixed(2)} minutes
-                **Server IP:** ${this.z.config.FiveMServerIP}
-                **Online Players:** ${GetNumPlayerIndices()}/${GetConvar("sv_maxClients", "64")}
-                **Discord Invite:** ${this.z.config.DiscordInviteLink}`);
-            channel.send({ embeds: [ embed ] }).catch();
-        } catch {
-            // Just incase something unforseen happens
+                **Direct Connect:** F8 > ${this.z.config.FiveMServerIP}
+                **Online Players:** ${GetNumPlayerIndices()}/${GetConvar("sv_maxClients", "48")}
+                **Discord:** [Discord](${this.z.config.DiscordInviteLink})`)
+                .setColor("#00ff00")
+                .setTimestamp()
+                // footer
+                .setFooter({ name: `Powered by zdiscord` })
+                // print("posting message") // post message print debug (uncomment to debug)
+            if (this.messageId) { // if we have a message id, edit the message
+                // print("editing message") // edit message print debug (uncomment to debug)
+                const message = await channel.messages.fetch(this.messageId);
+                message.edit({ embeds: [embed] });
+            } else { // if we don't have a message id, send a new message
+                // print("sending message") // send message print debug (uncomment to debug)
+                const message = await channel.send({ embeds: [embed] });
+                this.messageId = message.id;
+            }
+        }
+        catch (e) {
+            console.error(e);
         }
     }
 
