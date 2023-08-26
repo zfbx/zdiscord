@@ -50,7 +50,7 @@ class TimedMessage {
                 .setColor("#00ff00")
                 .setTimestamp()
                 // footer
-                .setFooter({name: `Powered by zdiscord`, iconURL: "https://cdn.mythbot.org/img/dev_szn3uywo.png"})
+                .setFooter({ name: `Powered by zdiscord` })
                 // print("posting message") // post message print debug (uncomment to debug)
             if (this.messageId) { // if we have a message id, edit the message
                 // print("editing message") // edit message print debug (uncomment to debug)
