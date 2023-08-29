@@ -9,31 +9,44 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
-module.exports = {
-    name: "kick",
-    description: "Kick a player from the city",
-    role: "mod",
+module.exports = class cmd extends Command {
+    constructor(file) {
+        super(Lang.t("cmd_kick"), file, {
+            description: Lang.t("desc_kick"),
+            role: "mod",
 
-    options: [
-        {
-            name: "id",
-            description: "Player's current id",
-            required: true,
-            type: "INTEGER",
-        },
-        {
-            name: "message",
-            description: "Kick message to show the user",
-            required: false,
-            type: "STRING",
-        },
-    ],
+            options: [
+                {
+                    name: Lang.t("opt_id"),
+                    description: Lang.t("opt_id_desc"),
+                    required: true,
+                    type: djs.ApplicationCommandOptionType.Integer,
+                },
+                {
+                    name: Lang.t("opt_message"),
+                    description: Lang.t("kick_message_desc"),
+                    required: false,
+                    type: djs.ApplicationCommandOptionType.String,
+                },
+            ],
+        });
+    }
 
-    run: async (client, interaction, args) => {
-        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        const reason = client.utils.replaceGlobals(client, args.message || client.z.locale.kickedWithoutReason);
-        DropPlayer(args.id, reason);
-        client.utils.log.info(`[${interaction.member.displayName}] Kicked ${GetPlayerName(args.id)} (${args.id}). Reason: ${reason}`);
-        return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) has been kicked.`, ephemeral: false });
-    },
+    async run(interaction, args) {
+        const id = args[Lang.t("opt_id")];
+        if (!GetPlayerName(id)) return interaction.sreply(Lang.t("invalid_id"));
+        const reason = zutils.replaceGlobals(args[Lang.t("opt_message")] || Lang.t("kick_no_reason"));
+        DropPlayer(id, reason);
+        zlog.info(Lang.t("kick_log", {
+            discordName: interaction.member.displayName,
+            discordId: interaction.member.id,
+            playerName: GetPlayerName(id),
+            playerId: id,
+            reason: reason,
+        }));
+        return interaction.sreply(Lang.t("kick_success", {
+            playerName: GetPlayerName(id),
+            playerId: id,
+        }));
+    }
 };

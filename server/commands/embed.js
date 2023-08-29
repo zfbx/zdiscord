@@ -9,112 +9,117 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
-module.exports = {
-    name: "embed",
-    description: "Send an embedded (fancy) message in a specified channel",
-    role: "god",
+module.exports = class cmd extends Command {
+    constructor(file) {
+        super(Lang.t("cmd_embed"), file, {
+            description: Lang.t("desc_embed"),
+            role: "god",
 
-    options: [
-        {
-            type: "SUB_COMMAND",
-            name: "simple",
-            description: "Simple to use embed creator",
             options: [
                 {
-                    name: "channel",
-                    description: "Channel to send embed to",
-                    required: true,
-                    type: "CHANNEL",
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: Lang.t("opt_simple"),
+                    description: Lang.t("opt_simple_desc"),
+                    options: [
+                        {
+                            name: Lang.t("opt_channel"),
+                            description: Lang.t("opt_channel_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Channel,
+                        },
+                        {
+                            name: Lang.t("opt_message"),
+                            description: Lang.t("opt_message_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.String,
+                        },
+                        {
+                            name: "title",
+                            description: "embed title (short)",
+                            required: false,
+                            type: djs.ApplicationCommandOptionType.String,
+                        },
+                        {
+                            name: Lang.t("opt_image"),
+                            description: Lang.t("opt_image_desc"),
+                            required: false,
+                            type: djs.ApplicationCommandOptionType.String,
+                        },
+                        {
+                            name: Lang.t("opt_thumbnail"),
+                            description: Lang.t("opt_thumbnail_desc"),
+                            required: false,
+                            type: djs.ApplicationCommandOptionType.String,
+                        },
+                        {
+                            name: Lang.t("opt_footer"),
+                            description: Lang.t("opt_footer_desc"),
+                            required: false,
+                            type: djs.ApplicationCommandOptionType.String,
+                        },
+                        {
+                            name: Lang.t("opt_color"),
+                            description: Lang.t("opt_color_desc"),
+                            required: false,
+                            type: djs.ApplicationCommandOptionType.String,
+                        },
+                    ],
                 },
                 {
-                    name: "message",
-                    description: "message with markdown support",
-                    required: true,
-                    type: "STRING",
-                },
-                {
-                    name: "title",
-                    description: "embed title (short)",
-                    required: false,
-                    type: "STRING",
-                },
-                {
-                    name: "image",
-                    description: "url of image to embed",
-                    required: false,
-                    type: "STRING",
-                },
-                {
-                    name: "thumbnail",
-                    description: "url of image to use as icon",
-                    required: false,
-                    type: "STRING",
-                },
-                {
-                    name: "footer",
-                    description: "footer message",
-                    required: false,
-                    type: "STRING",
-                },
-                {
-                    name: "color",
-                    description: "embed color (example: #007bff)",
-                    required: false,
-                    type: "STRING",
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: Lang.t("opt_complex"),
+                    description: Lang.t("opt_complex_desc"),
+                    options: [
+                        {
+                            name: Lang.t("opt_channel"),
+                            description: Lang.t("opt_channel_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Channel,
+                        },
+                        {
+                            name: Lang.t("opt_json"),
+                            description: Lang.t("opt_json_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.String,
+                        },
+                    ],
                 },
             ],
-        },
-        {
-            type: "SUB_COMMAND",
-            name: "complex",
-            description: "send an embed from a json string",
-            options: [
-                {
-                    name: "channel",
-                    description: "Channel to send embed to",
-                    required: true,
-                    type: "CHANNEL",
-                },
-                {
-                    name: "json",
-                    description: "json string to post",
-                    required: true,
-                    type: "STRING",
-                },
-            ],
-        },
-    ],
+        });
+    }
 
-    run: async (client, interaction, args) => {
-        const channel = interaction.guild.channels.cache.get(args.channel);
-        if (!channel || channel.type !== "GUILD_TEXT") return interaction.reply({ content: "This isn't a valid channel I can post in", ephemeral: true });
-        if (args.simple) {
-            const embed = new client.Embed();
+    async run(interaction, args) {
+        const channel = interaction.guild.channels.cache.get(args[Lang.t("opt_channel")]);
+        if (!channel || (channel.type !== djs.ChannelType.GuildText && channel.type !== djs.ChannelType.GuildAnnouncement)) {
+            return interaction.sreply(Lang.t("invalid_item", { item: Lang.t("opt_channel") }));
+        }
+        if (args[Lang.t("opt_simple")]) {
+            const embed = new djs.EmbedBuilder();
             if (args.title) embed.setTitle(args.title);
-            if (args.footer) embed.setFooter({ text: args.footer });
-            if (args.image) {
-                if (/^(http[s]?:\/\/.*\.(?:png|jpg|gif|jpeg))/i.test(args.image)) embed.setImage(args.image);
-                else return interaction.reply({ content: "Image link seems to be invalid", ephemeral: true });
+            if (args[Lang.t("opt_footer")]) embed.setFooter({ text: args[Lang.t("opt_footer")] });
+            if (args[Lang.t("opt_image")]) {
+                if (/^(http[s]?:\/\/.*\.(?:png|jpg|gif|jpeg))/i.test(args[Lang.t("opt_image")])) embed.setImage(args[Lang.t("opt_image")]);
+                else return interaction.sreply(Lang.t("invalid_item", { item: Lang.t("opt_image") }));
             }
-            if (args.color) {
-                if (/^#[0-9A-F]{6}$/i.test(args.color)) embed.setColor(args.color);
-                else return interaction.reply({ content: "Color is invalid. Provide a hex value (example: #ff22cc)", ephemeral: true });
+            if (args[Lang.t("opt_color")]) {
+                if (/^#[0-9A-F]{6}$/i.test(args[Lang.t("opt_color")])) embed.setColor(args[Lang.t("opt_color")]);
+                else return interaction.sreply(Lang.t("invalid_item", { item: Lang.t("opt_color") }));
             }
-            if (args.thumbnail) {
-                if (/^(http[s]?:\/\/.*\.(?:png|jpg|gif|jpeg))/i.test(args.thumbnail)) embed.setThumbnail(args.thumbnail);
-                else return interaction.reply({ content: "Thumbnail link seems to be invalid", ephemeral: true });
+            if (args[Lang.t("opt_thumbnail")]) {
+                if (/^(http[s]?:\/\/.*\.(?:png|jpg|gif|jpeg))/i.test(args[Lang.t("opt_thumbnail")])) embed.setThumbnail(args[Lang.t("opt_thumbnail")]);
+                else return interaction.sreply(Lang.t("invalid_item", { item: Lang.t("opt_thumbnail") }));
             }
-            embed.setDescription(args.message.replace(/<br>/ig, "\n"));
+            embed.setDescription(args[Lang.t("opt_message")].replace(/<br>/ig, "\n"));
             channel.send({ embeds: [ embed ] });
-        } else if (args.complex) {
-            let embed = args.json;
+        } else if (args[Lang.t("opt_complex")]) {
+            let embed = args[Lang.t("opt_json")];
             try {
-                embed = JSON.parse(args.json);
+                embed = JSON.parse(args[Lang.t("opt_json")]);
             } catch (e) {
-                return interaction.reply({ content: "JSON seems invalid", ephemeral: true });
+                return interaction.sreply(Lang.t("invalid_item", { item: Lang.t("opt_json") }));
             }
             channel.send({ embeds: [ embed ] });
         }
-        return interaction.reply({ content: "Embed Published", ephemeral: false });
-    },
+        return interaction.reply(Lang.t("message_sent"));
+    }
 };

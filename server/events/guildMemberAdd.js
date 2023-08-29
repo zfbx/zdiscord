@@ -11,7 +11,7 @@
 
 module.exports = {
     name: "guildMemberAdd",
-    run: async (client, member) => {
+    run: async (member) => {
         // https://discord.js.org/#/docs/discord.js/stable/class/Client?scrollTo=e-guildMemberAdd
     },
 };

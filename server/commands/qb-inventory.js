@@ -9,104 +9,109 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
-module.exports = {
-    name: "inventory",
-    description: "Manage player's in-city items",
-    role: "admin",
+module.exports = class cmd extends Command {
+    constructor(file) {
+        super("inventory", file, {
+            description: "Manage player's in-city items",
+            role: "admin",
 
-    options: [
-        {
-            type: "SUB_COMMAND",
-            name: "give",
-            description: "give a player an item",
             options: [
                 {
-                    name: "id",
-                    description: "Player's current id",
-                    required: true,
-                    type: "INTEGER",
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: "give",
+                    description: "give a player an item",
+                    options: [
+                        {
+                            name: "id",
+                            description: "Player's current id",
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Integer,
+                        },
+                        {
+                            name: "item",
+                            description: "item to give",
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.String,
+                        },
+                        {
+                            name: "count",
+                            description: "how many to give [Default: 1]",
+                            required: false,
+                            type: djs.ApplicationCommandOptionType.Integer,
+                        },
+                    ],
                 },
                 {
-                    name: "item",
-                    description: "item to give",
-                    required: true,
-                    type: "STRING",
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: "take",
+                    description: "take an item away from a player",
+                    options: [
+                        {
+                            name: "id",
+                            description: "Player's current id",
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Integer,
+                        },
+                        {
+                            name: "item",
+                            description: "item to take",
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.String,
+                        },
+                        {
+                            name: "count",
+                            description: "how many to take [Default: 1]",
+                            required: false,
+                            type: djs.ApplicationCommandOptionType.Integer,
+                        },
+                    ],
                 },
                 {
-                    name: "count",
-                    description: "how many to give [Default: 1]",
-                    required: false,
-                    type: "INTEGER",
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: "inspect",
+                    description: "Peek inside player's inventory",
+                    options: [
+                        {
+                            name: "id",
+                            description: "Player's current id",
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Integer,
+                        },
+                    ],
                 },
             ],
-        },
-        {
-            type: "SUB_COMMAND",
-            name: "take",
-            description: "take an item away from a player",
-            options: [
-                {
-                    name: "id",
-                    description: "Player's current id",
-                    required: true,
-                    type: "INTEGER",
-                },
-                {
-                    name: "item",
-                    description: "item to take",
-                    required: true,
-                    type: "STRING",
-                },
-                {
-                    name: "count",
-                    description: "how many to take [Default: 1]",
-                    required: false,
-                    type: "INTEGER",
-                },
-            ],
-        },
-        {
-            type: "SUB_COMMAND",
-            name: "inspect",
-            description: "Peek inside player's inventory",
-            options: [
-                {
-                    name: "id",
-                    description: "Player's current id",
-                    required: true,
-                    type: "INTEGER",
-                },
-            ],
-        },
-    ],
+        });
+    }
 
-    run: async (client, interaction, args) => {
+    // TODO: pull all items to memory for searching dynamically
+
+    async run(interaction, args) {
         const amount = args.count || 1;
-        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        const player = client.QBCore.Functions.GetPlayer(args.id);
+        if (!GetPlayerName(args.id)) return interaction.sreply("This ID seems invalid.");
+        const player = QBCore.Functions.GetPlayer(args.id);
         if (args.give) {
             const badItems = [ "id_card", "harness", "markedbills", "labkey", "printerdocument"];
-            const itemData = client.QBCore.Shared.Items[args.item.toLowerCase()];
-            if (!itemData) return interaction.reply({ content: "Item could not be found", ephemeral: false });
-            if (badItems.includes(itemData["name"])) return interaction.reply({ content: "This is a unique item and can't be interacted with like this", ephemeral: false });
-            if (amount > 1 && itemData.unique) return interaction.reply({ content: "These items don't stack, give 1 at a time.", ephemeral: false });
+            const itemData = QBCore.Shared.Items[args.item.toLowerCase()];
+            if (!itemData) return interaction.reply("Item could not be found");
+            if (badItems.includes(itemData["name"])) return interaction.reply("This is a unique item and can't be interacted with like this");
+            if (amount > 1 && itemData.unique) return interaction.reply("These items don't stack, give 1 at a time.");
             if (player.Functions.AddItem(itemData["name"], amount, false)) {
-                client.utils.log.info(`[${interaction.member.displayName}] gave ${GetPlayerName(args.id)} (${args.id}) ${amount} ${args.item}`);
-                return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) was given ${amount} ${itemData.label}`, ephemeral: false });
+                zlog.info(`[${interaction.member.displayName}] gave ${GetPlayerName(args.id)} (${args.id}) ${amount} ${args.item}`);
+                return interaction.reply(`${GetPlayerName(args.id)} (${args.id}) was given ${amount} ${itemData.label}`);
             } else {
-                return interaction.reply({ content: "Something went wrong trying to give this item", ephemeral: false });
+                return interaction.reply("Something went wrong trying to give this item");
             }
         } else if (args.take) {
-            const itemData = client.QBCore.Shared.Items[args.item.toLowerCase()];
-            if (!itemData) return interaction.reply({ content: "Item could not be found", ephemeral: false });
+            const itemData = QBCore.Shared.Items[args.item.toLowerCase()];
+            if (!itemData) return interaction.reply("Item could not be found");
             if (player.Functions.RemoveItem(args.item, amount)) {
-                client.utils.log.info(`[${interaction.member.displayName}] removed item from ${GetPlayerName(args.id)}'s (${args.id}) inventory (${amount} ${args.item})`);
-                return interaction.reply({ content: `${amount} ${itemData.label} has been taken from ${GetPlayerName(args.id)} (${args.id})`, ephemeral: false });
+                zlog.info(`[${interaction.member.displayName}] removed item from ${GetPlayerName(args.id)}'s (${args.id}) inventory (${amount} ${args.item})`);
+                return interaction.reply(`${amount} ${itemData.label} has been taken from ${GetPlayerName(args.id)} (${args.id})`);
             } else {
-                return interaction.reply({ content: `Failed to remove item from ${GetPlayerName(args.id)}'s (${args.id}) inventory`, ephemeral: false });
+                return interaction.reply(`Failed to remove item from ${GetPlayerName(args.id)}'s (${args.id}) inventory`);
             }
         } else if (args.inspect) {
-            const embed = new client.Embed().setTitle(`${GetPlayerName(args.id)}'s (${args.id}) Inventory`);
+            const embed = new djs.EmbedBuilder().setColor(zconfig.ThemeColor).setTitle(`${GetPlayerName(args.id)}'s (${args.id}) Inventory`);
             const items = player.PlayerData.items;
             let desc = "";
             if (typeof items === "object") {
@@ -118,9 +123,9 @@ module.exports = {
                     desc += `[${i.slot}] ${i.amount}x - **${i.label}** (${i.name})\n`;
                 });
             }
+            // TODO: break up into pages if over character length
             embed.setDescription(desc);
-            return interaction.reply({ embeds: [ embed ], ephemeral: false });
+            return interaction.reply({ embeds: [ embed ] });
         }
-
-    },
+    }
 };

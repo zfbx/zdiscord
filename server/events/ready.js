@@ -12,24 +12,25 @@
 module.exports = {
     name: "ready",
     once: true,
-    run: async (client) => {
-        if (client.config.EnableDiscordSlashCommands) {
-            const guild = client.guilds.cache.get(client.config.DiscordGuildId);
-            if (!guild) return client.utils.log.error("DISCORD SERVER NOT FOUND - Is your config for 'DiscordGuildId' set correctly?");
-            await guild.commands.set(client.arrayOfCommands).catch((error) => client.utils.log.handler("error", error));
+    run: async () => {
+        if (zconfig.SlashCommandsEnabled) {
+            zbot.updateAllGuildCommands();
         }
-        if (client.config.EnableBotStatusMessages && client.config.BotStatusMessages) statusUpdater(client);
-        client.utils.log.info(`Logged in as ${client.user.tag}`);
-        client.utils.log.info("Enjoying zdiscord? Consider supporting it at patreon.com/zfbx or paypal.me/zfbx <3");
+        const guild = zbot.guilds.cache.get(zconfig.ServerId);
+        if (!guild) return zlog.error("DISCORD SERVER NOT FOUND - Is your config for 'ServerId' set correctly?");
+        else await guild.members.fetch();
+        if (zconfig.StatusMessages.length > 0) statusUpdater();
+        zlog.info(`Logged in as ${zbot.user.tag}`);
+        zlog.info("Enjoying zdiscord? Consider supporting it at patreon.com/zfbx or paypal.me/zfbx <3");
         emit("zdiscord:ready");
     },
 };
 
-async function statusUpdater(client) {
+async function statusUpdater() {
     setInterval(function() {
         try {
-            const msg = client.utils.replaceGlobals(client, client.config.BotStatusMessages[Math.floor(Math.random() * client.config.BotStatusMessages.length)]);
-            client.user.setActivity({ name: msg, type: "PLAYING" });
+            const msg = zutils.replaceGlobals(zconfig.StatusMessages[Math.floor(Math.random() * zconfig.StatusMessages.length)]);
+            zbot.user.setActivity({ name: msg, type: "PLAYING" });
         } catch (e) {
             // Just gonna void these errors..
         }

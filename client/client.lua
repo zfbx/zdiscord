@@ -9,11 +9,20 @@
  - or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 --]]
 
-RegisterNetEvent(GetCurrentResourceName()..':kill', function()
+
+
+
+
+-- zdiscord Events
+
+RegisterNetEvent('zdiscord:kill', function()
+    if not GetInvokingResource() == "zdiscord" then return end
     SetEntityHealth(PlayerPedId(), 0)
 end)
 
-RegisterNetEvent(GetCurrentResourceName()..':teleport', function(x, y, z, withVehicle)
+RegisterNetEvent('zdiscord:teleport', function(x, y, z, withVehicle)
+    if not GetInvokingResource() == "zdiscord" then return end
+    -- TODO: check if active/online and not in character selector
     x = tonumber(x)
     y = tonumber(y)
     z = tonumber(z)
@@ -24,7 +33,9 @@ RegisterNetEvent(GetCurrentResourceName()..':teleport', function(x, y, z, withVe
     end
 end)
 
-function serverOnly()
+-- Exports
+
+local function serverOnly()
     print("[ERROR] The triggered event can only be run on the server.")
 end
 

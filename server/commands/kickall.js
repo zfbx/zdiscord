@@ -9,27 +9,35 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
-module.exports = {
-    name: "kickall",
-    description: "Kick every player in the city",
-    role: "admin",
+module.exports = class cmd extends Command {
+    constructor(file) {
+        super(Lang.t("cmd_kickall"), file, {
+            description: Lang.t("desc_kickall"),
+            role: "admin",
 
-    options: [
-        {
-            name: "message",
-            description: "Kick message to show the user",
-            required: true,
-            type: "STRING",
-        },
-    ],
-
-    run: async (client, interaction, args) => {
-        const numberOnline = GetNumPlayerIndices();
-        if (numberOnline === 0) return interaction.reply({ content: "Nobody was online to kick.", ephemeral: false });
-        getPlayers().forEach(async (player) => {
-            DropPlayer(player, args.message);
+            options: [
+                {
+                    name: Lang.t("opt_message"),
+                    description: Lang.t("kick_message_desc"),
+                    required: true,
+                    type: djs.ApplicationCommandOptionType.String,
+                },
+            ],
         });
-        client.utils.log.info(`[${interaction.member.displayName}] Kicked all ${numberOnline} player(s). Reason: ${args.message}`);
-        return interaction.reply({ content: `All ${numberOnline} player(s) have been kicked.`, ephemeral: false });
-    },
+    }
+
+    async run(interaction, args) {
+        const numberOnline = GetNumPlayerIndices();
+        if (numberOnline === 0) return interaction.sreply(Lang.t("nobody_online"));
+        getPlayers().forEach(async (player) => {
+            DropPlayer(player, args[Lang.t("opt_message")]);
+        });
+        zlog.info(Lang.t("kickall_log", {
+            discordName: interaction.member.displayName,
+            discordId: interaction.member.id,
+            playerCount: numberOnline,
+            reason: reason,
+        }));
+        return interaction.sreply(Lang.t("kickall_success", { playerCount: numberOnline }));
+    }
 };

@@ -11,7 +11,12 @@
 
 module.exports = {
     name: "guildMemberRemove",
-    run: async (client, member) => {
+    run: async (member) => {
         // https://discord.js.org/#/docs/discord.js/stable/class/Client?scrollTo=e-guildMemberRemove
+        // TODO: needs work, hard to test
+        // if (!Object.keys(inCity).includes(member.id)) return;
+        // if (zconfig.WhitelistEnabled) {
+        //     DropPlayer(inCity[member.id], Lang.t("notInDiscordServer"));
+        // }
     },
 };

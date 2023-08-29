@@ -9,82 +9,119 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
-module.exports = {
-    name: "teleport-all",
-    description: "teleport everyone",
-    role: "god",
+module.exports = class cmd extends Command {
+    constructor(file) {
+        super(Lang.t("cmd_teleportall"), file, {
+            description: Lang.t("desc_teleportall"),
+            role: "god",
 
-    options: [
-        {
-            type: "SUB_COMMAND",
-            name: "coords",
-            description: "teleport to specific coordinates",
             options: [
                 {
-                    name: "x",
-                    description: "x coordinate",
-                    required: true,
-                    type: "INTEGER",
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: Lang.t("opt_coords"),
+                    description: Lang.t("opt_coords_desc"),
+                    options: [
+                        {
+                            name: "x",
+                            description: Lang.t("opt_x_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Number,
+                        },
+                        {
+                            name: "y",
+                            description: Lang.t("opt_y_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Number,
+                        },
+                        {
+                            name: "z",
+                            description:  Lang.t("opt_z_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Number,
+                        },
+                    ],
                 },
                 {
-                    name: "y",
-                    description: "y coordinate",
-                    required: true,
-                    type: "INTEGER",
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: Lang.t("opt_preset"),
+                    description: Lang.t("opt_preset_desc"),
+                    options: [
+                        {
+                            name: Lang.t("opt_location"),
+                            description: Lang.t("opt_location_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.String,
+                            autocomplete: true,
+                        },
+                    ],
                 },
                 {
-                    name: "z",
-                    description: "z coordinate",
-                    required: true,
-                    type: "INTEGER",
-                },
-            ],
-        },
-        {
-            type: "SUB_COMMAND",
-            name: "preset",
-            description: "teleport to a pre-specified location",
-            options: [
-                {
-                    name: "location",
-                    description: "location to teleport to",
-                    required: true,
-                    type: "STRING",
-                    choices: [
-                        { name: "Airport", value: "airport" },
-                        { name: "Maze Bank Roof", value: "mazeroof" },
-                        { name: "Del Perro Pier", value: "pier" },
-                        { name: "Fort Zancudo Base", value: "militarybase" },
-                        { name: "Mount Chiliad", value: "chiliad" },
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: Lang.t("opt_to_player"),
+                    description: Lang.t("opt_to_player_desc"),
+                    options: [
+                        {
+                            name: Lang.t("opt_dest_player"),
+                            description: Lang.t("opt_dest_player_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Integer,
+                        },
                     ],
                 },
             ],
-        },
-    ],
+        });
+    }
 
-    run: async (client, interaction, args) => {
-        const locations = {
-            "airport": [ -1096.19, -3501.1, 17.18 ],
-            "mazeroof": [ -75.57, -818.88, 327.96 ],
-            "pier": [ -1712.06, -1136.48, 13.08 ],
-            "militarybase": [ -2105.88, 2871.16, 32.81 ],
-            "chiliad": [ 453.73, 5572.2, 781.18 ],
-        };
-        if (args.coords) {
-            teleportEveryone(args.x, args.y, args.z);
-            client.utils.log.info(`[${interaction.member.displayName}] Teleported EVERYONE to ${args.x}, ${args.y}, ${args.z}`);
-            return interaction.reply({ content: "Teleported everyone.", ephemeral: false });
-        } else if (args.preset) {
-            teleportEveryone(locations[args.location][0], locations[args.location][1], locations[args.location][2]);
-            client.utils.log.info(`[${interaction.member.displayName}] teleported EVERYONE to ${args.location}`);
-            return interaction.reply({ content: `Everyone was teleported to ${args.location}`, ephemeral: false });
+    async run(interaction, args) {
+        if (args[Lang.t("opt_coords")]) {
+            this.teleportEveryone(args.x, args.y, args.z);
+            zlog.info(Lang.t("teleporall_log", {
+                discordName: interaction.member.displayName,
+                discordId: interaction.member.id,
+                where: `${args.x}, ${args.y}, ${args.z}`,
+            }));
+            return interaction.sreply(Lang.t("teleportall_success", { where: `${args.x}, ${args.y}, ${args.z}` }));
+        } else if (args[Lang.t("opt_preset")]) {
+            const loc = args[Lang.t("opt_location")];
+            const location = zconfig.teleportLocations[loc];
+            if (!location) return interaction.sreply(Lang.t("invalid_item", { item: Lang.t("opt_location") }));
+            this.teleportEveryone(location.coords[0], location.coords[1], location.coords[2]);
+            zlog.info(Lang.t("teleporall_log", {
+                discordName: interaction.member.displayName,
+                discordId: interaction.member.id,
+                where: loc,
+            }));
+            return interaction.sreply(Lang.t("teleportall_success", { where: loc }));
+        } else if (args[Lang.t("opt_to_player")]) {
+            const dest = args[Lang.t("opt_dest_player")];
+            if (!GetPlayerPed(dest)) return interaction.sreply(Lang.t("invalid_item", { item: Lang.t("opt_dest_player") }));
+            const [x, y, z] = GetEntityCoords(GetPlayerPed(dest));
+            this.teleportEveryone(x, y, z);
+            zlog.info(Lang.t("teleporall_log", {
+                discordName: interaction.member.displayName,
+                discordId: interaction.member.id,
+                where: `${GetPlayerName(dest)} (id: ${dest}, x: ${x}, y: ${y}, z: ${z})`,
+            }));
+            return interaction.sreply(Lang.t("teleportall_success", {
+                where: `${GetPlayerName(dest)} (${x}, ${y}, ${z})`,
+            }));
         }
-    },
-};
+    }
 
-function teleportEveryone(x, y, z) {
-    x = x.toFixed(2);
-    y = y.toFixed(2);
-    z = z.toFixed(2);
-    emitNet(`${GetCurrentResourceName()}:teleport`, -1, x, y, z, false);
-}
+    teleportEveryone(xc, yc, zc) {
+        xc = xc.toFixed(2);
+        yc = yc.toFixed(2);
+        zc = zc.toFixed(2);
+        setImmediate(() => {
+            emitNet("zdiscord:teleport", -1, xc, yc, zc, false);
+        });
+    }
+
+    async autocomplete(interaction) {
+        const focusedValue = interaction.options.getFocused().toLowerCase();
+        const filtered = Object.values(zconfig.teleportLocations).filter(choice => choice.search.includes(focusedValue)).slice(0, 20);
+        await interaction.respond(
+            filtered.map(choice => ({ name: choice.name, value: choice.id })),
+        );
+    }
+};

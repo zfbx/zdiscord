@@ -9,33 +9,41 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
-module.exports = {
-    name: "identifiers",
-    description: "Get all of a player's identifiers",
-    role: "admin",
+module.exports = class cmd extends Command {
+    constructor(file) {
+        super(Lang.t("cmd_identifiers"), file, {
+            description: Lang.t("desc_identifiers"),
+            role: "admin",
 
-    options: [
-        {
-            name: "id",
-            description: "Player's current id",
-            required: true,
-            type: "INTEGER",
-        },
-    ],
+            options: [
+                {
+                    name: Lang.t("opt_id"),
+                    description: Lang.t("opt_id_desc"),
+                    required: true,
+                    type: djs.ApplicationCommandOptionType.Integer,
+                },
+            ],
+        });
+    }
 
-    run: async (client, interaction, args) => {
-        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        const embed = new client.Embed()
-            .setColor(client.config.embedColor)
-            .setTitle(`${GetPlayerName(args.id)}'s identifiers`)
-            .setFooter({ text: "Please respect privacy and avoid doxing players" });
+    async run(interaction, args) {
+        const id = args[Lang.t("opt_id")];
+        if (!GetPlayerName(id)) return interaction.sreply(Lang.t("invalid_id"));
+        const embed = new djs.EmbedBuilder()
+            .setTitle(Lang.t("identifiers_title", { playerName: GetPlayerName(id) }))
+            .setFooter({ text: Lang.t("identifiers_privacy_warning") });
         let desc = "";
-        for (const [key, value] of Object.entries(client.utils.getPlayerIdentifiers(args.id))) {
+        for (const [key, value] of Object.entries(zutils.getPlayerIdentifiers(id))) {
             if (key == "discord") desc += `**${key}:** <@${value}> (${value})\n`;
             else desc += `**${key}:** ${value}\n`;
         }
         embed.setDescription(desc);
-        client.utils.log.info(`[${interaction.member.displayName}] pulled identifiers on ${GetPlayerName(args.id)} (${args.id})`);
-        return interaction.reply({ embeds: [embed], ephemeral: true }).catch();
-    },
+        zlog.info(Lang.t("identifiers_log", {
+            discordName: interaction.member.displayName,
+            discordId: interaction.member.id,
+            playerName: GetPlayerName(id),
+            playerId: id,
+        }));
+        return interaction.sreply({ embeds: [embed] }).catch();
+    }
 };

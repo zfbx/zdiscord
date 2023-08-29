@@ -9,38 +9,46 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
-const { MessageButton } = require("discord.js");
+module.exports = class cmd extends Command {
+    constructor(file) {
+        super(Lang.t("cmd_players"), file, {
+            description: Lang.t("desc_players"),
+            role: "mod",
+            // TODO: make share option
+        });
+    }
 
-module.exports = {
-    name: "players",
-    description: "Get list of current players in city",
-    role: "mod",
-
-    run: async (client, interaction) => {
-        if (GetNumPlayerIndices() === 0) return interaction.reply({ content: "Nobody is currently online to pull", ephemeral: false });
+    async run(interaction) {
+        if (GetNumPlayerIndices() === 0) return interaction.sreply(Lang.t("nobody_online"));
         const parts = [];
         let index = 0;
         getPlayers().sort().forEach((id) => {
             const i = Math.floor(index / 10);
             if (!parts[i]) parts[i] = "";
             parts[i] += `\`[${id}]\` **${GetPlayerName(id)}**`;
-            if (client.QBCore) {
+            if (QBCore) {
                 try {
-                    const player = client.QBCore.Functions.GetPlayer(parseInt(id));
+                    const player = QBCore.Functions.GetPlayer(parseInt(id));
                     parts[i] += ` | (${player.PlayerData.citizenid}) **${player.PlayerData.charinfo.firstname} ${player.PlayerData.charinfo.lastname}**\n`;
-                } catch { parts[i] += " (Not yet loaded)\n"; }
+                } catch { parts[i] += ` (${Lang.t("player_not_loaded")})\n`; }
             } else { parts[i] += "\n"; }
             index++;
         });
         const pages = [];
         parts.forEach((part) => {
-            const embed = new client.Embed()
-                .setTitle(`Players (${GetNumPlayerIndices()})`)
+            const embed = new djs.EmbedBuilder()
+                .setColor(zconfig.ThemeColor)
+                .setTitle(Lang.t("players_count", { count: GetNumPlayerIndices() }))
                 .setDescription(`${part}`);
             pages.push(embed);
         });
-        const backBtn = new MessageButton().setCustomId("previousbtn").setEmoji("🔺").setStyle("SECONDARY");
-        const forwardBtn = new MessageButton().setCustomId("nextbtn").setEmoji("🔻").setStyle("SECONDARY");
-        client.paginationEmbed(interaction, pages, [backBtn, forwardBtn]);
-    },
+        await zpagination({
+            embeds: pages,
+            author: interaction.member.user,
+            interaction: interaction,
+            ephemeral: true,
+            fastSkip: true,
+            pageTravel: true,
+        });
+    }
 };

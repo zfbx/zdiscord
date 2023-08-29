@@ -9,128 +9,98 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
-const { Client, Collection, MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
 const { readdirSync } = require("fs");
 
-class Bot extends Client {
+class Bot extends djs.Client {
 
-    constructor(z) {
+    constructor() {
         super({
-            intents: 14335,
-            fetchAllMembers: true,
-            messageCacheMaxSize: 10,
+            intents: [
+                djs.GatewayIntentBits.DirectMessages,
+                djs.GatewayIntentBits.GuildBans,
+                djs.GatewayIntentBits.GuildIntegrations,
+                djs.GatewayIntentBits.GuildInvites,
+                djs.GatewayIntentBits.GuildMembers,
+                djs.GatewayIntentBits.GuildMessageReactions,
+                djs.GatewayIntentBits.GuildMessages,
+                djs.GatewayIntentBits.Guilds,
+                djs.GatewayIntentBits.GuildWebhooks,
+                djs.GatewayIntentBits.MessageContent,
+            ],
+            allowedMentions: {
+                parse: zconfig.PrivateAllowedMentions,
+            },
         });
-        this.enabled = z.config.EnableDiscordBot;
-        this.z = z;
-        this.config = z.config;
-        this.QBCore = z.QBCore;
-        this.log = z.utils.log;
-        this.utils = z.utils;
-        this.Embed = MessageEmbed;
-        this.commands = new Collection();
+        this.enabled = zconfig.Enabled;
+        this.commands = new djs.Collection();
         this.arrayOfCommands = [];
 
-        if (this.enabled) this.start();
+        if (configValidated && this.enabled) this.start();
     }
 
     start() {
-        this.utils.log.assert((process.version == "v12.13.0"), "You are running unsupported artifacts, download a newer artifact or revert to version 4.0.0 of zdiscord");
-        this.utils.log.assert((this.config.DiscordBotToken == "CHANGE"), "This module requires a discord bot token to run. Check the config.js");
-        this.utils.log.assert((this.config.DiscordGuildId == "000000000000000000"), "This resource requires a discord guildid to work properly. Check the config.js");
-        this.utils.log.assert(!(this.utils.isValidID(this.config.DiscordGuildId)), "Your DiscordGuildId doesn't seem correct");
-        this.utils.log.assert(!(this.utils.isValidID(this.config.DiscordModRoleId)), "Your DiscordModRoleId doesn't seem correct");
-        this.utils.log.assert(!(this.utils.isValidID(this.config.DiscordAdminRoleId)), "Your DiscordAdminRoleId doesn't seem correct");
-        this.utils.log.assert(!(this.utils.isValidID(this.config.DiscordGodRoleId)), "Your DiscordGodRoleId doesn't seem correct");
-        this.utils.log.assert(this.config.EnableStaffChatForwarding && !(this.utils.isValidID(this.config.DiscordStaffChannelId)), "Your DiscordStaffChannelId doesn't seem correct");
 
-        if (this.config.EnableDiscordSlashCommands) this.loadCommands();
+        if (zconfig.SlashCommandsEnabled) this.loadCommands();
         this.loadEvents();
 
-        if (this.config.DebugLogs) this.on("debug", (debug) => this.log.handler("log", debug));
-        this.on("warn", (warning) => this.log.handler("warn", warning));
-        this.on("error", (error) => this.log.handler("error", error));
+        if (zconfig.DebugLogging) this.on("debug", (debug) => zlog.handler("log", debug));
+        this.on("warn", (warning) => zlog.handler("warn", warning));
+        this.on("error", (error) => zlog.handler("error", error));
 
-        this.login(this.config.DiscordBotToken).catch((e) => this.log.handler("error", e));
+        this.login(zconfig.BotToken).catch((e) => zlog.handler("error", e));
     }
 
     loadCommands() {
-        const commandFiles = readdirSync(`${this.z.root}/server/commands`).filter(file => file.endsWith(".js"));
+        const commandFiles = readdirSync(`${zroot}/server/commands`).filter(file => file.endsWith(".js"));
         for (const file of commandFiles) {
-            const command = require(`${this.z.root}/server/commands/${file}`);
+            const commandFile = require(`${zroot}/server/commands/${file}`);
+            const command = new commandFile(file);
             if (!command?.name) continue;
-            if (command.args || command.alias) {
-                this.log.warn(`${file} is an v4 or later command and is not supported, upgrade it or remove it`);
-                continue;
-            }
             if (this.commands.has(command.name)) {
-                this.log.warn(`${file} is using a name that's already been registered by another command [skipping]`);
+                zlog.warn(`${file} is using a name that's already been registered by another command [skipping]`);
                 continue;
             }
-            if (file.startsWith("qb-") && !this.QBCore) continue;
+            if (!command.shouldLoad()) {
+                zlog.verbose(`[CMDS] ${file} disabled. Missing or unloaded compatible resource?`);
+                continue;
+            }
+            // TODO: remove when shouldLoad() system is fully populated ported
+            if (file.startsWith("qb-") && !QBCore) continue;
             this.commands.set(command.name, command);
-            if (["MESSAGE", "USER"].includes(command.type)) delete command.description;
-            this.arrayOfCommands.push(command);
+            zlog.verbose(`[CMDS] ${command.name} commands loaded.`);
+            this.arrayOfCommands.push(command.get());
         }
     }
 
     loadEvents() {
-        const eventFiles = readdirSync(`${this.z.root}/server/events`).filter(file => file.endsWith(".js"));
+        const eventFiles = readdirSync(`${zroot}/server/events`).filter(file => file.endsWith(".js"));
         for (const file of eventFiles) {
-            const event = require(`${this.z.root}/server/events/${file}`);
-            if (event.once) this.once(event.name, (...args) => event.run(this, ...args));
-            else this.on(event.name, (...args) => event.run(this, ...args));
+            const event = require(`${zroot}/server/events/${file}`);
+            if (event.once) this.once(event.name, (...args) => event.run(...args));
+            else this.on(event.name, (...args) => event.run(...args));
         }
     }
 
+    updateAllGuildCommands() {
+        for (const [ , guild ] of this.guilds.cache) {
+            zlog.verbose(`Loading commands for ${guild.name}`);
+            this.updateGuildCommands(guild.id);
+        }
+    }
 
-    /**
-     * Creates a pagination embed
-     * credit to https://github.com/ryzyx/discordjs-button-pagination
-     * @param {Interaction} interaction - the message interaction to react to
-     * @param {MessageEmbed[]} pages - array of embeds
-     * @param {MessageButton[]} buttonList - Must be 2 button objects
-     * @param {number} timeout - Optional length of time to allow responses
-     * @returns {Interaction} current page
-     */
-    async paginationEmbed(interaction, pages, buttonList, timeout = 120000) {
-        let page = 0;
-        const row = new MessageActionRow().addComponents(buttonList);
-        if (interaction.deferred == false) await interaction.deferReply();
-        const curPage = await interaction.editReply({
-            embeds: [pages[page].setFooter({ text: `Page ${page + 1} / ${pages.length}` })],
-            components: [row], fetchReply: true,
-        });
-        const filter = (i) => i.customId === buttonList[0].customId || i.customId === buttonList[1].customId;
-        const collector = await curPage.createMessageComponentCollector({ filter, time: timeout });
-        collector.on("collect", async (i) => {
-            switch (i.customId) {
-            case buttonList[0].customId:
-                page = page > 0 ? --page : pages.length - 1;
-                break;
-            case buttonList[1].customId:
-                page = page + 1 < pages.length ? ++page : 0;
-                break;
-            default:
-                break;
-            }
-            await i.deferUpdate();
-            await i.editReply({ embeds: [pages[page].setFooter({ text: `Page ${page + 1} / ${pages.length}` })], components: [row] });
-            collector.resetTimer();
-        });
-        collector.on("end", () => {
-            const disabledRow = new MessageActionRow().addComponents(buttonList[0].setDisabled(true), buttonList[1].setDisabled(true));
-            curPage.edit({ embeds: [pages[page].setFooter({ text: `Page ${page + 1} / ${pages.length}` })], components: [disabledRow] }).catch(console.error);
-        });
-        return curPage;
+    async updateGuildCommands(guildid) {
+        const guild = await this.guilds.fetch(guildid);
+        if (!guild) return zlog.error(`Failed to get guild ${guildid} to update it's commands`);
+        guild.commands.set(this.arrayOfCommands);
     }
 
     /** Get discord member object by userid
      * @param {number} userid - discordid
      * @returns {object|boolean} - discord member or false */
     getMember(userid) {
-        const guild = this.guilds.cache.get(this.config.DiscordGuildId);
+        const guild = this.guilds.cache.get(zconfig.ServerId);
         if (!guild) {
-            this.utils.log.error("Failed to fetch Discord server.");
+            zlog.error("Failed to fetch Discord server.");
             return false;
         }
         return guild.members.cache.get(userid) || false;
@@ -140,7 +110,7 @@ class Bot extends Client {
      * @param {number} id - Player ID / source
      * @returns {object|boolean} - discord member or false */
     getMemberFromSource(id) {
-        const ids = this.utils.getPlayerIdentifiers(id);
+        const ids = zutils.getPlayerIdentifiers(id);
         if (!ids.discord) return false;
         return this.getMember(ids.discord);
     }
@@ -166,11 +136,7 @@ class Bot extends Client {
         member = this.parseMember(member);
         if (!member) return false;
         if (typeof role === "object") {
-            let found = false;
-            role.forEach(function(item) {
-                if (member.roles.cache.has(item)) found = true;
-            });
-            return found;
+            return (member.roles.cache.hasAny(...role));
         } else {
             return member.roles.cache.has(role);
         }
@@ -189,16 +155,20 @@ class Bot extends Client {
     hasPermission(member, level) {
         switch (level) {
         case "mod":
-            return (
-                member.roles.cache.has(this.config.DiscordModRoleId) ||
-                member.roles.cache.has(this.config.DiscordAdminRoleId) ||
-                member.roles.cache.has(this.config.DiscordGodRoleId));
+            return member.roles.cache.hasAny(...[
+                ...zconfig.ModRoleIds,
+                ...zconfig.AdminRoleIds,
+                ...zconfig.GodRoleIds,
+            ]);
         case "admin":
-            return (
-                member.roles.cache.has(this.config.DiscordAdminRoleId) ||
-                member.roles.cache.has(this.config.DiscordGodRoleId));
+            return member.roles.cache.hasAny(...[
+                ...zconfig.AdminRoleIds,
+                ...zconfig.GodRoleIds,
+            ]);
         case "god":
-            return (member.roles.cache.has(this.config.DiscordGodRoleId));
+            return member.roles.cache.hasAny(...[
+                ...zconfig.GodRoleIds,
+            ]);
         default:
             return true;
         }

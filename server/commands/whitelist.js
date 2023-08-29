@@ -9,71 +9,76 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
-module.exports = {
-    name: "whitelist",
-    description: "Manage whitelist",
-    role: "god",
+module.exports = class cmd extends Command {
+    constructor(file) {
+        super(Lang.t("cmd_whitelist"), file, {
+            description: Lang.t("desc_whitelist"),
+            role: "god",
 
-    options: [
-        {
-            type: "SUB_COMMAND",
-            name: "toggle",
-            description: "Enable / Disable whitelisting",
             options: [
                 {
-                    name: "enabled",
-                    description: "Choose to enable or disable whitelist",
-                    required: true,
-                    type: "BOOLEAN",
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: Lang.t("opt_toggle_whitelist"),
+                    description: Lang.t("opt_toggle_whitelist_desc"),
+                    options: [
+                        {
+                            name: Lang.t("opt_enabled"),
+                            description: Lang.t("opt_enabled_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Boolean,
+                        },
+                    ],
                 },
-            ],
-        },
-        {
-            type: "SUB_COMMAND",
-            name: "addrole",
-            description: "Temp add role to whitelist (restart reverts to config)",
-            options: [
                 {
-                    name: "role",
-                    description: "role to whitelist",
-                    required: true,
-                    type: "ROLE",
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: Lang.t("opt_add_role"),
+                    description: Lang.t("opt_add_role_desc"),
+                    options: [
+                        {
+                            name: Lang.t("opt_role"),
+                            description: Lang.t("opt_role_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Role,
+                        },
+                    ],
                 },
-            ],
-        },
-        {
-            type: "SUB_COMMAND",
-            name: "removerole",
-            description: "Temp remove role from whitelist (restart reverts to config)",
-            options: [
                 {
-                    name: "role",
-                    description: "role to remove from whitelist",
-                    required: true,
-                    type: "ROLE",
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: Lang.t("opt_remove_role"),
+                    description: Lang.t("opt_remove_role_desc"),
+                    options: [
+                        {
+                            name: Lang.t("opt_role"),
+                            description: Lang.t("opt_role_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Role,
+                        },
+                    ],
                 },
             ],
-        },
-    ],
+        });
+    }
 
-    run: async (client, interaction, args) => {
-        if (args.toggle) {
-            const prev = client.config.EnableWhitelistChecking;
-            client.config.EnableWhitelistChecking = args.enabled;
-            return interaction.reply({ content: `Whitelist was previously ${prev ? "enabled" : "disabled"} and is now ${args.enabled ? "enabled" : "disabled"}`, ephemeral: true });
-        } else if (args.addrole) {
-            if (client.config.DiscordWhitelistRoleIds.includes(args.role)) {
-                return interaction.reply({ content: "That role is already whitelisted", ephemeral: true });
+    async run(interaction, args) {
+        if (args[Lang.t("opt_toggle_whitelist")]) {
+            const prev = zconfig.WhitelistEnabled;
+            zconfig.WhitelistEnabled = args[Lang.t("opt_enabled")];
+            return interaction.sreply(Lang.t("whitelist_toggle", {
+                prevState: prev ? Lang.t("enabled") : Lang.t("disabled"),
+                newState: args[Lang.t("opt_enabled")] ? Lang.t("enabled") : Lang.t("disabled"),
+            }));
+        } else if (args[Lang.t("opt_add_role")]) {
+            if (zconfig.WhitelistRoleIds.includes(args[Lang.t("opt_role")])) {
+                return interaction.sreply(Lang.t("whitelist_already_whitelisted", { role: `<@&${args[Lang.t("opt_role")]}>` }));
             }
-            client.config.DiscordWhitelistRoleIds.push(args.role);
-            return interaction.reply({ content: "Role has been whitelisted till restart", ephemeral: true });
-        } else if (args.removerole) {
-            if (!client.config.DiscordWhitelistRoleIds.includes(args.role)) {
-                return interaction.reply({ content: "That role was not in the whitelist", ephemeral: true });
+            zconfig.WhitelistRoleIds.push(args[Lang.t("opt_role")]);
+            return interaction.sreply(Lang.t("whitelist_added", { role: `<@&${args[Lang.t("opt_role")]}>` }));
+        } else if (args[Lang.t("opt_remove_role")]) {
+            if (!zconfig.WhitelistRoleIds.includes(args[Lang.t("opt_role")])) {
+                return interaction.sreply(Lang.t("whitelist_not_whitelisted", { role: `<@&${args[Lang.t("opt_role")]}>` }));
             }
-            client.config.DiscordWhitelistRoleIds = client.config.DiscordWhitelistRoleIds.filter(item => item !== args.role);
-            return interaction.reply({ content: "Role has been removed from whitelist", ephemeral: true });
+            zconfig.WhitelistRoleIds = zconfig.WhitelistRoleIds.filter(item => item !== args.role);
+            return interaction.sreply(Lang.t("whitelist_removed", { role: `<@&${args[Lang.t("opt_role")]}>` }));
         }
-
-    },
+    }
 };

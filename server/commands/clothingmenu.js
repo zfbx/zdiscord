@@ -11,14 +11,14 @@
 
 module.exports = class cmd extends Command {
     constructor(file) {
-        super("logout", file, {
-            description: "send a player back to the character selection screen",
+        super(Lang.t("cmd_clothingmenu"), file, {
+            description: Lang.t("desc_clothingmenu"),
             role: "admin",
 
             options: [
                 {
-                    name: "id",
-                    description: "Player's current id",
+                    name: Lang.t("opt_id"),
+                    description: Lang.t("opt_id_desc"),
                     required: true,
                     type: djs.ApplicationCommandOptionType.Integer,
                 },
@@ -27,14 +27,20 @@ module.exports = class cmd extends Command {
     }
 
     async run(interaction, args) {
-        if (!GetPlayerName(args.id)) return interaction.sreply("This ID seems invalid.");
-
-        QBCore.Player.Logout(args.id);
+        const id = args[Lang.t("opt_id")];
+        if (!GetPlayerName(id)) return interaction.sreply(Lang.t("opt_id_desc"));
         setImmediate(() => {
-            emitNet("qb-multicharacter:client:chooseChar", args.id);
+            emitNet(zconfig.GiveClothingMenuEvent, id);
         });
-
-        zlog.info(`[${interaction.member.displayName}] logged ${GetPlayerName(args.id)} (${args.id}) out`);
-        return interaction.reply(`${GetPlayerName(args.id)} (${args.id}) was sent to the character screen.`);
+        zlog.info(Lang.t("clothingmenu_log", {
+            discordName: interaction.member.displayName,
+            discordId: interaction.member.id,
+            playerName: GetPlayerName(id),
+            playerId: id,
+        }));
+        return interaction.sreply(Lang.t("clothingmenu_success", {
+            playerName: GetPlayerName(id),
+            playerId: id,
+        }));
     }
 };

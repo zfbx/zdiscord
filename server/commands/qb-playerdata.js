@@ -11,8 +11,8 @@
 
 module.exports = class cmd extends Command {
     constructor(file) {
-        super("money", file, {
-            description: "Manage player's in-city money",
+        super("playerdata", file, {
+            description: "Manage player's playerdata / Character info.",
             role: "admin",
 
             options: [
@@ -124,6 +124,94 @@ module.exports = class cmd extends Command {
     }
 
     async run(interaction, args) {
+
+        // TODO: fix this shit
+        /* player data model
+        {
+            "backstory":"placeholder backstory",
+            "phone":"3752506883",
+            "gender":0,
+            "account":"US08QBCore6516143775",
+            "cid":"1",
+            "birthdate":"1992-02-25",
+            "firstname":"Bob",
+            "lastname":"Smith",
+            "nationality":"White"
+        }
+
+        // Online
+        TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
+        TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
+
+        // Offline
+        MySQL.Async.execute('UPDATE players SET charinfo = @charinfo WHERE citizenid = @senderId', { ['charinfo'] =  charinfo, ['senderId'] = Player.PlayerData.citizenid })
+        */
+        /*
+        {
+            "callsign":"NO CALLSIGN",
+            "hunterrep":0,
+            "lumberjackxp":0,
+            "commandbinds":[],
+            "phonedata":{
+                "InstalledApps":[],
+                "SerialNumber":85561648
+            },
+            "inside":{
+                "apartment":[]
+            },
+            "status":[],
+            "tracker":false,
+            "phone":[],
+            "houserobberyrep":0,
+            "fitbit":[],
+            "legendary2":0,
+            "attachmentcraftingrep":0,
+            "boostingspecialmission1":0,
+            "fingerprint":"ys071J65EzJ3031",
+            "craftingrep":0,
+            "boostingspecialmission2":0,
+            "boostingrep":0,
+            "boostingspecialmission4":0,
+            "isdead":false,
+            "dealerrep":0,
+            "licences":{
+                "driver":true,
+                "weapon":false,
+                "business":false
+            },
+            "lumberjackrep":0,
+            "legendary3":0,
+            "walletid":"QB-67855270",
+            "boostingxp":0,
+            "bloodtype":"O+",
+            "jobrep":{
+                "taxi":0,
+                "tow":0,
+                "trucker":0,
+                "hotdog":0
+            },
+            "armor":0,
+            "thirst":81.00000000000002,
+            "skinningxp":0,
+            "ishandcuffed":false,
+            "stress":0,
+            "inlaststand":false,
+            "criminalrecord":{
+                "hasRecord":false
+            },
+            "houserobberyxp":0,
+            "hunterxp":0,
+            "boostingspecialmission3":0,
+            "injail":0,
+            "hunger":78.99999999999999,
+            "jailitems":[],
+            "legendary1":0,
+            "skinning":0,
+            "boostingspecialmission5":0
+        }
+        */
+
+
         if (!GetPlayerName(args.id)) return interaction.sreply("This ID seems invalid.");
         const player = QBCore.Functions.GetPlayer(args.id);
         const characterName = `${player.PlayerData.charinfo.firstname} ${player.PlayerData.charinfo.lastname}`;

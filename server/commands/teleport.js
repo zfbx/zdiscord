@@ -9,111 +9,180 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
-module.exports = {
-    name: "teleport",
-    description: "teleport a player",
-    role: "mod",
+module.exports = class cmd extends Command {
+    constructor(file) {
+        super(Lang.t("cmd_teleport"), file, {
+            description: Lang.t("desc_teleport"),
+            role: "mod",
 
-    options: [
-        {
-            type: "SUB_COMMAND",
-            name: "coords",
-            description: "teleport to specific coordinates",
             options: [
                 {
-                    name: "id",
-                    description: "Player's current id",
-                    required: true,
-                    type: "INTEGER",
-                },
-                {
-                    name: "x",
-                    description: "x coordinate",
-                    required: true,
-                    type: "INTEGER",
-                },
-                {
-                    name: "y",
-                    description: "y coordinate",
-                    required: true,
-                    type: "INTEGER",
-                },
-                {
-                    name: "z",
-                    description: "z coordinate",
-                    required: true,
-                    type: "INTEGER",
-                },
-                {
-                    name: "vehicle",
-                    description: "Teleport them with vehicle they're driving?",
-                    required: false,
-                    type: "BOOLEAN",
-                },
-            ],
-        },
-        {
-            type: "SUB_COMMAND",
-            name: "preset",
-            description: "teleport to a pre-specified location",
-            options: [
-                {
-                    name: "id",
-                    description: "Player's current id",
-                    required: true,
-                    type: "INTEGER",
-                },
-                {
-                    name: "location",
-                    description: "location to teleport to",
-                    required: true,
-                    type: "STRING",
-                    choices: [
-                        { name: "Airport", value: "airport" },
-                        { name: "Maze Bank Roof", value: "mazeroof" },
-                        { name: "Del Perro Pier", value: "pier" },
-                        { name: "Fort Zancudo Base", value: "militarybase" },
-                        { name: "Mount Chiliad", value: "chiliad" },
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: Lang.t("opt_coords"),
+                    description: Lang.t("opt_coords_desc"),
+                    options: [
+                        {
+                            name: Lang.t("opt_id"),
+                            description: Lang.t("opt_id_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Integer,
+                        },
+                        {
+                            name: "x",
+                            description: Lang.t("opt_x_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Number,
+                        },
+                        {
+                            name: "y",
+                            description: Lang.t("opt_y_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Number,
+                        },
+                        {
+                            name: "z",
+                            description: Lang.t("opt_z_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Number,
+                        },
+                        {
+                            name: Lang.t("opt_bring_vehicle"),
+                            description: Lang.t("opt_bring_vehicle_desc"),
+                            required: false,
+                            type: djs.ApplicationCommandOptionType.Boolean,
+                        },
                     ],
                 },
                 {
-                    name: "vehicle",
-                    description: "Teleport them with vehicle they're driving?",
-                    required: false,
-                    type: "BOOLEAN",
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: Lang.t("opt_preset"),
+                    description: Lang.t("opt_preset_desc"),
+                    options: [
+                        {
+                            name: Lang.t("opt_id"),
+                            description: Lang.t("opt_id_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Integer,
+                        },
+                        {
+                            name: Lang.t("opt_location"),
+                            description: Lang.t("opt_location_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.String,
+                            autocomplete: true,
+                        },
+                        {
+                            name: Lang.t("opt_bring_vehicle"),
+                            description: Lang.t("opt_bring_vehicle_desc"),
+                            required: false,
+                            type: djs.ApplicationCommandOptionType.Boolean,
+                        },
+                    ],
+                },
+                {
+                    type: djs.ApplicationCommandOptionType.Subcommand,
+                    name: Lang.t("opt_to_player"),
+                    description: Lang.t("opt_to_player_desc"),
+                    options: [
+                        {
+                            name: Lang.t("opt_id"),
+                            description: Lang.t("opt_id_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Integer,
+                        },
+                        {
+                            name: Lang.t("opt_dest_player"),
+                            description: Lang.t("opt_dest_player_desc"),
+                            required: true,
+                            type: djs.ApplicationCommandOptionType.Integer,
+                        },
+                        {
+                            name: Lang.t("opt_bring_vehicle"),
+                            description: Lang.t("opt_bring_vehicle_desc"),
+                            required: false,
+                            type: djs.ApplicationCommandOptionType.Boolean,
+                        },
+                    ],
                 },
             ],
-        },
-    ],
+        });
+    }
 
-    run: async (client, interaction, args) => {
-        const locations = {
-            "airport": [ -1096.19, -3501.1, 17.18 ],
-            "mazeroof": [ -75.57, -818.88, 327.96 ],
-            "pier": [ -1712.06, -1136.48, 13.08 ],
-            "militarybase": [ -2105.88, 2871.16, 32.81 ],
-            "chiliad": [ 453.73, 5572.2, 781.18 ],
-        };
-        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        if (args.coords) {
-            teleport(args.id, args.x, args.y, args.z, args.vehicle || false);
-            client.utils.log.info(`[${interaction.member.displayName}] Teleported ${GetPlayerName(args.id)} (${args.id}) to ${args.x}, ${args.y}, ${args.z}`);
-            return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) was teleported to specified coords.`, ephemeral: false });
-        } else if (args.preset) {
-            teleport(args.id, locations[args.location][0], locations[args.location][1], locations[args.location][2], args.vehicle || false);
-            client.utils.log.info(`[${interaction.member.displayName}] teleported ${args.id} to ${args.location}`);
-            return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) was teleported to ${args.location}`, ephemeral: false });
+    async run(interaction, args) {
+        const id = args[Lang.t("opt_id")];
+        const bringVehicle = args[Lang.t("opt_bring_vehicle")] ?? false;
+        if (!GetPlayerName(id)) return interaction.sreply(Lang.t("invalid_id"));
+        if (args[Lang.t("opt_coords")]) {
+            this.teleport(id, args.x, args.y, args.z, bringVehicle);
+            zlog.info(Lang.t("teleport_log", {
+                discordName: interaction.member.displayName,
+                discordId: interaction.member.id,
+                playerName: GetPlayerName(id),
+                playerId: id,
+                where: `${args.x}, ${args.y}, ${args.z}`,
+            }));
+            return interaction.reply(Lang.t("teleport_success", {
+                playerName: GetPlayerName(id),
+                playerId: id,
+                where: `${args.x}, ${args.y}, ${args.z}`,
+            }));
+        } else if (args[Lang.t("opt_preset")]) {
+            const location = zconfig.teleportLocations[args[Lang.t("opt_location")]];
+            if (!location) return interaction.sreply(Lang.t("invalid_item", { item: Lang.t("opt_location") }));
+            this.teleport(id, location.coords[0], location.coords[1], location.coords[2], bringVehicle);
+            zlog.info(Lang.t("teleport_log", {
+                discordName: interaction.member.displayName,
+                discordId: interaction.member.id,
+                playerName: GetPlayerName(id),
+                playerId: id,
+                where: location.name,
+            }));
+            return interaction.sreply(Lang.t("teleport_success", {
+                playerName: GetPlayerName(id),
+                playerId: id,
+                where: location.name,
+            }));
+        } else if (args[Lang.t("opt_to_player")]) {
+            const dest = args[Lang.t("opt_dest_player")];
+            if (!GetPlayerPed(dest)) return interaction.sreply(Lang.t("invalid_item", { item: Lang.t("opt_dest_player") }));
+            const [x, y, z] = GetEntityCoords(GetPlayerPed(dest));
+            this.teleport(id, x, y, z, bringVehicle);
+            zlog.info(Lang.t("teleport_log", {
+                discordName: interaction.member.displayName,
+                discordId: interaction.member.id,
+                playerName: GetPlayerName(id),
+                playerId: id,
+                where: `${GetPlayerName(dest)} (id: ${dest}, x: ${x}, y: ${y}, z: ${z})`,
+            }));
+            return interaction.sreply(Lang.t("teleport_success", {
+                playerName: GetPlayerName(id),
+                playerId: id,
+                where: `${GetPlayerName(dest)} (${x}, ${y}, ${z})`,
+            }));
         }
-    },
+    }
+
+    teleport(id, xc, yc, zc, withVehicle = false) {
+        xc = xc.toFixed(2);
+        yc = yc.toFixed(2);
+        zc = zc.toFixed(2);
+        if (NetworkGetEntityOwner(GetPlayerPed(id)) == id) {
+            setImmediate(() => {
+                emitNet("zdiscord:teleport", id, xc, yc, zc, withVehicle);
+            });
+        } else {
+            setImmediate(() => {
+                SetEntityCoords(GetPlayerPed(id), xc, yc, zc);
+            });
+        }
+    }
+
+    async autocomplete(interaction) {
+        const focusedValue = interaction.options.getFocused().toLowerCase();
+        const filtered = Object.values(zconfig.teleportLocations).filter(choice => choice.search.includes(focusedValue)).slice(0, 20);
+        await interaction.respond(
+            filtered.map(choice => ({ name: choice.name, value: choice.id })),
+        );
+    }
 };
 
-function teleport(id, x, y, z, withVehicle = false) {
-    x = x.toFixed(2);
-    y = y.toFixed(2);
-    z = z.toFixed(2);
-    if (NetworkGetEntityOwner(GetPlayerPed(id)) == id) {
-        emitNet(`${GetCurrentResourceName()}:teleport`, id, x, y, z, withVehicle);
-    } else {
-        SetEntityCoords(GetPlayerPed(id), x, y, z);
-    }
-}

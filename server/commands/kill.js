@@ -9,24 +9,38 @@
  * or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
  */
 
-module.exports = {
-    name: "kill",
-    description: "kill a player in city",
-    role: "admin",
+module.exports = class cmd extends Command {
+    constructor(file) {
+        super(Lang.t("cmd_kill"), file, {
+            description: Lang.t("desc_kill"),
+            role: "admin",
 
-    options: [
-        {
-            name: "id",
-            description: "Player's current id",
-            required: true,
-            type: "INTEGER",
-        },
-    ],
+            options: [
+                {
+                    name: Lang.t("opt_id"),
+                    description: Lang.t("opt_id_desc"),
+                    required: true,
+                    type: djs.ApplicationCommandOptionType.Integer,
+                },
+            ],
+        });
+    }
 
-    run: async (client, interaction, args) => {
-        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        emitNet(`${GetCurrentResourceName()}:kill`, args.id);
-        client.utils.log.info(`[${interaction.member.displayName}] Killed ${GetPlayerName(args.id)} (${args.id})`);
-        return interaction.reply({ content: `${GetPlayerName(args.id)} (${args.id}) has been murdered.`, ephemeral: false });
-    },
+    async run(interaction, args) {
+        const id = args[Lang.t("opt_id")];
+        if (!GetPlayerName(id)) return interaction.sreply(Lang.t("invalid_id"));
+        setImmediate(() => {
+            emitNet("zdiscord:kill", id);
+        });
+        zlog.info(Lang.t("kill_log", {
+            discordName: interaction.member.displayName,
+            discordId: interaction.member.id,
+            playerName: GetPlayerName(id),
+            playerId: id,
+        }));
+        return interaction.sreply(Lang.t("kill_success", {
+            playerName: GetPlayerName(id),
+            playerId: id,
+        }));
+    }
 };

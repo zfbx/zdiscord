@@ -12,41 +12,44 @@
 const fs = require("fs").promises;
 const Buffer = require("buffer").Buffer;
 
-module.exports = {
-    name: "screenshot",
-    description: "Screenshot player's POV",
-    role: "god",
+module.exports = class cmd extends Command {
+    constructor(file) {
+        super("screenshot", file, {
+            description: "Screenshot player's POV",
+            role: "god",
 
-    options: [
-        {
-            name: "id",
-            description: "Player's current id",
-            required: true,
-            type: "INTEGER",
-        },
-    ],
+            options: [
+                {
+                    name: "id",
+                    description: "Player's current id",
+                    required: true,
+                    type: djs.ApplicationCommandOptionType.Integer,
+                },
+            ],
+        });
+    }
 
-    run: async (client, interaction, args) => {
-        if (!GetPlayerName(args.id)) return interaction.reply({ content: "This ID seems invalid.", ephemeral: true });
-        if (GetResourceState("screenshot-basic") !== "started") return interaction.reply({ content: "This command requires citizenfx's `screenshot-basic` to work", ephemeral: false });
+    async run(interaction, args) {
+        if (!GetPlayerName(args.id)) return interaction.sreply("This ID seems invalid.");
+        if (GetResourceState("screenshot-basic") !== "started") return interaction.reply("This command requires citizenfx's `screenshot-basic` to work");
         await interaction.reply("Taking screenshot..");
-        const name = `${client.utils.log.timestamp(true)}_${args.id}.jpg`;
+        const name = `${zlog.timestamp(true)}_${args.id}.jpg`;
         const data = await takeScreenshot(args.id).catch(error => {
-            client.utils.log.error(error);
+            zlog.error(error);
             return interaction.editReply("**Error requesting screenshot**");
         });
         const buffer = new Buffer.from(data, "base64");
-        const embed = new client.Embed()
+        const embed = new djs.EmbedBuilder().setColor(zconfig.ThemeColor)
             .setTitle(`${GetPlayerName(args.id)}'s Screen`)
             .setImage(`attachment://${name}`)
-            .setFooter({ text: `Taken At ${client.utils.log.timestamp()}` });
+            .setFooter({ text: `Taken At ${zlog.timestamp()}` });
         await interaction.editReply({ content: null, embeds: [ embed ], files: [ { attachment: buffer, name: name } ] }).catch(console.error);
-        if (client.config.SaveScreenshotsToServer) {
-            await fs.mkdir(`${client.root}/screenshots`, { recursive: true }).catch();
-            await fs.writeFile(`${client.root}/screenshots/${name}`, data, { encoding: "base64", flag:"w+" }).catch(client.utils.log.error);
+        if (zconfig.SaveScreenshotsToServer) {
+            await fs.mkdir(`${zroot}/screenshots`, { recursive: true }).catch();
+            await fs.writeFile(`${zroot}/screenshots/${name}`, data, { encoding: "base64", flag:"w+" }).catch(zlog.error);
         }
-        return client.utils.log.info(`[${interaction.member.displayName}] Took a screenshot of ${GetPlayerName(args.id)}'s (${args.id}) screen`);
-    },
+        return zlog.info(`[${interaction.member.displayName}] Took a screenshot of ${GetPlayerName(args.id)}'s (${args.id}) screen`);
+    }
 };
 
 const takeScreenshot = async (id) => {

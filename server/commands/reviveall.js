@@ -11,16 +11,20 @@
 
 module.exports = class cmd extends Command {
     constructor(file) {
-        super(Lang.t("cmd_onlinecount"), file, {
-            description: Lang.t("desc_onlinecount"),
+        super(Lang.t("cmd_reviveall"), file, {
+            description: Lang.t("desc_reviveall"),
+            role: "god",
         });
     }
 
-    async run(interaction) {
-        const playerNumber = GetNumPlayerIndices();
-        let message = Lang.t("nobody_online");
-        if (playerNumber === 1) message = Lang.t("onlinecount_one_person");
-        else if (playerNumber > 1) message = Lang.t("onlinecount_total", { count: playerNumber });
-        return interaction.sreply(message);
+    async run(interaction, args) {
+        setImmediate(() => {
+            emitNet(zconfig.RevivePlayerEvent, -1);
+        });
+        zlog.info(Lang.t("reviveall_log", {
+            discordName: interaction.member.displayName,
+            discordId: interaction.member.id,
+        }));
+        return interaction.sreply(Lang.t("reviveall_success"));
     }
 };
