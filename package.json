@@ -1,6 +1,6 @@
 {
   "name": "zdiscord",
-  "version": "7.3.0",
+  "version": "8.0.0",
   "description": "Advanced Discord Bot Allowlist that's simple to use",
   "main": "server.js",
   "scripts": {
@@ -19,8 +19,16 @@
     "url": "https://github.com/zfbx/zdiscord/issues"
   },
   "homepage": "https://github.com/zfbx/zdiscord",
+  "resolutions": {
+    "@discordjs/builders": "1.6.3",
+    "@discordjs/collection": "1.5.1",
+    "@discordjs/formatters": "0.3.1",
+    "@discordjs/rest": "1.7.1",
+    "@discordjs/util": "0.3.1",
+    "@discordjs/ws": "0.8.3"
+  },
   "dependencies": {
-    "discord.js": "github:zfbx/discord.js"
+    "discord.js": "github:zfbx/discord.js#fivem14-11"
   },
   "eslintConfig": {
     "extends": "eslint:recommended",
@@ -31,6 +39,15 @@
     "parserOptions": {
       "ecmaVersion": 2021,
       "sourceType": "script"
+    },
+    "globals": {
+        "zroot": true,
+        "zconfig": true,
+        "Lang": true,
+        "zutils": true,
+        "zlog": true,
+        "zpagination": true,
+        "djs": true
     },
     "rules": {
       "arrow-spacing": [
@@ -76,7 +93,7 @@
       "no-console": "off",
       "no-empty-function": "error",
       "no-floating-decimal": "error",
-      "no-inline-comments": "error",
+      "no-inline-comments": "off",
       "no-lonely-if": "error",
       "no-multi-spaces": "error",
       "no-multiple-empty-lines": [
