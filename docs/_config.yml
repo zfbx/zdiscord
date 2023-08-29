@@ -1,8 +1,0 @@
-title: zdiscord
-
-remote_theme: zfbx/tactile
-
-plugins:
-- jekyll-remote-theme
-
-include: contributing.md
