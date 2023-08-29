@@ -10,16 +10,20 @@
 --]]
 
 fx_version "cerulean"
-games { "gta5" }
+games { 'rdr3', 'gta5' }
+rdr3_warning 'I acknowledge that this is a prerelease build of RedM, and I am aware my resources *will* become incompatible once RedM ships.'
 
 author "zfbx"
 description "Discord bot allowlist and more"
 repository "https://github.com/zfbx/zdiscord"
-version "7.3.0"
+version "8.0.0"
 license "CC-BY-NC-SA-4.0"
 lua54 'yes'
 
-server_script "server/server.js"
+server_scripts {
+    "config.js",
+    "server/server.js",
+}
 client_script "client/client.lua"
 
 dependencies {
