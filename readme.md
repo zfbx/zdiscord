@@ -1,3 +1,5 @@
+# THIS IS A WORK IN PROGRESS NOT READY FOR PRODUCTION
+
 # zdiscord
 
 [Setup](#setup) | [Donate](#donate) | [FAQ](https://zfbx.gitbook.io/zdiscord/start/faq) | [Support](#support) | [Docs](https://zfbx.gitbook.io/zdiscord/)
