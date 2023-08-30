@@ -136,7 +136,7 @@ class Bot extends djs.Client {
         member = this.parseMember(member);
         if (!member) return false;
         if (typeof role === "object") {
-            return (member.roles.cache.hasAny(...role));
+            return (member.roles.cache.hasAny(...[ ...role ]));
         } else {
             return member.roles.cache.has(role);
         }
