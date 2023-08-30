@@ -119,6 +119,15 @@ zconfig.vehicleStates = {
     3: "3",
 };
 
+// Timed message / Server status updater
+zconfig.TimedMessageEnabled = false;
+zconfig.TimedMessageChannelId = "000000000000000000";
+zconfig.TimedMessageUpdateInterval = 1; // (Minutes)
+zconfig.TimedMessageReuseMessage = true;
+// Add id of message to be reused to reuse same message after restart
+zconfig.TimedMessageMessageId = "";
+
+
 
 // List of teleport locations for the /teleport preset commands.
 zconfig.teleportLocations = {

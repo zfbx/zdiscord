@@ -158,6 +158,27 @@ module.exports = () => {
         AddAutoAce("group.mod", zconfig.AdminRoleIds);
     }
 
+    // TimedMessage
+    zconfig.TimedMessageEnabled = zutils.getConBool("zdiscord:TimedMessageEnabled", zconfig.TimedMessageEnabled);
+    if (zconfig.TimedMessageEnabled) {
+        zconfig.TimedMessageChannelId = GetConvar("zdiscord:TimedMessageChannelId", zconfig.TimedMessageChannelId);
+        if (!zlog.assert(zutils.isValidID(zconfig.TimedMessageChannelId), "[config.js] The TimedMessageChannelId seems to be invalid. Fix and restart zdiscord to re-enable TimedMessages.")) {
+            zconfig.TimedMessageEnabled = false;
+            errors++;
+        }
+        zconfig.TimedMessageUpdateInterval = zutils.getConBool("zdiscord:TimedMessageUpdateInterval", zconfig.TimedMessageUpdateInterval);
+        if (!zlog.assert(zconfig.TimedMessageUpdateInterval >= 1, "[config.js] The TimedMessageUpdateInterval must be 1 or greater. Defaulting to 5.")) {
+            zconfig.TimedMessageUpdateInterval = 5;
+            warnings++;
+        }
+        zconfig.TimedMessageReuseMessage = zutils.getConBool("zdiscord:TimedMessageReuseMessage", zconfig.TimedMessageReuseMessage);
+        zconfig.TimedMessageMessageId = GetConvar("zdiscord:TimedMessageMessageId", zconfig.TimedMessageMessageId);
+        if (!zlog.assert(zutils.isValidID(zconfig.TimedMessageMessageId), "[config.js] The TimedMessageMessageId seems to be invalid. Fix and restart zdiscord to reset message, leaving blank for now.")) {
+            zconfig.TimedMessageMessageId = null;
+            warnings++;
+        }
+    }
+
     // teleportLocations
     let locationCount = 0;
     for (const [key, value] of Object.entries(zconfig.teleportLocations)) {
