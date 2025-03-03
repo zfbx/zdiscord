@@ -35,7 +35,7 @@ module.exports = {
             client.utils.log.error(error);
             return interaction.editReply("**Error requesting screenshot**");
         });
-        const buffer = new Buffer.from(data, "base64");
+        const buffer = Buffer.from(data, "base64");
         const embed = new client.Embed()
             .setTitle(`${GetPlayerName(args.id)}'s Screen`)
             .setImage(`attachment://${name}`)
